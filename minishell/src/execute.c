@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/06 12:39:00 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/06 16:39:56 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,26 @@ void	init_pid(int num_of_process, int **pids)
 void	exec_cmd(t_parser *parser, int *pids, t_pipe_info *pipe_info, int i, t_env *envl)
 {
 	char	*cmd_path;
+	int	built;
 
-	if (!get_cmdpath(parser, &cmd_path, i, envl))
+	built = 0;
+	builtin(parser, &built, envl);
+	if (!built && !get_cmdpath(parser, &cmd_path, i, envl))
 		exit(no_leaks(pids, cmd_path, pipe_info, parser));
-	if (!dup_fd(parser))
+	if (!built && !dup_fd(parser))
 	{
 		cmd_path = NULL;
 		exit(no_leaks(pids, cmd_path, pipe_info, parser));
 	}
 	close_pipes(pipe_info);
 	close_std(parser);
-	execve(cmd_path, parser->arg, NULL);
-	write_error(parser->cmd);
+	if (!built)
+	{
+		execve(cmd_path, parser->arg, NULL);
+		write_error(parser->cmd);
+	}
+	if (built)
+		cmd_path = NULL;
 	exit(no_leaks(pids, cmd_path, pipe_info, parser));
 }
 
@@ -57,7 +65,8 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_env *envl)
 	int	built;
 
 	built = 0;
-	builtin(parser, &built, envl);
+	if (!parser->next)
+		builtin(parser, &built, envl);
 	init_pid(pipe_info->num_of_process, &pids);
 	i = 0;
 	while (!built && i < pipe_info->num_of_process && parser)
