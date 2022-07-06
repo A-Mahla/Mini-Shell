@@ -77,56 +77,86 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+//			utils
 char		*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strjoin_bs(char const *s1, char const *s2);
 char		**ft_split(char const *s, char c);
 char		*ft_strdup(const char *s1);
 int			ft_strlen(const char *str);
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
-char		**ft_split_lexer(char const *s);
-int			**get_pipes(t_lexer *lexer, int *num_of_process);
+void		*ft_calloc(size_t count, size_t size);
+
+//			close.c
 void		close_std(t_parser *parser);
 void		close_pipes(t_pipe_info *pipe_info);
+
+//			lexer.c
 t_lexer		*lexer(char *line);
 int			get_num_of_arg(t_lexer *lexer);
 void		push_lexer(t_lexer **lst, char *word, int TYPE);
 void		lst_clear_lexer(t_lexer *lexer);
-void		push_in(t_in **stdin, int data);
+
+//			parser.c
 void		init_parser(t_parser *new);
+void		create_new(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info);
 void		push_parser(t_parser **parser, t_lexer **lexer, \
 t_pipe_info *pipe_info);
 t_parser	*parser(t_lexer *lexer, t_pipe_info *pipe_info);
+
+//			parser2.c
+void		push_in(t_in **stdin, int data);
+char		*get_arg(char *str);
+void		push_in(t_in **stdin, int data);
 void		lst_clear_parser(t_parser *parser);
+
+//			pipe.c
 int			get_num_of_process(t_lexer *lexer);
 int			**get_pipes(t_lexer *lexer, int *num_of_process);
 int			is_not_a_pipe(int fd, int **pipes, int num_of_process);
-char		**clear_tab(char **tab);
-void		*ft_calloc(size_t count, size_t size);
+
+//			cpy.c
 char		*cpy(const char *src);
+
+//			get_cmdpath.c
 int			get_cmdpath(t_parser *parser, char **cmd_path, int i, t_env *envl);
+
+//			execute.c
 int			execute(t_parser *parser, t_pipe_info *pipe_info, t_env *envl);
-char		*ft_strjoin_bs(char const *s1, char const *s2);
-void		write_error(char *cmd);
+
+//			dup.c
 int			dup_fd(t_parser *parser);
-int			isMeta(char c, char *meta);
+
+//			ft_split_lexer.c
+char		**clear_tab(char **tab);
+char		**ft_split_lexer(char const *s);
+
+//			ft_split_lexer_2.c
+int			is_meta(char c, char *meta);
 int			ft_get_size_2(int j, int *i, const char *s, char *meta);
 int			ft_get_size_1(char const *s);
 int			ft_get_word_2(int j, int *len, char *s, char *meta);
 char		*ft_get_word_1(int *index, char *s);
+
+//			write_error.c
 void		write_error(char *cmd);
+
+//			parser_action.c
 void		redir_in(t_parser **new, t_lexer **lexer);
 void		wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info);
 void		redir_out(t_parser **new, t_lexer **lexer, \
 t_pipe_info *pipe_info);
 void		redir_out_append(t_parser **new, t_lexer **lexer, \
 t_pipe_info *pipe_info);
-void		create_new(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info);
-void		lst_clear_parser(t_parser *parser);
-void		push_in(t_in **stdin, int data);
-char		*get_arg(char *str);
+
+//			env.c
 void		lst_clear_envl(t_env *envl);
 t_env		*get_env(char **env);
+
+//			sig.c
 void		sig_init(void);
+
+//			builtin.c
 int			builtin(t_parser *parser, int *built, t_env *envl);
 
 #endif
