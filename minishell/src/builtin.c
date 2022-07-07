@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:37:59 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/07 16:04:35 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/07 16:55:41 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ int is_already_a_env(t_vars *vars, char *str)
         }
         last = last->next;
     }
+    str[i] = c;
     return (0);
 }
 
@@ -240,6 +241,58 @@ void    export(t_parser *parser, int *built, t_vars *vars)
     }
 }
 
+void    remove_if(char *str, t_env **begin, int (*cmp)(const char *, const char *))
+{
+    t_env   *prev;
+    t_env   *current;
+    t_env   *temp;
+
+    current = *begin;
+    prev = NULL;
+    while (current)
+    {
+        if (cmp(str, current->key) == 0)
+        {
+            if (prev == NULL)
+            {
+                temp = current;
+                *begin = current->next;
+                free(temp->key);
+                free(temp->value);
+                free(temp);
+                return ;
+            }
+            else
+            {
+                temp = current;
+                prev->next = prev->next->next;
+                free(temp->key);
+                free(temp->value);
+                free(temp);
+                return ;
+            }
+        }
+        prev = current;
+        current = current->next;
+    }
+}
+
+void    unset(t_parser *parser, int *built, t_vars *vars)
+{
+    int i;
+
+    *built = 1;
+    if (!parser->arg[1])
+        return ;
+    i = 1;
+    while (parser->arg[i])
+    {
+        remove_if(parser->arg[i], &(vars->envl), &ft_strcmp);
+        remove_if(parser->arg[i], &(vars->var), &ft_strcmp);
+        i++;
+    }
+}
+
 int	builtin(t_parser *parser, int *built, t_vars *vars)
 {
 	if (ft_strcmp(parser->cmd, "cd") == 0)
@@ -258,5 +311,7 @@ int	builtin(t_parser *parser, int *built, t_vars *vars)
     }
     else if (ft_strcmp(parser->cmd, "export") == 0)
         export(parser, built, vars);
+    else if (ft_strcmp(parser->cmd, "unset") == 0)
+        unset(parser, built, vars);
     return (1);
 }
