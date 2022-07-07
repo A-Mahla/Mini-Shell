@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/06 12:43:56 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/07 11:31:10 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_vars
+{
+	t_env	*envl;
+	t_env	*var;
+}	t_vars;
+
 //			utils
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strjoin_bs(char const *s1, char const *s2);
@@ -92,9 +98,9 @@ void		close_std(t_parser *parser);
 void		close_pipes(t_pipe_info *pipe_info);
 
 //			lexer.c
-t_lexer		*lexer(char *line);
+t_lexer		*lexer(char *line, t_vars *vars);
 int			get_num_of_arg(t_lexer *lexer);
-void		push_lexer(t_lexer **lst, char *word, int TYPE);
+void		push_lexer(t_lexer **lst, char *word, int TYPE, t_vars *vars);
 void		lst_clear_lexer(t_lexer *lexer);
 
 //			parser.c
@@ -122,7 +128,7 @@ char		*cpy(const char *src);
 int			get_cmdpath(t_parser *parser, char **cmd_path, int i, t_env *envl);
 
 //			execute.c
-int			execute(t_parser *parser, t_pipe_info *pipe_info, t_env *envl);
+int			execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars);
 
 //			dup.c
 int			dup_fd(t_parser *parser);
@@ -152,11 +158,12 @@ t_pipe_info *pipe_info);
 //			env.c
 void		lst_clear_envl(t_env *envl);
 t_env		*get_env(char **env);
+void		push_env(t_env **lst, char *str);
 
 //			sig.c
 void		sig_init(void);
 
 //			builtin.c
-int			builtin(t_parser *parser, int *built, t_env *envl);
+int			builtin(t_parser *parser, int *built, t_vars *vars);
 
 #endif

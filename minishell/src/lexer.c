@@ -6,31 +6,31 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/04 11:26:51 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/07 11:50:04 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-void	cmp_and_push(char **words, t_lexer **lst, int i)
+void	cmp_and_push(char **words, t_lexer **lst, int i, t_vars *vars)
 {
 	if (ft_strcmp(words[i], "|") == 0)
-		push_lexer(lst, words[i], PIPE);
+		push_lexer(lst, words[i], PIPE, vars);
 	else if (ft_strcmp(words[i], "<") == 0)
-		push_lexer(lst, words[i], REDIR_IN);
+		push_lexer(lst, words[i], REDIR_IN, vars);
 	else if (ft_strcmp(words[i], ">") == 0)
-		push_lexer(lst, words[i], REDIR_OUT);
+		push_lexer(lst, words[i], REDIR_OUT, vars);
 	else if (ft_strcmp(words[i], ">>") == 0)
-		push_lexer(lst, words[i], REDIR_OUT_APPEND);
+		push_lexer(lst, words[i], REDIR_OUT_APPEND, vars);
 	else if (ft_strcmp(words[i], "<<") == 0)
-		push_lexer(lst, words[i], HERDOC);
+		push_lexer(lst, words[i], HERDOC, vars);
 	else if (ft_strcmp(words[i], "") == 0)
-		push_lexer(lst, words[i], EMPTY);
+		push_lexer(lst, words[i], EMPTY, vars);
 	else
-		push_lexer(lst, words[i], WRD);
+		push_lexer(lst, words[i], WRD, vars);
 }
 
-t_lexer	*lexer(char *line)
+t_lexer	*lexer(char *line, t_vars *vars)
 {
 	char	**words;
 	t_lexer	*lst;
@@ -40,7 +40,7 @@ t_lexer	*lexer(char *line)
 	lst = NULL;
 	words = ft_split_lexer(line);
 	while (words[i])
-		cmp_and_push(words, &lst, i++);
+		cmp_and_push(words, &lst, i++, vars);
 	clear_tab(words);
 	return (lst);
 }
@@ -60,7 +60,29 @@ int	get_num_of_arg(t_lexer *lexer)
 	return (i);
 }
 
-void	push_lexer(t_lexer **lst, char *word, int TYPE)
+char	*get_var(char *str, t_vars *vars)
+{
+	t_env *last_env;
+	t_env *last_var;
+
+	last_env = vars->envl;
+	last_var = vars->var;
+	while (last_env)
+	{
+		if (ft_strcmp(str, last_env->key) == 0)
+			return (last_env->value);
+		last_env = last_env->next;
+	}
+	while (last_var)
+	{
+		if (ft_strcmp(str, last_var->key) == 0)
+			return (last_var->value);
+		last_var = last_var->next;
+	}
+	return ("");
+}
+
+void	push_lexer(t_lexer **lst, char *word, int TYPE, t_vars *vars)
 {
 	t_lexer	*new;
 	t_lexer	*last;
@@ -68,7 +90,10 @@ void	push_lexer(t_lexer **lst, char *word, int TYPE)
 	new = (t_lexer *)malloc(sizeof(t_lexer));
 	if (!new)
 		exit (1);
-	new->data = cpy(word);
+	if (word[0] == '$')
+		new->data = cpy(get_var(word + 1, vars));
+	else
+		new->data = cpy(word);
 	new->type = TYPE;
 	new->prev = NULL;
 	new->next = NULL;

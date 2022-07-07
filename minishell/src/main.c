@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/06 11:17:26 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/07 11:24:27 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,28 @@ char	*get_line(void)
 	return (line);
 }
 
-int	exit_shell(char *line, t_lexer *lst_lexer, t_env *envl)
+int	exit_shell(char *line, t_lexer *lst_lexer, t_vars *vars)
 {
 	free(line);
 	lst_clear_lexer(lst_lexer);
-	lst_clear_envl(envl);
+	lst_clear_envl(vars->envl);
+	lst_clear_envl(vars->var);
 	rl_clear_history();
 	exit (0);
 }
 
-void	minishell(char *line, t_env *envl)
+void	minishell(char *line, t_vars *vars)
 {
 	t_lexer		*lst_lexer;
 	t_parser	*lst_parser;
 	t_pipe_info	pipe_info;
 
-	lst_lexer = lexer(line);
+	lst_lexer = lexer(line, vars);
 	if (ft_strcmp(lst_lexer->data, "exit") == 0)
-		exit_shell(line, lst_lexer, envl);
+		exit_shell(line, lst_lexer, vars);
 	pipe_info.pipes = get_pipes(lst_lexer, &(pipe_info.num_of_process));
 	lst_parser = parser(lst_lexer, &pipe_info);
-	execute(lst_parser, &pipe_info, envl);
+	execute(lst_parser, &pipe_info, vars);
 	add_history(line);
 	lst_clear_parser(lst_parser);
 	lst_clear_lexer(lst_lexer);
@@ -59,10 +60,12 @@ void	minishell(char *line, t_env *envl)
 int	main(int ac, char **av, char **env)
 {
 	char		*line;
-	t_env		*envl;
+	t_vars		vars;
+
 	
 	(void)av;
-	envl = get_env(env);
+	vars.var = NULL;
+	vars.envl = get_env(env);
 	sig_init();
 	while (1 && ac == 1)
 	{
@@ -70,7 +73,7 @@ int	main(int ac, char **av, char **env)
 		if (!line)
 			return (1);
 		if (*line)
-			minishell(line, envl);
+			minishell(line, &vars);
 		free(line);
 	}
 	return (0);

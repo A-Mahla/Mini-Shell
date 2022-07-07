@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_lexer_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+        */
+/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/04 17:43:56 by maxenceeudi      ###   ########.fr       */
+/*   Updated: 2022/07/07 10:57:26 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	*ft_get_word_1(int *index, char *s)
 	if (!word)
 		return (NULL);
 	i = 0;
-	if (j > 3)
+	if (j > 4)
 		(*index)++;
 	while (i < len)
 		word[i++] = s[(*index)++];
