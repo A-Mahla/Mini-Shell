@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:37:59 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/07 12:23:04 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/07 16:04:35 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,13 @@ int env(t_parser *parser, int *built, t_env *envl)
     last = envl;
     while(last)
     {
-        write(out, last->key, ft_strlen(last->key));
-        write(out, "=", 1);
-        write(out, last->value, ft_strlen(last->value));
-        write(out, "\n", 1);
+        if (*(last->value))
+        {
+            write(out, last->key, ft_strlen(last->key));
+            write(out, "=", 1);
+            write(out, last->value, ft_strlen(last->value));
+            write(out, "\n", 1);
+        }
         last = last->next;
     }
     return (1);
@@ -97,14 +100,27 @@ int is_already_a_var(t_vars *vars, char *str)
     t_env   *last_env;
 	t_env   *last_var;
     int     i;
+    char     last;
     char    *temp;
 
     i = 0;
-    while (str[i] != '=')
+    while (str[i] && str[i] != '=')
         i++;
+    last = str[i];
     str[i] = 0;
 	last_env = vars->envl;
 	last_var = vars->var;
+    while (last_var)
+	{
+		if (ft_strncmp(str, last_var->key, i) == 0)
+        {
+            temp = last_var->value;
+            last_var->value = cpy(str + i + 1);
+            free(temp);
+            return (1);
+        }
+		last_var = last_var->next;
+	}
 	while (last_env)
 	{
 		if (ft_strncmp(str, last_env->key, i) == 0)
@@ -116,19 +132,112 @@ int is_already_a_var(t_vars *vars, char *str)
         }
 		last_env = last_env->next;
 	}
-	while (last_var)
-	{
-		if (ft_strncmp(str, last_var->key, i) == 0)
+    str[i] = last;
+    return (0);
+}
+
+int is_already_a_env(t_vars *vars, char *str)
+{
+    t_env   *last;
+    int     i;
+    char    c;
+    char    *temp;
+
+    i = 0;
+    while (str[i] && str[i] != '=')
+        i++;
+    c = str[i];
+    str[i] = 0;
+    last = vars->envl;
+    while (last)
+    {
+        if (ft_strcmp(str, last->key) == 0)
         {
-            temp = last_var->value;
-            last_var->value = cpy(str + i + 1);
-            free(temp);
+            if (c)
+            {
+                temp = last->value;
+                last->value = cpy(str + i + 1);
+                free (temp);
+            }
             return (1);
         }
-		last_var = last_var->next;
-	}
-    str[i] = '=';
+        last = last->next;
+    }
     return (0);
+}
+
+void    push_var_to_env(char *str, t_vars *vars, t_env **begin_var, t_env **begin_env)
+{
+	t_env   *last;
+    t_env   *prev;
+    t_env   *temp;
+
+    last = *begin_var;
+    prev = NULL;
+    while (last)
+    {
+        if (ft_strcmp(str, last->key)== 0)
+        {
+            if (!prev)
+            {
+                temp = last;
+                *begin_var = last->next;
+                temp->next = *begin_env;
+                *begin_env = temp;
+                return ;
+            }
+            else
+            {
+                temp = last;
+                prev->next = prev->next->next;
+                temp->next = *begin_env;
+                *begin_env = temp;
+                return ;
+            }
+        }
+        prev = last;
+        last = last->next;
+    }
+    if (!is_already_a_env(vars, str))
+            push_env(&(vars->envl), str);
+}
+
+void    print_sort_env(t_parser *parser, t_env *envl)
+{
+    t_env   *last;
+    int     out;
+
+    out = parser->stdout;
+    last = envl;
+    while(last)
+    {
+        write(out, last->key, ft_strlen(last->key));
+        if (*(last->value))
+        {
+            write(out, "=", 1);
+            write(out, last->value, ft_strlen(last->value));
+        }
+        write(out, "\n", 1);
+        last = last->next;
+    }
+}
+
+void    export(t_parser *parser, int *built, t_vars *vars)
+{
+    int i;
+
+    *built = 1;
+    i = 1;
+    if (!parser->arg[1])
+        print_sort_env(parser, vars->envl);
+    else
+    {
+        while (parser->arg[i])
+        {
+            push_var_to_env(parser->arg[i], vars, &(vars->var), &(vars->envl));
+            i++;
+        }
+    }
 }
 
 int	builtin(t_parser *parser, int *built, t_vars *vars)
@@ -147,5 +256,7 @@ int	builtin(t_parser *parser, int *built, t_vars *vars)
         if (!is_already_a_var(vars, parser->cmd))
             push_env(&(vars->var), parser->cmd);
     }
+    else if (ft_strcmp(parser->cmd, "export") == 0)
+        export(parser, built, vars);
     return (1);
 }

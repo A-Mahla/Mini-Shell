@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:13:47 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/06 11:16:32 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/07 14:44:15 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	get_key_value(char *str, char **key, char **value)
 	int		len;
 
 	len = 0;
-	while (str[len] != '=')
+	while (str[len] && str[len] != '=')
 		len++;
 	*key = (char *)malloc(sizeof(char) * (len + 1));
 	if (!*key)
