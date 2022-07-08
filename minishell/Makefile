@@ -29,6 +29,7 @@ all: $(NAME)
 
 %.o: %.c
 	$(CC) -c $< -o $@ 
+
 $(NAME): $(OBJ)
 	$(CC) $^  -o $@ -lreadline	
 

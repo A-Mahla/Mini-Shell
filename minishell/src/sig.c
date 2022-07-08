@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../shell.h"
+/*#include "../shell.h"
 
 void handler_sigint(int sig)
 {
@@ -33,4 +33,4 @@ void	sig_init(void)
 	sa.sa_handler = &handler_sigint;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
-}
+}*/

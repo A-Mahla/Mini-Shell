@@ -35,7 +35,7 @@ int	exit_shell(char *line, t_lexer *lst_lexer, t_env *envl)
 	free(line);
 	lst_clear_lexer(lst_lexer);
 	lst_clear_envl(envl);
-	rl_clear_history();
+//	rl_clear_history();
 	exit (0);
 }
 
@@ -63,7 +63,7 @@ int	main(int ac, char **av, char **env)
 	
 	(void)av;
 	envl = get_env(env);
-	sig_init();
+//	sig_init();
 	while (1 && ac == 1)
 	{
 		line = get_line();
