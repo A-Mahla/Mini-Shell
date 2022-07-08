@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+        */
+/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/08 11:12:29 by maxenceeudi      ###   ########.fr       */
+/*   Updated: 2022/07/08 12:34:22 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,12 @@ char	*get_line(void)
 
 	buf = getcwd(NULL, 0);
 	temp = ft_strjoin("\033[0;32m", buf);
+	write (1, "\033[0;32m", 9);
 	prompt = ft_strjoin(temp, "$ \033[0m");
 	line = readline(prompt);
 	if (line && *line)
-	{
 		add_history(line);
-		//rl_on_new_line();
-	}
+
 	free(buf);
 	free(temp);
 	free(prompt);
