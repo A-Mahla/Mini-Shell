@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/07 11:31:10 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/08 10:57:15 by maxenceeudi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,11 @@ void		sig_init(void);
 
 //			builtin.c
 int			builtin(t_parser *parser, int *built, t_vars *vars);
+
+//gestion_variables.c
+int 	is_already_a_var(t_vars *vars, char *str);
+int 	is_already_a_env(t_vars *vars, char *str);
+void    push_var_to_env(char *str, t_vars *vars, t_env **begin_var, t_env **begin_env);
+void    remove_if(char *str, t_env **begin, int (*cmp)(const char *, const char *));
 
 #endif
