@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/06 16:39:56 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/07 11:26:36 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	init_pid(int num_of_process, int **pids)
 		exit (1);
 }
 
-void	exec_cmd(t_parser *parser, int *pids, t_pipe_info *pipe_info, int i, t_env *envl)
+void	exec_cmd(t_parser *parser, int *pids, t_pipe_info *pipe_info, int i, t_vars *vars)
 {
 	char	*cmd_path;
-	int	built;
+	int		built;
 
 	built = 0;
-	builtin(parser, &built, envl);
-	if (!built && !get_cmdpath(parser, &cmd_path, i, envl))
+	//builtin(parser, &built, envl);
+	if (!built && !get_cmdpath(parser, &cmd_path, i, vars->envl))
 		exit(no_leaks(pids, cmd_path, pipe_info, parser));
 	if (!built && !dup_fd(parser))
 	{
@@ -58,7 +58,7 @@ void	exec_cmd(t_parser *parser, int *pids, t_pipe_info *pipe_info, int i, t_env 
 	exit(no_leaks(pids, cmd_path, pipe_info, parser));
 }
 
-int	execute(t_parser *parser, t_pipe_info *pipe_info, t_env *envl)
+int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
 {
 	int	*pids;
 	int	i;
@@ -66,7 +66,7 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_env *envl)
 
 	built = 0;
 	if (!parser->next)
-		builtin(parser, &built, envl);
+		builtin(parser, &built, vars);
 	init_pid(pipe_info->num_of_process, &pids);
 	i = 0;
 	while (!built && i < pipe_info->num_of_process && parser)
@@ -75,7 +75,7 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_env *envl)
 		if (pids[i] == -1)
 			return (0);
 		if (pids[i] == 0)
-			exec_cmd(parser, pids, pipe_info, i, envl);
+			exec_cmd(parser, pids, pipe_info, i, vars);
 		parser = parser->next;
 		i++;
 	}

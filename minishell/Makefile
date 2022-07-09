@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: meudier <meudier@student.42.fr>            +#+  +:+       +#+         #
+#    By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 09:36:17 by meudier           #+#    #+#              #
-#    Updated: 2022/07/06 12:44:10 by meudier          ###   ########.fr        #
+#    Updated: 2022/07/08 11:05:35 by maxenceeudi      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,11 @@ NAME = minishell
 
 SRC = utils/ft_strjoin.c utils/ft_split.c src/main.c \
 	utils/ft_strdup.c utils/ft_strlen.c utils/ft_strcmp.c \
-	src/ft_split_lexer.c src/pipe.c src/parser.c src/lexer.c \
-	src/close.c utils/ft_calloc.c src/cpy.c src/execute.c \
-	src/get_cmdpath.c src/dup.c src/ft_split_lexer_2.c \
-	src/write_error.c src/parser_action.c src/parser2.c \
-	src/env.c src/sig.c src/builtin.c
-	
+	lexer/ft_split_lexer.c execute/pipe.c parser/parser.c lexer/lexer.c \
+	src/close.c utils/ft_calloc.c utils/cpy.c execute/execute.c \
+	execute/get_cmdpath.c execute/dup.c lexer/ft_split_lexer_2.c \
+	src/write_error.c parser/parser_action.c parser/parser2.c \
+	builtin/env.c src/sig.c builtin/builtin.c builtin/gestion_variables.c \
 	
 OBJ = $(SRC:.c=.o)
 
