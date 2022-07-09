@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_action.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/04 12:11:54 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/09 13:07:06 by maxenceeudi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	redir_in(t_parser **new, t_lexer **lexer)
 {
 	t_in	*last_in;
 
-	push_in(&((*new)->stdin), open((*lexer)->next->data, O_RDWR | O_APPEND));
+	push_in(&((*new)->stdin), open((*lexer)->next->data, O_RDONLY));
 	last_in = (*new)->stdin;
 	while (last_in->next)
 		last_in = last_in->next;
@@ -67,8 +67,8 @@ void	redir_out(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info)
 		exit (1);
 }
 
-void	redir_out_append(t_parser **new, t_lexer **lexer, \
-t_pipe_info *pipe_info)
+void	redir_out_append(t_parser **new, t_lexer **lexer,
+		t_pipe_info *pipe_info)
 {
 	int	temp;
 

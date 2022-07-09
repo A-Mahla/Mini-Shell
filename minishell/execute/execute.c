@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/07 11:26:36 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/09 14:31:39 by maxenceeudi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	exec_cmd(t_parser *parser, int *pids, t_pipe_info *pipe_info, int i, t_vars
 	int		built;
 
 	built = 0;
-	//builtin(parser, &built, envl);
+	builtin(parser, &built, vars);
 	if (!built && !get_cmdpath(parser, &cmd_path, i, vars->envl))
 		exit(no_leaks(pids, cmd_path, pipe_info, parser));
 	if (!built && !dup_fd(parser))
@@ -80,7 +80,6 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
 		i++;
 	}
 	close_pipes(pipe_info);
-	close_std(parser);
 	i = 0;
 	while (pids[i])
 	{

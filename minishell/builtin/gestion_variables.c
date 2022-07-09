@@ -6,7 +6,7 @@
 /*   By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 10:48:14 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/08 10:55:01 by maxenceeudi      ###   ########.fr       */
+/*   Updated: 2022/07/09 12:26:00 by maxenceeudi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,24 +132,15 @@ void    remove_if(char *str, t_env **begin, int (*cmp)(const char *, const char 
     {
         if (cmp(str, current->key) == 0)
         {
+            temp = current;
             if (prev == NULL)
-            {
-                temp = current;
                 *begin = current->next;
-                free(temp->key);
-                free(temp->value);
-                free(temp);
-                return ;
-            }
             else
-            {
-                temp = current;
                 prev->next = prev->next->next;
-                free(temp->key);
-                free(temp->value);
-                free(temp);
-                return ;
-            }
+            free(temp->key);
+            free(temp->value);
+            free(temp);
+            return ;
         }
         prev = current;
         current = current->next;

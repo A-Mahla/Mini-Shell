@@ -6,7 +6,7 @@
 /*   By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/08 11:12:29 by maxenceeudi      ###   ########.fr       */
+/*   Updated: 2022/07/09 14:32:57 by maxenceeudi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,11 @@ char	*get_line(void)
 	char		*temp;
 
 	buf = getcwd(NULL, 0);
-	temp = ft_strjoin("\033[0;32m", buf);
-	prompt = ft_strjoin(temp, "$ \033[0m");
+	temp = ft_strjoin("\001\x1b[32m\002", buf);
+	prompt = ft_strjoin(temp, "$ \001\x1b[0m\002");
 	line = readline(prompt);
 	if (line && *line)
-	{
 		add_history(line);
-		//rl_on_new_line();
-	}
 	free(buf);
 	free(temp);
 	free(prompt);
@@ -57,6 +54,7 @@ void	minishell(char *line, t_vars *vars)
 	pipe_info.pipes = get_pipes(lst_lexer, &(pipe_info.num_of_process));
 	lst_parser = parser(lst_lexer, &pipe_info);
 	execute(lst_parser, &pipe_info, vars);
+	close_std(lst_parser);
 	lst_clear_parser(lst_parser);
 	lst_clear_lexer(lst_lexer);
 }
