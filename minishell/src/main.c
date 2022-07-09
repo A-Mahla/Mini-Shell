@@ -21,9 +21,8 @@ char	*get_line(void)
 	char		*temp;
 
 	buf = getcwd(NULL, 0);
-	temp = ft_strjoin("\033[0;32m", buf);
-	write (1, "\033[0;32m", 9);
-	prompt = ft_strjoin(temp, "$ \033[0m");
+	temp = ft_strjoin("$", buf);
+	prompt = ft_strjoin(temp, "$ ");
 	line = readline(prompt);
 	if (line && *line)
 		add_history(line);
@@ -33,9 +32,8 @@ char	*get_line(void)
 	return (line);
 }
 
-int	exit_shell(char *line, t_lexer *lst_lexer, t_vars *vars)
+int	exit_shell(t_lexer *lst_lexer, t_vars *vars)
 {
-	free(line);
 	lst_clear_lexer(lst_lexer);
 	lst_clear_envl(vars->envl);
 	lst_clear_envl(vars->var);
@@ -50,8 +48,9 @@ void	minishell(char *line, t_vars *vars)
 	t_pipe_info	pipe_info;
 
 	lst_lexer = lexer(line, vars);
+	free(line);
 	if (ft_strcmp(lst_lexer->data, "exit") == 0)
-		exit_shell(line, lst_lexer, vars);
+		exit_shell(lst_lexer, vars);
 	pipe_info.pipes = get_pipes(lst_lexer, &(pipe_info.num_of_process));
 	lst_parser = parser(lst_lexer, &pipe_info);
 	execute(lst_parser, &pipe_info, vars);
@@ -75,7 +74,6 @@ int	main(int ac, char **av, char **env)
 			return (1);
 		if (*line)
 			minishell(line, &vars);
-		free(line);
 	}
 	return (0);
 }	
