@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/11 12:17:11 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/11 18:32:08 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,9 @@ void		redir_out(t_parser **new, t_lexer **lexer, \
 t_pipe_info *pipe_info);
 void		redir_out_append(t_parser **new, t_lexer **lexer, \
 t_pipe_info *pipe_info);
+
+//			parser_action_2.c
+void		heredoc(t_parser **new, t_lexer **lexer);
 
 //			env.c
 void		lst_clear_envl(t_env *envl);

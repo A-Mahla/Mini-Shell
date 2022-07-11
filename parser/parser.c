@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:05:26 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/06 08:04:11 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/11 18:18:35 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ void	create_new(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info)
 		else if ((*lexer)->type == REDIR_OUT_APPEND && (*lexer)->next)
 			redir_out_append(new, lexer, pipe_info);
 		else if ((*lexer)->type == HERDOC && (*lexer)->next)
-		{
-			push_in(&((*new)->stdin), -2);
-			(*lexer) = (*lexer)->next->next;
-		}
+			heredoc(new, lexer);
 		else if ((*lexer)->type == EMPTY)
 			(*lexer) = (*lexer)->next;
 	}
