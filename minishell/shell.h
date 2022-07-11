@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/08 14:11:53 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/11 12:17:11 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 void		*ft_calloc(size_t count, size_t size);
 char		*ft_strjoin_eq(char const *s1, char const *s2);
+int			ft_isalnum(int c);
 
 //			close.c
 void		close_std(t_parser *parser);
@@ -100,8 +101,9 @@ void		close_pipes(t_pipe_info *pipe_info);
 
 //			lexer.c
 t_lexer		*lexer(char *line, t_vars *vars);
+char		*get_var(char *str, t_vars *vars, int size);
 int			get_num_of_arg(t_lexer *lexer);
-void		push_lexer(t_lexer **lst, char *word, int TYPE, t_vars *vars);
+void		push_lexer(t_lexer **lst, char *word, int TYPE/*, t_vars *vars*/);
 void		lst_clear_lexer(t_lexer *lexer);
 
 //			parser.c
@@ -167,10 +169,17 @@ void		sig_init(void);
 //			builtin.c
 int			builtin(t_parser *parser, int *built, t_vars *vars);
 
+//			ft_expand.c
+void		ft_expand(char **words, t_vars *vars);
+
+//			ft_expand_2.c
+int			is_expand(char *str);
+void		get_expand(char **words, t_vars *vars, int size);
+
 //gestion_variables.c
-int 	is_already_a_var(t_vars *vars, char *str);
-int 	is_already_a_env(t_vars *vars, char *str);
-void    push_var_to_env(char *str, t_vars *vars, t_env **begin_var, t_env **begin_env);
-void    remove_if(char *str, t_env **begin, int (*cmp)(const char *, const char *));
+int 		is_already_a_var(t_vars *vars, char *str);
+int 		is_already_a_env(t_vars *vars, char *str);
+void		push_var_to_env(char *str, t_vars *vars, t_env **begin_var, t_env **begin_env);
+void		remove_if(char *str, t_env **begin, int (*cmp)(const char *, const char *));
 
 #endif

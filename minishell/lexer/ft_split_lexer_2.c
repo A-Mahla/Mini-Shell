@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/07 10:57:26 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/11 14:25:04 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,22 @@ int	is_meta(char c, char *meta)
 	while (meta[i])
 	{
 		if (meta[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	is_quote(char c)
+{
+	int		i;
+	char	*quotes;
+
+	i = 0;
+	quotes = "\'\"";
+	while (quotes[i])
+	{
+		if (quotes[i] == c)
 			return (1);
 		i++;
 	}
@@ -57,7 +73,7 @@ int	ft_get_size_1(char const *s)
 	int		count;
 	char	*meta;
 
-	meta = "><|\'\"";
+	meta = "><|";
 	i = 0;
 	count = 0;
 	while (s[i])
@@ -80,21 +96,25 @@ int	ft_get_size_1(char const *s)
 
 int	ft_get_word_2(int j, int *len, char *s, char *meta)
 {
+	int	i;
+
+	i = 0;
+	if (is_quote(*(s + i)) && *(s + i))
+	{
+		i++;
+		while (*(s + i) && !is_quote(*(s + i)))
+			i++;
+		if (*(s + i) == '\0')
+		{
+			printf("Syntax error: quotes are not close\n");
+			*len = 0;
+			return (0);
+		}
+	}
 	if (j < 3 && *s == meta[j] && *s)
 	{
 		while (*(s + *len) == meta[j] && *(s + *len))
 			(*len)++;
-		return (0);
-	}
-	else if (*s == meta[j] && *s)
-	{
-		while (*(s + *len + 1) != meta[j] && *(s + *len + 1))
-			(*len)++;
-		if (*(s + *len + 1) == 0 && *(s + *len) != meta[j])
-		{
-			printf("Syntax error: quotes are not close\n");
-			*len = 0;
-		}
 		return (0);
 	}
 	else if (*s != ' ' && !is_meta(*s, meta))
@@ -116,7 +136,7 @@ char	*ft_get_word_1(int *index, char *s)
 
 	len = 0;
 	j = 0;
-	meta = "><|\'\"";
+	meta = "><|";
 	while (s[*index] == ' ' && s[*index])
 		(*index)++;
 	while (meta[j])
