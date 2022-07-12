@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/11 18:32:08 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/12 13:59:14 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_vars
 }	t_vars;
 
 //			utils
+char		*cpy(const char *src);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strjoin_bs(char const *s1, char const *s2);
 char		**ft_split(char const *s, char c);
@@ -94,6 +95,29 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 void		*ft_calloc(size_t count, size_t size);
 char		*ft_strjoin_eq(char const *s1, char const *s2);
 int			ft_isalnum(int c);
+
+//			cd.c
+int			cd(t_parser *parser, int *built, t_env *envl);
+
+//			pwd.c
+int			pwd(t_parser *parser, int *built);
+
+//			env.c
+int			env(t_parser *parser, int *built, t_env *envl);
+
+//			env_2.c
+void		lst_clear_envl(t_env *envl);
+t_env		*get_env(char **env);
+void		push_env(t_env **lst, char *str);
+
+//			export.c
+void		export(t_parser *parser, int *built, t_vars *vars);
+
+//			unset.c
+void		unset(t_parser *parser, int *built, t_vars *vars);
+
+//			echo.c
+int			echo(t_parser *parser, int *built);
 
 //			close.c
 void		close_std(t_parser *parser);
@@ -123,9 +147,6 @@ void		lst_clear_parser(t_parser *parser);
 int			get_num_of_process(t_lexer *lexer);
 int			**get_pipes(t_lexer *lexer, int *num_of_process);
 int			is_not_a_pipe(int fd, int **pipes, int num_of_process);
-
-//			cpy.c
-char		*cpy(const char *src);
 
 //			get_cmdpath.c
 int			get_cmdpath(t_parser *parser, char **cmd_path, int i, t_env *envl);
@@ -161,10 +182,6 @@ t_pipe_info *pipe_info);
 //			parser_action_2.c
 void		heredoc(t_parser **new, t_lexer **lexer);
 
-//			env.c
-void		lst_clear_envl(t_env *envl);
-t_env		*get_env(char **env);
-void		push_env(t_env **lst, char *str);
 
 //			sig.c
 void		sig_init(void);

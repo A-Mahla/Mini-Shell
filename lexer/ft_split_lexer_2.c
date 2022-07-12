@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/11 14:25:04 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/12 12:26:48 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	is_meta(char c, char *meta)
 
 int	is_quote(char c)
 {
-	int		i;
-	char	*quotes;
+	int			i;
+	char		*quotes;
 
 	i = 0;
 	quotes = "\'\"";
@@ -50,13 +50,13 @@ int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 			(*i)++;
 		return (0);
 	}
-	else if (s[*i] == meta[j] && s[*i])
+/*	else if (s[*i] == meta[j] && s[*i])
 	{
 		(*i)++;
 		while (s[*i] != meta[j] && s[*i])
 			(*i)++;
 		return (0);
-	}
+	}*/
 	else if (s[*i] != ' ' && !is_meta(s[*i], meta))
 	{
 		while (s[*i] != ' ' && !is_meta(s[*i], meta) && s[*i])
