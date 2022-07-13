@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/04 12:11:54 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/13 14:57:29 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info)
 		push_in(&((*new)->stdin), pipe_info->in);
 	if (pipe_info->out && (*new)->stdout == 1)
 		(*new)->stdout = pipe_info->out;
-	(*new)->cmd = (*lexer)->data;
+	(*new)->cmd = cpy((*lexer)->data);
 	(*new)->arg = ft_calloc(sizeof(char *), (get_num_of_arg(*lexer) + 1));
 	if (!(*new)->arg)
 		exit (1);

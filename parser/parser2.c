@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:52:13 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/04 11:04:16 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/13 14:58:01 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	lst_clear_parser(t_parser *parser)
 	{
 		temp = parser;
 		parser = parser->next;
-		temp->cmd = NULL;
+		free(temp->cmd);
 		clear_tab(temp->arg);
 		while (temp->stdin)
 		{

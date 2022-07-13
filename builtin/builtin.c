@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:37:59 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/12 14:00:22 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/13 18:17:09 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int is_init_var(char *word, int *built)
     return (0);
 }
 
-int	builtin(t_parser *parser, int *built, t_vars *vars)
+int	builtin(t_parser *parser, int *built, t_vars *vars, int pipe)
 {
 	if (ft_strcmp(parser->cmd, "cd") == 0)
     {
@@ -51,5 +51,7 @@ int	builtin(t_parser *parser, int *built, t_vars *vars)
         unset(parser, built, vars);
     else if (ft_strcmp(parser->cmd, "echo") == 0)
         echo(parser, built);
+	else if (ft_strcmp(parser->cmd, "exit") == 0)
+		ft_exit(vars, built, pipe);
     return (1);
 }

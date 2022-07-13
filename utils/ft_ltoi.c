@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dup.c                                              :+:      :+:    :+:   */
+/*   ft_ltoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/04 08:34:14 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/13 18:40:45 by ammah            ###   ########.fr       */
+/*   Created: 2022/05/02 15:56:49 by meudier           #+#    #+#             */
+/*   Updated: 2022/07/13 17:00:44 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int	dup_fd(t_parser *parser)
+unsigned long	ft_ltoi(const char *str)
 {
-	t_in	*last_in;
+	int				i;
+	unsigned long	nb;
 
-	last_in = parser->stdin;
-	if (last_in)
+	i = 0;
+	nb = 0;
+	if (!str)
+		return (0);
+	if (str[i] == '-')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		while (last_in->next)
-		{
-			if (last_in->stdin < 0)
-				return (0);
-			last_in = last_in->next;
-		}
-		if (last_in->stdin < 0)
-			return (0);
-		if (last_in->stdin != 0)
-			dup2(last_in->stdin, STDIN_FILENO);
+		nb = nb * 10 + str[i] - '0';
+		i++;
 	}
-	if (parser->stdout != 1)
-		dup2(parser->stdout, STDOUT_FILENO);
-	return (1);
+	return (nb);
 }
