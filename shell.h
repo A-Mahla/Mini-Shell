@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/13 18:19:18 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/13 20:00:18 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ char			*ft_strjoin_eq(char const *s1, char const *s2);
 int				ft_isalnum(int c);
 unsigned long   ft_ltoi(const char *str);
 int				ft_isdigit(int c);
+char			*ft_check_zero(char *str);
 
 //				cd.c
 int				cd(t_parser *parser, int *built, t_env *envl);

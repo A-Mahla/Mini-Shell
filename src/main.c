@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/13 17:31:18 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/13 19:29:11 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ char	*get_line(void)
 	return (line);
 }
 
-int	exit_shell(t_lexer *lst_lexer, t_vars *vars)
+int	exit_shell(t_vars *vars)
 {
-	lst_clear_lexer(lst_lexer);
 	lst_clear_envl(vars->envl);
 	lst_clear_envl(vars->var);
 	clear_history();
@@ -76,6 +75,6 @@ int	main(int ac, char **av, char **env)
 		if (*line)
 			minishell(line, &vars);
 	}
-	exit_shell(vars.lst_lexer, &vars);
+	exit_shell(&vars);
 	return (0);
 }	
