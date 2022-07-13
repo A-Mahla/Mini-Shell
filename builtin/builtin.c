@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:37:59 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/14 01:04:30 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/14 01:09:11 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ int	builtin(t_parser *parser, int *built, t_vars *vars, int pipe)
         return (echo(parser, built));
 	else if (ft_strcmp(parser->cmd, "exit") == 0)
 		return (ft_exit(vars, built, pipe));
-    return (1);
+    return (0);
 }
