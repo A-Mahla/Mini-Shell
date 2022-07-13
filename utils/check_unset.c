@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_export.c                                     :+:      :+:    :+:   */
+/*   check_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amahla <amahla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 12:28:13 by amahla            #+#    #+#             */
-/*   Updated: 2022/07/14 01:17:38 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/14 01:32:32 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int	check_export(char *str)
+int	check_unset(char *str)
 {
 	int	i;
 
@@ -20,7 +20,7 @@ int	check_export(char *str)
 	if (*(str + i) && !(ft_isalpha(*(str + i)) || *(str + i) == '_'))
 		return (0);
 	i++;
-	while (*(str + i) && *(str + i) != '=')
+	while (*(str + i))
 	{
 		if (!ft_isalnum(*(str + i)))
 			return (0);

@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/14 00:57:24 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/14 01:32:45 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int				ft_isdigit(int c);
 char			*ft_check_zero(char *str);
 int				ft_isalpha(int c);
 int				check_export(char *str);
+int				check_unset(char *str);
 
 //				cd.c
 int				cd(t_parser *parser, int *built, t_env *envl);

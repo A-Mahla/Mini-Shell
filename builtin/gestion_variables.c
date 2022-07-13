@@ -6,7 +6,7 @@
 /*   By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 10:48:14 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/08 10:55:01 by maxenceeudi      ###   ########.fr       */
+/*   Updated: 2022/07/14 01:24:13 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,74 +84,55 @@ int is_already_a_env(t_vars *vars, char *str)
     return (0);
 }
 
-void    push_var_to_env(char *str, t_vars *vars, t_env **begin_var, t_env **begin_env)
+void	push_var_to_env(char *str, t_vars *vars, t_env **begin_var, t_env **begin_env)
 {
-	t_env   *last;
-    t_env   *prev;
-    t_env   *temp;
+	t_env	*last;
+	t_env	*prev;
+	t_env	*temp;
 
-    last = *begin_var;
-    prev = NULL;
-    while (last)
-    {
-        if (ft_strcmp(str, last->key)== 0)
-        {
-            if (!prev)
-            {
-                temp = last;
-                *begin_var = last->next;
-                temp->next = *begin_env;
-                *begin_env = temp;
-                return ;
-            }
-            else
-            {
-                temp = last;
-                prev->next = prev->next->next;
-                temp->next = *begin_env;
-                *begin_env = temp;
-                return ;
-            }
-        }
-        prev = last;
-        last = last->next;
-    }
-    if (!is_already_a_env(vars, str))
-            push_env(&(vars->envl), str);
+	last = *begin_var;
+	prev = NULL;
+	while (last)
+	{
+		if (ft_strcmp(str, last->key)== 0)
+		{
+			temp = last;
+			if (!prev)
+				*begin_var = last->next;
+			else
+				prev->next = prev->next->next;
+			temp->next = *begin_env;
+			*begin_env = temp;
+		}
+		prev = last;
+		last = last->next;
+	}
+	if (!is_already_a_env(vars, str))
+		push_env(&(vars->envl), str);
 }
 
-void    remove_if(char *str, t_env **begin, int (*cmp)(const char *, const char *))
+void	remove_if(char *str, t_env **begin, int (*cmp)(const char *, const char *))
 {
-    t_env   *prev;
-    t_env   *current;
-    t_env   *temp;
+	t_env	*prev;
+	t_env	*current;
+	t_env	*temp;
 
-    current = *begin;
-    prev = NULL;
-    while (current)
-    {
-        if (cmp(str, current->key) == 0)
-        {
-            if (prev == NULL)
-            {
-                temp = current;
-                *begin = current->next;
-                free(temp->key);
-                free(temp->value);
-                free(temp);
-                return ;
-            }
-            else
-            {
-                temp = current;
-                prev->next = prev->next->next;
-                free(temp->key);
-                free(temp->value);
-                free(temp);
-                return ;
-            }
-        }
-        prev = current;
-        current = current->next;
-    }
+	current = *begin;
+	prev = NULL;
+	while (current)
+	{
+		if (cmp(str, current->key) == 0)
+		{
+			temp = current;
+			if (prev == NULL)
+				*begin = current->next;
+			else
+				prev->next = prev->next->next;
+			free(temp->key);
+			free(temp->value);
+			free(temp);
+		}
+		prev = current;
+		current = current->next;
+	}
 }
