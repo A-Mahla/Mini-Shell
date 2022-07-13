@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   check_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amahla <amahla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/06 12:37:59 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/14 00:55:33 by ammah            ###   ########.fr       */
+/*   Created: 2022/05/02 12:28:13 by amahla            #+#    #+#             */
+/*   Updated: 2022/07/14 00:22:14 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int pwd(t_parser *parser, int *built)
+int	check_export(char *str)
 {
-    char    *temp;
+	int	i;
 
-    *built = 1;
-    temp = getcwd(NULL, 0);
-	if (!temp)
-		return (1);
-    write(parser->stdout, temp, ft_strlen(temp));
-    write(parser->stdout, "\n", 1);
-    free(temp);
-    return (0);
+	i = 0;
+	if (*(str + i) && !(ft_isalpha(*(str + i)) || *(str + i) == '_'))
+		return (0);
+	i++;
+	while (*(str + i))
+	{
+		if (!ft_isalnum(*(str + i)))
+			return (0);
+		i++;
+	}
+	return (1);
 }

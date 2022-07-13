@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:13:47 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/12 13:41:36 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/14 00:51:48 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int env(t_parser *parser, int *built, t_env *envl)
 	*built = 1;
 	out = parser->stdout;
 	last = envl;
-	while(last)
+	while (last)
 	{
 		if (*(last->value))
 		{
@@ -31,5 +31,5 @@ int env(t_parser *parser, int *built, t_env *envl)
 		}
 		 last = last->next;
 	}
-	return (1);
+	return (0);
 }

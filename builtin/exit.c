@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 15:57:12 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/13 21:57:14 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/14 00:38:38 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,16 @@ int	check_code(t_parser *parser, int *is_exit, int pipe)
 		write(1, "exit\n", 5);
 	if (nb_of_arg(parser->arg) > 2 && check_arg(parser->arg[1]))
 	{
-		printf("minishell: exit: too many arguments\n");
+		write(2, "minishell: exit: too many arguments\n", 36);
 		*is_exit = 0;
 	}
 	else if ((nb_of_arg(parser->arg) > 1 && !check_arg(parser->arg[1]))
 		|| (nb_of_arg(parser->arg) == 2 && (ft_ltoi(parser->arg[1]) > LONG_MAX
 				|| ft_strlen(ft_check_zero(parser->arg[1])) > 20)))
 	{
-		printf("minishell: exit: %s: numeric argument required\n", parser->arg[1]);
+		write(2, "minishell: exit: ", 17);
+		write(2, parser->arg[1], ft_strlen(parser->arg[1]));
+		write(2, ": numeric argument required\n", 28);
 		return (1);
 	}
 	else if (nb_of_arg(parser->arg) == 2)

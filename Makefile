@@ -6,7 +6,7 @@
 #    By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 09:36:17 by meudier           #+#    #+#              #
-#    Updated: 2022/07/13 19:58:59 by ammah            ###   ########.fr        #
+#    Updated: 2022/07/14 00:04:56 by ammah            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC = utils/ft_isalnum.c utils/ft_strjoin.c utils/ft_split.c src/main.c \
 	lexer/ft_expand.c lexer/ft_expand_2.c parser/parser_action_2.c \
 	builtin/cd.c builtin/pwd.c builtin/export.c builtin/unset.c \
 	builtin/env_2.c builtin/echo.c utils/ft_isdigit.c utils/ft_ltoi.c \
-	builtin/exit.c utils/ft_check_zero.c
+	builtin/exit.c utils/ft_check_zero.c utils/ft_isalpha.c \
+	utils/check_export.c
 	
 OBJ = $(SRC:.c=.o)
 

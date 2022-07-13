@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/13 20:00:18 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/14 00:57:24 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int				ft_isalnum(int c);
 unsigned long   ft_ltoi(const char *str);
 int				ft_isdigit(int c);
 char			*ft_check_zero(char *str);
+int				ft_isalpha(int c);
+int				check_export(char *str);
 
 //				cd.c
 int				cd(t_parser *parser, int *built, t_env *envl);
@@ -118,10 +120,10 @@ t_env			*get_env(char **env);
 void			push_env(t_env **lst, char *str);
 
 //				export.c
-void			export(t_parser *parser, int *built, t_vars *vars);
+int				export(t_parser *parser, int *built, t_vars *vars);
 
 //				unset.c
-void			unset(t_parser *parser, int *built, t_vars *vars);
+int				unset(t_parser *parser, int *built, t_vars *vars);
 
 //				echo.c
 int				echo(t_parser *parser, int *built);

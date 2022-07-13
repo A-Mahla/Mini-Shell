@@ -6,47 +6,48 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 12:47:39 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/12 12:54:34 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/14 00:41:51 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
+void	swap_list(t_env *current, t_env *next)
+{
+	t_env	*swap;
+
+	swap = next->next;
+	next->next = current;
+	current->next = swap;
+}
+
 void   sort_lst(t_env **begin)
 {
-    t_env   *current;
-    t_env   *prev;
-    t_env   *temp;
+	t_env   *current;
+	t_env   *prev;
+	t_env   *next;
 
-    current = *begin;
-    prev = NULL;
-    while (current->next)
-    {
-            if (ft_strcmp(current->key, current->next->key) > 0)
-            {
-                if (prev == NULL)
-                {
-                    temp = current;
-                    *begin = temp->next;
-                    current->next = temp->next->next;
-                    (*begin)->next = current;
-                }
-                else
-                {
-                    temp = current;
-                    prev->next = current->next;
-                    current->next = prev->next->next;
-                    prev->next->next = current;
-                }
-                current = *begin;
-                prev = NULL;
-            }
-            else
-            {
-                prev = current;
-                current = current->next;
-            }
-    }
+	current = *begin;
+	prev = NULL;
+	while (current->next)
+	{
+		next = current->next;
+		if (ft_strcmp(current->key, next->key) > 0)
+		{
+			swap_list(current, next);
+			if (!prev)
+				*begin = next;
+			else
+				prev->next = next;
+			current = *begin;
+			prev = NULL;
+		}
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
 }
 
 t_env *cpy_lst(t_env *envl)
@@ -74,9 +75,8 @@ void    print_sort_env(t_parser *parser, t_env *envl)
 
     out = parser->stdout;
     sort_env = cpy_lst(envl);
-    //sort_env = envl;
     sort_lst(&sort_env);
-    while(sort_env)
+    while (sort_env)
     {
 		write(out, "declare -x ", 11);
         write(out, sort_env->key, ft_strlen(sort_env->key));
@@ -91,7 +91,7 @@ void    print_sort_env(t_parser *parser, t_env *envl)
     lst_clear_envl(sort_env);
 }
 
-void    export(t_parser *parser, int *built, t_vars *vars)
+int	export(t_parser *parser, int *built, t_vars *vars)
 {
     int i;
 
@@ -103,8 +103,16 @@ void    export(t_parser *parser, int *built, t_vars *vars)
     {
         while (parser->arg[i])
         {
+			if (!check_export(parser->arg[i]))
+			{
+				write(2, "minishell: export: '", 20);
+				write(2, parser->arg[i], ft_strlen(parser->arg[i]));
+				write(2, "': not a valid identifier\n", 26);
+				return (1);
+			}
             push_var_to_env(parser->arg[i], vars, &(vars->var), &(vars->envl));
             i++;
         }
     }
+	return (0);
 }
