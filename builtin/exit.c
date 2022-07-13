@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 15:57:12 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/13 19:59:30 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/13 21:57:14 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,12 @@ int	ft_exit(t_vars *vars, int *built, int pipe)
 	if (vars->pipe_info->pipes)
 		close_pipes(vars->pipe_info);
 	close_std(vars->lst_parser);
+	if (pipe)
+	{
+		close(0);
+		close(1);
+		close(2);
+	}
 	lst_clear_parser(vars->lst_parser);
 	lst_clear_lexer(vars->lst_lexer);
 	lst_clear_envl(vars->envl);

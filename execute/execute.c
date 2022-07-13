@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/13 18:18:17 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/13 21:58:07 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ int	no_leaks(int *pids, char *cmd_path, t_vars *vars)
 		free(cmd_path);
 	if (vars->pipe_info->pipes)
 		close_pipes(vars->pipe_info);
+	close(0);
+	close(1);
+	close(2);
 	close_std(vars->lst_parser);
 	lst_clear_parser(vars->lst_parser);
 	lst_clear_lexer(vars->lst_lexer);
