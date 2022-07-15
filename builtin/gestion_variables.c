@@ -6,7 +6,7 @@
 /*   By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 10:48:14 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/15 13:32:25 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 21:43:28 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,14 @@ int is_already_a_env(t_vars *vars, char *str)
     int     i;
     char    c;
     char    *temp;
+	int		empty_value;
 
     i = 0;
+	empty_value = 0;
     while (str[i] && str[i] != '=')
         i++;
+	if (str[i] == '=' && !str[i + 1])
+		empty_value = 1;
     c = str[i];
     str[i] = 0;
     last = vars->envl;
@@ -73,7 +77,10 @@ int is_already_a_env(t_vars *vars, char *str)
             if (c)
             {
                 temp = last->value;
-                last->value = cpy(str + i + 1);
+				if (empty_value)
+					last->value = cpy("\"\"");
+				else
+                	last->value = cpy(str + i + 1);
                 free (temp);
             }
             return (1);
@@ -94,7 +101,7 @@ void	push_var_to_env(char *str, t_vars *vars, t_env **begin_var, t_env **begin_e
 	prev = NULL;
 	while (last)
 	{
-		if (ft_strcmp(str, last->key)== 0)
+		if (ft_strcmp(str, last->key) == 0)
 		{
 			temp = last;
 			if (!prev)
@@ -122,6 +129,32 @@ void	remove_if(char *str, t_env **begin, int (*cmp)(const char *, const char *))
 	while (current)
 	{
 		if (cmp(str, current->key) == 0)
+		{
+			temp = current;
+			if (prev == NULL)
+				*begin = current->next;
+			else
+				prev->next = prev->next->next;
+			free(temp->key);
+			free(temp->value);
+			free(temp);
+		}
+		prev = current;
+		current = current->next;
+	}
+}
+
+void	remove_if_2(t_env **begin)
+{
+	t_env	*prev;
+	t_env	*current;
+	t_env	*temp;
+
+	current = *begin;
+	prev = NULL;
+	while (current)
+	{
+		if (!*(current->value))
 		{
 			temp = current;
 			if (prev == NULL)

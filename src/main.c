@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/15 14:37:26 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 00:15:13 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ void	minishell(char *line, t_vars *vars)
 
 	lst_lexer = lexer(line, vars);
 	free(line);
+	if (!lst_lexer)
+		return ;
 	vars->lst_lexer = lst_lexer;
-	pipe_info.pipes = get_pipes(lst_lexer, &(pipe_info.num_of_process));
-	lst_parser = parser(lst_lexer, &pipe_info);
+	pipe_info.pipes = get_pipes(lst_lexer, &(pipe_info.num_of_process), vars);
+	lst_parser = parser(lst_lexer, &pipe_info, vars);
 	vars->lst_parser = lst_parser;
 	vars->pipe_info = &pipe_info;
 	execute(lst_parser, &pipe_info, vars);

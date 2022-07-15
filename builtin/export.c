@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 12:47:39 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/15 13:44:56 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 21:22:18 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ t_env *cpy_lst(t_env *envl, t_vars *vars)
     last = envl;
     while (last)
     {
-        temp = ft_strjoin_eq(last->key, last->value);
+		if (*(last->value))
+        	temp = ft_strjoin_eq(last->key, last->value);
+		else
+			temp = cpy(last->key);
         push_env(&cpy_lst, temp, vars);
         free (temp);
         last = last->next;
@@ -83,8 +86,12 @@ void    print_sort_env(t_parser *parser, t_env *envl, t_vars *vars)
         if (*(sort_env->value))
         {
             write(out, "=", 1);
+			if (ft_strcmp(sort_env->value, "\"\"") != 0)
+				write(out, "\"", 1);
             write(out, sort_env->value, ft_strlen(sort_env->value));
         }
+		if (*(sort_env->value) && ft_strcmp(sort_env->value, "\"\"") != 0)
+			write(out, "\"", 1);
         write(out, "\n", 1);
         sort_env = sort_env->next;
     }

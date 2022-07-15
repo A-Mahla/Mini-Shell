@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/15 13:27:46 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 23:12:09 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ int	no_leaks(int *pids, char *cmd_path, t_vars *vars, int built)
 	exit(1);
 }
 
-void	init_pid(int num_of_process, int **pids)
+int	init_pid(int num_of_process, int **pids)
 {
 	*pids = (int *)ft_calloc(sizeof(int), num_of_process + 1);
 	if (!*pids)
-		exit (1);
+		return (0);
+	return (1);
 }
 
 void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
@@ -61,7 +62,7 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 	close_std(parser);
 	if (!built)
 	{
-		execve(cmd_path, parser->arg, NULL);
+		execve(cmd_path, parser->arg, lst_to_strs(vars->envl));
 		write_error(parser->cmd);
 	}
 	if (built)
@@ -78,13 +79,14 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
 	built = 0;
 	if (!parser->next)
 		vars->exit_code = builtin(parser, &built, vars, 0);
-	init_pid(pipe_info->num_of_process, &pids);
+	if (!init_pid(pipe_info->num_of_process, &pids))
+		error_malloc(vars);
 	i = 0;
 	while (!built && i < pipe_info->num_of_process && parser)
 	{
 		pids[i] = fork();
 		if (pids[i] == -1)
-			return (0);
+			no_leaks(pids, NULL, vars, built);
 		if (pids[i] == 0)
 			exec_cmd(parser, pids, i, vars);
 		parser = parser->next;

@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/13 19:30:35 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 01:10:19 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,15 @@ int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 	if (j < 3 && s[*i] == meta[j] && s[*i])
 	{
 		while (s[*i] == meta[j] && s[*i])
+			(*i)++;
+		return (0);
+	}
+	else if (is_quote(*s))
+	{
+		(*i)++;
+		while (*(s + *i) && !is_quote(*(s + *i)))
+			(*i)++;
+		if (*(s + *i))
 			(*i)++;
 		return (0);
 	}
@@ -92,21 +101,18 @@ int	ft_get_word_2(int j, int *len, char *s, char *meta)
 	int	i;
 
 	i = 0;
-	if (is_quote(*(s + i)) && *(s + i))
-	{
-		i++;
-		while (*(s + i) && !is_quote(*(s + i)))
-			i++;
-		if (*(s + i) == '\0')
-		{
-			printf("Syntax error: quotes are not close\n");
-			*len = 0;
-			return (0);
-		}
-	}
 	if (j < 3 && *s == meta[j] && *s)
 	{
 		while (*(s + *len) == meta[j] && *(s + *len))
+			(*len)++;
+		return (0);
+	}
+	else if (is_quote(*s))
+	{
+		(*len)++;
+		while (*(s + *len) && !is_quote(*(s + *len)))
+			(*len)++;
+		if (*(s + *len))
 			(*len)++;
 		return (0);
 	}

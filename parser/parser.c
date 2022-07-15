@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:05:26 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/13 18:36:16 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 00:14:05 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,36 +21,37 @@ void	init_parser(t_parser *new)
 	new->prev = NULL;
 }
 
-void	create_new(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info)
+void	create_new(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
+	t_vars *vars)
 {
 	while ((*lexer) && (*lexer)->type != PIPE)
 	{
 		if ((*lexer)->type == REDIR_IN && (*lexer)->next)
-			redir_in(new, lexer);
+			redir_in(new, lexer, vars);
 		else if ((*lexer)->type == WRD)
-			wrd(new, lexer, pipe_info);
+			wrd(new, lexer, pipe_info, vars);
 		else if ((*lexer)->type == REDIR_OUT && (*lexer)->next)
-			redir_out(new, lexer, pipe_info);
+			redir_out(new, lexer, pipe_info, vars);
 		else if ((*lexer)->type == REDIR_OUT_APPEND && (*lexer)->next)
-			redir_out_append(new, lexer, pipe_info);
+			redir_out_append(new, lexer, pipe_info, vars);
 		else if ((*lexer)->type == HERDOC && (*lexer)->next)
-			heredoc(new, lexer);
+			heredoc(new, lexer, vars);
 		else if ((*lexer)->type == EMPTY)
 			(*lexer) = (*lexer)->next;
 	}
 }
 
 void	push_parser(t_parser **parser, t_lexer **lexer, \
-t_pipe_info *pipe_info)
+t_pipe_info *pipe_info, t_vars *vars)
 {
 	t_parser	*new;
 	t_parser	*last;
 
 	new = (t_parser *)ft_calloc(sizeof(t_parser), 1);
 	if (!new)
-		exit (1);
+		error_malloc_parser(vars);
 	init_parser(new);
-	create_new(&new, lexer, pipe_info);
+	create_new(&new, lexer, pipe_info, vars);
 	if (!*parser)
 	{
 		new->prev = NULL;
@@ -66,7 +67,7 @@ t_pipe_info *pipe_info)
 	}
 }
 
-t_parser	*parser(t_lexer *lexer, t_pipe_info *pipe_info)
+t_parser	*parser(t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars)
 {
 	t_parser	*parser;
 	int			j;
@@ -86,7 +87,7 @@ t_parser	*parser(t_lexer *lexer, t_pipe_info *pipe_info)
 			else
 				pipe_info->out = 0;
 			j++;
-			push_parser(&parser, &lexer, pipe_info);
+			push_parser(&parser, &lexer, pipe_info, vars);
 		}	
 		else
 			lexer = lexer->next;

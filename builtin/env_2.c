@@ -6,20 +6,48 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:13:47 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/15 13:49:33 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 21:25:09 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
+
+void	get_key_value_2(char *str, int is_equal, char **value, t_vars *vars)
+{
+	int	len;
+
+	len = 0;
+	if (is_equal == 1)
+	{
+		free(*value);
+		*value = (char *)malloc(sizeof(char) * 3);
+		if (!*value)
+			error_malloc(vars);
+		ft_memcpy(*value, "\"\"", 2);
+		(*value)[2] = '\0';
+		return ;
+	}
+	while (*(str + len))
+	{
+		(*value)[len] = str[len];
+		len++;
+	}
+	(*value)[len] = 0;
+}
+
 void	get_key_value(char *str, char **key, char **value, t_vars *vars)
 {
 	int		i;
 	int		len;
+	int		is_equal;
 
 	len = 0;
+	is_equal = 0;
 	while (str[len] && str[len] != '=')
 		len++;
+	if (str[len] == '=' && !str[len + 1])
+		is_equal = 1;
 	*key = (char *)malloc(sizeof(char) * (len + 1));
 	if (!*key)
 		error_malloc(vars);
@@ -29,16 +57,12 @@ void	get_key_value(char *str, char **key, char **value, t_vars *vars)
 		(*key)[i] = str[i];
 		i++;
 	}
-	(*key)[i] = 0;
-	i++;
+	(*key)[i++] = 0;
 	len = ft_strlen(str) - i;
 	*value = (char *)malloc(sizeof(char) * (len + 1));
 	if (!*value)
 		error_malloc(vars);
-	len = 0;
-	while (i < ft_strlen(str))
-		(*value)[len++] = str[i++];
-	(*value)[len] = 0;
+	get_key_value_2(str + i, is_equal, value, vars);
 }
 
 void	push_env(t_env **lst, char *str, t_vars *vars)

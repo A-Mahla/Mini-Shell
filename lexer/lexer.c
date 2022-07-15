@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/15 14:35:38 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 00:31:26 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_lexer	*lexer(char *line, t_vars *vars)
 	i = 0;
 	lst = NULL;
 	words = ft_split_lexer(line);
+	if (!words)
+		return (NULL);
 	while (words[i])
 		cmp_and_push(words, &lst, i++, vars);
 	clear_tab(words);
@@ -89,6 +91,7 @@ void	push_lexer(t_lexer **lst, char *word, int TYPE, t_vars *vars)
 	t_lexer	*new;
 	t_lexer	*last;
 
+	
 	new = (t_lexer *)malloc(sizeof(t_lexer));
 	if (!new)
 		error_malloc_lexer(*lst, vars);

@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/11 18:40:01 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 00:14:44 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	open_heredoc(char *limiter)
 		write(fds[1], "\n", 1);
 		free(line);
 	}
-	write(fds[1], "\n", 1);
 	free(line);
 	close(fds[1]);
 	fd = dup(fds[0]);
@@ -37,11 +36,11 @@ int	open_heredoc(char *limiter)
 	return (fd);
 }
 
-void	heredoc(t_parser **new, t_lexer **lexer)
+void	heredoc(t_parser **new, t_lexer **lexer, t_vars *vars)
 {
 	t_in	*last_in;
 
-	push_in(&((*new)->stdin), open_heredoc((*lexer)->next->data));
+	push_in(&((*new)->stdin), open_heredoc((*lexer)->next->data), vars);
 	last_in = (*new)->stdin;
 	while (last_in->next)
 		last_in = last_in->next;

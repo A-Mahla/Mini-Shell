@@ -6,17 +6,18 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/13 14:57:29 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 00:11:55 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-void	redir_in(t_parser **new, t_lexer **lexer)
+void	redir_in(t_parser **new, t_lexer **lexer, t_vars *vars)
 {
 	t_in	*last_in;
 
-	push_in(&((*new)->stdin), open((*lexer)->next->data, O_RDWR | O_APPEND));
+	push_in(&((*new)->stdin), open((*lexer)->next->data, O_RDWR | O_APPEND),
+		vars);
 	last_in = (*new)->stdin;
 	while (last_in->next)
 		last_in = last_in->next;
@@ -25,28 +26,30 @@ void	redir_in(t_parser **new, t_lexer **lexer)
 	(*lexer) = (*lexer)->next->next;
 }
 
-void	wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info)
+void	wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
+	t_vars *vars)
 {
 	int	i;
 
 	if (pipe_info->in)
-		push_in(&((*new)->stdin), pipe_info->in);
+		push_in_front(&((*new)->stdin), pipe_info->in, vars);
 	if (pipe_info->out && (*new)->stdout == 1)
 		(*new)->stdout = pipe_info->out;
 	(*new)->cmd = cpy((*lexer)->data);
 	(*new)->arg = ft_calloc(sizeof(char *), (get_num_of_arg(*lexer) + 1));
 	if (!(*new)->arg)
-		exit (1);
+		error_malloc_parser(vars);
 	i = 0;
 	while ((*lexer) && (*lexer)->type == WRD)
 	{
-		(*new)->arg[i++] = get_arg((*lexer)->data);
+		(*new)->arg[i++] = get_arg((*lexer)->data, vars);
 		(*lexer) = (*lexer)->next;
 	}
 	(*new)->arg[i] = NULL;
 }
 
-void	redir_out(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info)
+void	redir_out(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
+	t_vars *vars)
 {
 	int	temp;
 
@@ -64,11 +67,11 @@ void	redir_out(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info)
 		(*lexer) = (*lexer)->next->next;
 	}
 	else
-		exit (1);
+		error_parser(vars);
 }
 
 void	redir_out_append(t_parser **new, t_lexer **lexer, \
-t_pipe_info *pipe_info)
+t_pipe_info *pipe_info, t_vars *vars)
 {
 	int	temp;
 
@@ -86,5 +89,5 @@ t_pipe_info *pipe_info)
 		(*lexer) = (*lexer)->next->next;
 	}
 	else
-		exit (1);
+		error_parser(vars);
 }
