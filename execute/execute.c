@@ -6,13 +6,13 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/13 21:58:07 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 13:27:46 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int	no_leaks(int *pids, char *cmd_path, t_vars *vars)
+int	no_leaks(int *pids, char *cmd_path, t_vars *vars, int built)
 {
 	free(pids);
 	if (cmd_path)
@@ -28,7 +28,9 @@ int	no_leaks(int *pids, char *cmd_path, t_vars *vars)
 	lst_clear_envl(vars->envl);
 	lst_clear_envl(vars->var);
 	clear_history();
-	exit (0);
+	if (built)
+		exit(vars->exit_code);
+	exit(1);
 }
 
 void	init_pid(int num_of_process, int **pids)
@@ -44,13 +46,16 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 	int		built;
 
 	built = 0;
-	builtin(parser, &built, vars, 1);
+	vars->exit_code = builtin(parser, &built, vars, 1);
 	if (!built && !get_cmdpath(parser, &cmd_path, i, vars->envl))
-		exit(no_leaks(pids, cmd_path, vars));
+	{
+		vars->exit_code = 127;
+		exit(no_leaks(pids, cmd_path, vars, 1));
+	}
 	if (!built && !dup_fd(parser))
 	{
 		cmd_path = NULL;
-		exit(no_leaks(pids, cmd_path, vars));
+		exit(no_leaks(pids, cmd_path, vars, 0));
 	}
 	close_pipes(vars->pipe_info);
 	close_std(parser);
@@ -61,7 +66,7 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 	}
 	if (built)
 		cmd_path = NULL;
-	exit(no_leaks(pids, cmd_path, vars));
+	exit(no_leaks(pids, cmd_path, vars, built));
 }
 
 int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
@@ -72,7 +77,7 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
 
 	built = 0;
 	if (!parser->next)
-		builtin(parser, &built, vars, 0);
+		vars->exit_code = builtin(parser, &built, vars, 0);
 	init_pid(pipe_info->num_of_process, &pids);
 	i = 0;
 	while (!built && i < pipe_info->num_of_process && parser)
@@ -87,12 +92,7 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
 	}
 	close_pipes(pipe_info);
 	close_std(parser);
-	i = 0;
-	while (pids[i])
-	{
-		wait(NULL);
-		i++;
-	}
+	return_value_child(pids, vars);
 	free(pids);
 	return (1);
 }

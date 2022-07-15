@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/13 19:29:11 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 14:37:26 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ char	*get_line(void)
 	return (line);
 }
 
-int	exit_shell(t_vars *vars)
+void	init_vars(t_vars *vars)
 {
-	lst_clear_envl(vars->envl);
-	lst_clear_envl(vars->var);
-	clear_history();
-	exit (0);
+	vars->var = NULL;
+	vars->lst_parser = NULL;
+	vars->pipe_info = NULL;
+	vars->exit_code = 0;
 }
 
 void	minishell(char *line, t_vars *vars)
@@ -48,10 +48,10 @@ void	minishell(char *line, t_vars *vars)
 
 	lst_lexer = lexer(line, vars);
 	free(line);
+	vars->lst_lexer = lst_lexer;
 	pipe_info.pipes = get_pipes(lst_lexer, &(pipe_info.num_of_process));
 	lst_parser = parser(lst_lexer, &pipe_info);
 	vars->lst_parser = lst_parser;
-	vars->lst_lexer = lst_lexer;
 	vars->pipe_info = &pipe_info;
 	execute(lst_parser, &pipe_info, vars);
 	lst_clear_parser(lst_parser);
@@ -64,8 +64,8 @@ int	main(int ac, char **av, char **env)
 	t_vars		vars;
 
 	(void)av;
-	vars.var = NULL;
-	vars.envl = get_env(env);
+	vars.envl = get_env(env, NULL);
+	init_vars(&vars);
 	sig_init();
 	while (1 && ac == 1)
 	{
@@ -75,6 +75,5 @@ int	main(int ac, char **av, char **env)
 		if (*line)
 			minishell(line, &vars);
 	}
-	exit_shell(&vars);
 	return (0);
 }	

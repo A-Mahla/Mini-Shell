@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/11 14:04:32 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 14:35:38 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,21 @@
 void	cmp_and_push(char **words, t_lexer **lst, int i, t_vars *vars)
 {
 	if (is_expand(words[i]))
-		ft_expand(words + i, vars);
+		ft_expand(words + i, vars, *lst);
 	if (ft_strcmp(words[i], "|") == 0)
-		push_lexer(lst, words[i], PIPE);
+		push_lexer(lst, words[i], PIPE, vars);
 	else if (ft_strcmp(words[i], "<") == 0)
-		push_lexer(lst, words[i], REDIR_IN);
+		push_lexer(lst, words[i], REDIR_IN, vars);
 	else if (ft_strcmp(words[i], ">") == 0)
-		push_lexer(lst, words[i], REDIR_OUT);
+		push_lexer(lst, words[i], REDIR_OUT, vars);
 	else if (ft_strcmp(words[i], ">>") == 0)
-		push_lexer(lst, words[i], REDIR_OUT_APPEND);
+		push_lexer(lst, words[i], REDIR_OUT_APPEND, vars);
 	else if (ft_strcmp(words[i], "<<") == 0)
-		push_lexer(lst, words[i], HERDOC);
+		push_lexer(lst, words[i], HERDOC, vars);
 	else if (ft_strcmp(words[i], "") == 0)
-		push_lexer(lst, words[i], EMPTY);
+		push_lexer(lst, words[i], EMPTY, vars);
 	else
-		push_lexer(lst, words[i], WRD);
+		push_lexer(lst, words[i], WRD, vars);
 }
 
 t_lexer	*lexer(char *line, t_vars *vars)
@@ -84,14 +84,14 @@ char	*get_var(char *str, t_vars *vars, int size)
 	return ("");
 }
 
-void	push_lexer(t_lexer **lst, char *word, int TYPE)
+void	push_lexer(t_lexer **lst, char *word, int TYPE, t_vars *vars)
 {
 	t_lexer	*new;
 	t_lexer	*last;
 
 	new = (t_lexer *)malloc(sizeof(t_lexer));
 	if (!new)
-		exit (1);
+		error_malloc_lexer(*lst, vars);
 	new->data = cpy(word);
 	new->type = TYPE;
 	new->prev = NULL;

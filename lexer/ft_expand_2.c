@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/11 14:05:17 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 14:22:04 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,21 @@ int	get_word_expand(char *word, int *i, t_vars *vars, char *expand)
 	size = 0;
 	y = 0;
 	(*i)++;
-	while (*(word + *i + size) && ft_isalnum(*(word + *i + size)))
-		size++;
-	temp = cpy(get_var(word + *i, vars, size));
-	(*i) += size;
-	size = 0;
-	while (*(temp + size))
+	if (*(word + *i) == '?')
 	{
-		*(expand + y) = *(temp + size);
-		y++;
-		size++;
+		temp = ft_itoa(vars->exit_code);
+		(*i)++;
 	}
+	else
+	{
+		while (*(word + *i + size) && ft_isalnum(*(word + *i + size)))
+			size++;
+		temp = cpy(get_var(word + *i, vars, size));
+		(*i) += size;
+		size = 0;
+	}
+	while (*(temp + size))
+		*(expand + y++) = *(temp + size++);
 	free(temp);
 	return (y);
 }
@@ -89,7 +93,7 @@ int	double_quote(char *word, int *i, t_vars *vars, char *expand)
 	return (y);
 }
 
-void	get_expand(char **word, t_vars *vars, int size)
+void	get_expand(char **word, t_vars *vars, int size, t_lexer *lst)
 {
 	int		i;
 	int		y;
@@ -99,14 +103,14 @@ void	get_expand(char **word, t_vars *vars, int size)
 	y = 0;
 	expand = malloc((size + 1) * sizeof(char));
 	if (!expand)
-		return ;
+		error_malloc_lexer(lst, vars);
 	while (*word && (*word)[i])
 	{
 		if ((*word)[i] == '\'')
 			y += simple_quote(*word, &i, expand + y);
 		else if ((*word)[i] == '\"')
 			y += double_quote(*word, &i, vars, expand + y);
-		else if ((*word)[i] == '$')
+		else if ((*word)[i] == '$' && (*word)[i + 1])
 			y += get_word_expand(*word, &i, vars, expand + y);
 		else
 			*(expand + y++) = (*word)[i++];

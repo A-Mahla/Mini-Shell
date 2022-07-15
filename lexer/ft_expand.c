@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/11 14:01:24 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 14:24:54 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ int	get_size_word_expand(char *word, int *i, t_vars *vars)
 
 	size = 0;
 	(*i)++;
+	if (*(word + *i) == '?')
+	{
+		(*i)++;
+		return (get_size_nb(vars->exit_code));
+	}
 	while (*(word + *i + size) && ft_isalnum(*(word + *i + size)))
 		size++;
 	size_var = ft_strlen(get_var(word + *i, vars, size));
@@ -78,7 +83,7 @@ int		get_size_expand(char **word, t_vars *vars)
 		{
 			size += size_double_quote(*word, &i, vars);
 		}
-		else if ((*word)[i] == '$')
+		else if ((*word)[i] == '$' && (*word)[i + 1])
 			size += get_size_word_expand(*word, &i, vars);
 		else
 		{
@@ -89,10 +94,10 @@ int		get_size_expand(char **word, t_vars *vars)
 	return (size);
 }
 
-void	ft_expand(char **words, t_vars *vars)
+void	ft_expand(char **words, t_vars *vars, t_lexer *lst)
 {
 	int		size;
 
 	size = get_size_expand(words, vars);
-	get_expand(words, vars, size);
+	get_expand(words, vars, size, lst);
 }

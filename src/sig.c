@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:15:50 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/08 12:32:39 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/15 01:30:20 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void handler_sigint(int sig)
 //		rl_redisplay();
 		kill(getpid(), SIGCONT);
 	}
-	if (sig == SIGQUIT)
-		printf("ok");
+//	if (sig == SIGQUIT)
+//		printf("ok");
 }
 
 void	sig_init(void)

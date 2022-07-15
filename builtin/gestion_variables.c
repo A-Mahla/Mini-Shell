@@ -6,7 +6,7 @@
 /*   By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 10:48:14 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/14 01:24:13 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 13:32:25 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	push_var_to_env(char *str, t_vars *vars, t_env **begin_var, t_env **begin_e
 		last = last->next;
 	}
 	if (!is_already_a_env(vars, str))
-		push_env(&(vars->envl), str);
+		push_env(&(vars->envl), str, vars);
 }
 
 void	remove_if(char *str, t_env **begin, int (*cmp)(const char *, const char *))

@@ -6,11 +6,11 @@
 #    By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 09:36:17 by meudier           #+#    #+#              #
-#    Updated: 2022/07/14 01:33:12 by ammah            ###   ########.fr        #
+#    Updated: 2022/07/15 13:43:32 by ammah            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = gcc -Wall -Wextra -Werror -g
+CC = gcc -Wall -Wextra -Werror
 
 NAME = minishell
 
@@ -25,7 +25,8 @@ SRC = utils/ft_isalnum.c utils/ft_strjoin.c utils/ft_split.c src/main.c \
 	builtin/cd.c builtin/pwd.c builtin/export.c builtin/unset.c \
 	builtin/env_2.c builtin/echo.c utils/ft_isdigit.c utils/ft_ltoi.c \
 	builtin/exit.c utils/ft_check_zero.c utils/ft_isalpha.c \
-	utils/check_export.c utils/check_unset.c
+	utils/check_export.c utils/check_unset.c utils/get_size_nb.c \
+	utils/ft_itoa.c execute/execute_2.c utils/error_malloc.c
 	
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 15:57:12 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/14 00:38:38 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/14 22:38:48 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	convert_nb(unsigned long nb, char *arg)
 	return ((int)nb);
 }
 
-int	check_code(t_parser *parser, int *is_exit, int pipe)
+int	check_code(t_parser *parser, int *is_exit, int pipe, t_vars *vars)
 {
 	while (ft_strcmp(parser->cmd, "exit") != 0)
 		parser = parser->next;
@@ -58,17 +58,21 @@ int	check_code(t_parser *parser, int *is_exit, int pipe)
 		*is_exit = 0;
 	}
 	else if ((nb_of_arg(parser->arg) > 1 && !check_arg(parser->arg[1]))
-		|| (nb_of_arg(parser->arg) == 2 && (ft_ltoi(parser->arg[1]) > LONG_MAX
-				|| ft_strlen(ft_check_zero(parser->arg[1])) > 20)))
+		|| (nb_of_arg(parser->arg) == 2 && ((ft_ltoi(parser->arg[1]) > LONG_MAX
+					&& parser->arg[1][0] != '-')
+				|| ((long)ft_ltoi(parser->arg[1]) * -1 > LONG_MIN
+					&& parser->arg[1][0] == '-')
+				|| ft_strlen(ft_check_zero(parser->arg[1])) > 21)))
 	{
 		write(2, "minishell: exit: ", 17);
 		write(2, parser->arg[1], ft_strlen(parser->arg[1]));
 		write(2, ": numeric argument required\n", 28);
-		return (1);
 	}
 	else if (nb_of_arg(parser->arg) == 2)
 		return (convert_nb(ft_ltoi(parser->arg[1]), parser->arg[1]));
-	return (0);
+	else
+		return (vars->exit_code);
+	return (1);
 }
 		
 int	ft_exit(t_vars *vars, int *built, int pipe)
@@ -78,7 +82,7 @@ int	ft_exit(t_vars *vars, int *built, int pipe)
 
 	is_exit = 1;
 	*built = 1;
-	exit_code = check_code(vars->lst_parser, &is_exit, pipe);
+	exit_code = check_code(vars->lst_parser, &is_exit, pipe, vars);
 	if (!is_exit)
 		return (0);
 	if (vars->pipe_info->pipes)

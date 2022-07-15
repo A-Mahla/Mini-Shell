@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/14 01:32:45 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 14:35:09 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_vars
 	t_parser	*lst_parser;
 	t_lexer		*lst_lexer;
 	t_pipe_info	*pipe_info;
+	int			exit_code;
 }	t_vars;
 
 //				utils
@@ -105,6 +106,10 @@ char			*ft_check_zero(char *str);
 int				ft_isalpha(int c);
 int				check_export(char *str);
 int				check_unset(char *str);
+int				get_size_nb(int nb);
+char			*ft_itoa(int n);
+void			error_malloc(t_vars *vars);
+void			error_malloc_lexer(t_lexer *lst_lexer, t_vars *vars);
 
 //				cd.c
 int				cd(t_parser *parser, int *built, t_env *envl);
@@ -117,8 +122,8 @@ int				env(t_parser *parser, int *built, t_env *envl);
 
 //				env_2.c
 void			lst_clear_envl(t_env *envl);
-t_env			*get_env(char **env);
-void			push_env(t_env **lst, char *str);
+t_env			*get_env(char **env, t_vars *vars);
+void			push_env(t_env **lst, char *str, t_vars *vars);
 
 //				export.c
 int				export(t_parser *parser, int *built, t_vars *vars);
@@ -140,7 +145,7 @@ void			close_pipes(t_pipe_info *pipe_info);
 t_lexer			*lexer(char *line, t_vars *vars);
 char			*get_var(char *str, t_vars *vars, int size);
 int				get_num_of_arg(t_lexer *lexer);
-void			push_lexer(t_lexer **lst, char *word, int TYPE/*, t_vars *vars*/);
+void			push_lexer(t_lexer **lst, char *word, int TYPE, t_vars *vars);
 void			lst_clear_lexer(t_lexer *lexer);
 
 //				parser.c
@@ -166,6 +171,9 @@ int				get_cmdpath(t_parser *parser, char **cmd_path, int i, t_env *envl);
 
 //				execute.c
 int				execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars);
+
+//				execute_2
+void			return_value_child(int *pids, t_vars *vars);
 
 //				dup.c
 int				dup_fd(t_parser *parser);
@@ -202,11 +210,11 @@ void			sig_init(void);
 int				builtin(t_parser *parser, int *built, t_vars *vars, int pipe);
 
 //				ft_expand.c
-void			ft_expand(char **words, t_vars *vars);
+void			ft_expand(char **words, t_vars *vars, t_lexer *lst);
 
 //				ft_expand_2.c
 int				is_expand(char *str);
-void			get_expand(char **words, t_vars *vars, int size);
+void			get_expand(char **words, t_vars *vars, int size, t_lexer *lst);
 
 //				gestion_variables.c
 int 			is_already_a_var(t_vars *vars, char *str);

@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 12:47:39 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/14 01:34:53 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 13:44:56 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void   sort_lst(t_env **begin)
 	}
 }
 
-t_env *cpy_lst(t_env *envl)
+t_env *cpy_lst(t_env *envl, t_vars *vars)
 {
     t_env   *cpy_lst;
     t_env   *last;
@@ -61,20 +61,20 @@ t_env *cpy_lst(t_env *envl)
     while (last)
     {
         temp = ft_strjoin_eq(last->key, last->value);
-        push_env(&cpy_lst, temp);
+        push_env(&cpy_lst, temp, vars);
         free (temp);
         last = last->next;
     }
     return (cpy_lst);
 }
 
-void    print_sort_env(t_parser *parser, t_env *envl)
+void    print_sort_env(t_parser *parser, t_env *envl, t_vars *vars)
 {
     t_env   *sort_env;
     int     out;
 
     out = parser->stdout;
-    sort_env = cpy_lst(envl);
+    sort_env = cpy_lst(envl, vars);
     sort_lst(&sort_env);
     while (sort_env)
     {
@@ -98,7 +98,7 @@ int	export(t_parser *parser, int *built, t_vars *vars)
     *built = 1;
     i = 1;
     if (!parser->arg[1])
-        print_sort_env(parser, vars->envl);
+        print_sort_env(parser, vars->envl, vars);
     else
     {
         while (parser->arg[i])

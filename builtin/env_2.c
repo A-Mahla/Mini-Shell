@@ -6,13 +6,13 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:13:47 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/12 13:28:42 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/15 13:49:33 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-void	get_key_value(char *str, char **key, char **value)
+void	get_key_value(char *str, char **key, char **value, t_vars *vars)
 {
 	int		i;
 	int		len;
@@ -22,7 +22,7 @@ void	get_key_value(char *str, char **key, char **value)
 		len++;
 	*key = (char *)malloc(sizeof(char) * (len + 1));
 	if (!*key)
-		exit(0);
+		error_malloc(vars);
 	i = 0;
 	while (i < len)
 	{
@@ -34,22 +34,22 @@ void	get_key_value(char *str, char **key, char **value)
 	len = ft_strlen(str) - i;
 	*value = (char *)malloc(sizeof(char) * (len + 1));
 	if (!*value)
-		exit(0);
+		error_malloc(vars);
 	len = 0;
 	while (i < ft_strlen(str))
 		(*value)[len++] = str[i++];
 	(*value)[len] = 0;
 }
 
-void	push_env(t_env **lst, char *str)
+void	push_env(t_env **lst, char *str, t_vars *vars)
 {
 	t_env	*new;
 	t_env	*last;
 
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
-		exit(1);
-	get_key_value(str, &(new->key), &(new->value));
+		error_malloc(vars);
+	get_key_value(str, &(new->key), &(new->value), vars);
 	new->next = NULL;
 	if (!*lst)
 		*lst = new;
@@ -62,7 +62,7 @@ void	push_env(t_env **lst, char *str)
 	}
 }
 
-t_env	*get_env(char **env)
+t_env	*get_env(char **env, t_vars *vars)
 {
 	int		i;
 	t_env	*lst;
@@ -70,7 +70,7 @@ t_env	*get_env(char **env)
 	lst = NULL;
 	i = 0;
 	while (env && env[i])
-		push_env(&lst, env[i++]);
+		push_env(&lst, env[i++], vars);
 	return (lst);
 }
 
