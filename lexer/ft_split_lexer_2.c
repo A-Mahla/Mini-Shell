@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/16 15:41:31 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 16:29:08 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 	}
 	else if (is_quote(*s))
 	{
-		while (*(s + *i))
+		while (*(s + *i) && *(s + *i) != ' ')
 		{
 			if (is_quote(*(s + *i)))
 				(*i)++;
@@ -113,7 +113,7 @@ int	ft_get_word_2(int j, int *len, char *s, char *meta)
 	}
 	else if (is_quote(*s))
 	{
-		while (*(s + *len))
+		while (*(s + *len) && *(s + *len) != ' ')
 		{
 			if (is_quote(*(s + *len)))
 				(*len)++;
