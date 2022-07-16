@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/16 00:11:55 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 17:40:07 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,15 @@ void	wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
 	if (!(*new)->arg)
 		error_malloc_parser(vars);
 	i = 0;
-	while ((*lexer) && (*lexer)->type == WRD)
+	while ((*lexer) && ((*lexer)->type == WRD || (*lexer)->type == EMPTY))
 	{
-		(*new)->arg[i++] = get_arg((*lexer)->data, vars);
-		(*lexer) = (*lexer)->next;
+		while (*(lexer) && (*lexer)->type == EMPTY)
+			(*lexer) = (*lexer)->next;
+		if (*(lexer))
+		{
+			(*new)->arg[i++] = get_arg((*lexer)->data, vars);
+			(*lexer) = (*lexer)->next;
+		}
 	}
 	(*new)->arg[i] = NULL;
 }

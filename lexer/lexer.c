@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/16 00:31:26 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 18:33:16 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,23 +66,26 @@ int	get_num_of_arg(t_lexer *lexer)
 
 char	*get_var(char *str, t_vars *vars, int size)
 {
-	t_env *last_env;
-	t_env *last_var;
+	t_env	*last_env;
+	t_env	*last_var;
+	char	*temp;
 
 	last_env = vars->envl;
 	last_var = vars->var;
+	temp = cpy_2(str, size);
 	while (last_env)
 	{
-		if (ft_strncmp(str, last_env->key, (size_t)size) == 0)
+		if (ft_strcmp(str, last_env->key) == 0)
 			return (last_env->value);
 		last_env = last_env->next;
 	}
 	while (last_var)
 	{
-		if (ft_strncmp(str, last_var->key, (size_t)size) == 0)
+		if (ft_strcmp(str, last_var->key) == 0)
 			return (last_var->value);
 		last_var = last_var->next;
 	}
+	free(temp);
 	return ("");
 }
 
