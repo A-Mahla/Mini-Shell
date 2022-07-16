@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/16 13:48:05 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 18:46:34 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ int	get_size_word_expand(char *word, int *i, t_vars *vars)
 
 	size = 0;
 	(*i)++;
+	if (ft_strncmp(word + *i, "\"\"", 2) == 0
+		|| ft_strncmp(word + *i, "\'\'", 2) == 0)
+	{
+		*i = *i + 2;
+		return (0);
+	}
 	if (*(word + *i) == '?')
 	{
 		(*i)++;
@@ -87,7 +93,8 @@ int		get_size_expand(char **word, t_vars *vars)
 		}
 		else if ((*word)[i] == '$' && (*word)[i + 1]
 			&& (ft_isalnum((*word)[i + 1]) || (*word)[i + 1] == '_'
-				|| (*word)[i + 1] == '?'))
+				|| (*word)[i + 1] == '?' || (*word)[i + 1] == '\''
+				|| (*word)[i + 1] == '\"'))
 			size += get_size_word_expand(*word, &i, vars);
 		else
 		{

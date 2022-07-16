@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/16 00:14:23 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 18:32:45 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_vars
 
 //				utils
 char			*cpy(const char *src);
+char			*cpy_2(const char *src, int size);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strjoin_bs(char const *s1, char const *s2);
 char			**ft_split(char const *s, char c);

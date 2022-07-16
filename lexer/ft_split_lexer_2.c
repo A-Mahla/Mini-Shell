@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/16 16:29:08 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 18:10:10 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,26 @@ int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 			(*i)++;
 		return (0);
 	}
-	else if (is_quote(*s))
+	else if (*(s + *i) != ' ' && !is_meta(*(s + *i), meta))
+	{	
+		while (*(s + *i) && *(s + *i) != ' ' && !is_meta(*(s + *i), meta))
+		{
+			if (is_quote(*(s + *i)))
+			{
+				(*i)++;
+				while (*(s + *i) && !is_quote(*(s + *i)))
+					(*i)++;
+				if (*(s + *i) && is_quote(*(s + *i)))
+					(*i)++;
+			}
+			else
+				(*i)++;
+		}
+		return (0);
+	}
+	return (1);
+}
+/*	else if (is_quote(*s))
 	{
 		while (*(s + *i) && *(s + *i) != ' ')
 		{
@@ -69,8 +88,7 @@ int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 			(*i)++;
 		return (0);
 	}
-	return (1);
-}
+	return (1);*/
 
 int	ft_get_size_1(char const *s)
 {
@@ -111,7 +129,28 @@ int	ft_get_word_2(int j, int *len, char *s, char *meta)
 			(*len)++;
 		return (0);
 	}
-	else if (is_quote(*s))
+	else if (*s != ' ' && !is_meta(*s, meta))
+	{	
+		while (*(s + *len) && *(s + *len) != ' ' && !is_meta(*(s + *len), meta))
+		{
+			if (is_quote(*(s + *len)))
+			{
+				(*len)++;
+				while (*(s + *len) && !is_quote(*(s + *len)))
+					(*len)++;
+				if (*(s + *len) && is_quote(*(s + *len)))
+					(*len)++;
+			}
+			else
+				(*len)++;
+		}
+		return (0);
+	}
+	return (1);
+}
+				
+			
+/*	else if (is_quote(*s))
 	{
 		while (*(s + *len) && *(s + *len) != ' ')
 		{
@@ -131,7 +170,7 @@ int	ft_get_word_2(int j, int *len, char *s, char *meta)
 		return (0);
 	}
 	return (1);
-}
+}*/
 
 char	*ft_get_word_1(int *index, char *s)
 {
