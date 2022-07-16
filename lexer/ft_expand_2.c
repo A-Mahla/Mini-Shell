@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/16 01:14:52 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 13:38:32 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ int	double_quote(char *word, int *i, t_vars *vars, char *expand)
 	while (*(word + *i) && *(word + *i) != '\"')
 	{
 		if (*(word + *i) == '$' && *(word + *i + 1)
-			&& (ft_isalnum(*(word + *i + 1)) || *(word + *i) == '_'))
+			&& (ft_isalnum(*(word + *i + 1)) || *(word + *i + 1) == '_'
+				|| *(word + *i + 1) == '?'))
 			y += get_word_expand(word, i, vars, expand + y);
 		else
 		{
@@ -112,7 +113,8 @@ void	get_expand(char **word, t_vars *vars, int size, t_lexer *lst)
 		else if ((*word)[i] == '\"')
 			y += double_quote(*word, &i, vars, expand + y);
 		else if ((*word)[i] == '$' && (*word)[i + 1]
-			&& (ft_isalnum((*word)[i + 1]) || (*word)[i] == '_'))
+			&& (ft_isalnum((*word)[i + 1]) || (*word)[i] == '_'
+				|| (*word)[i + 1] == '?'))
 			y += get_word_expand(*word, &i, vars, expand + y);
 		else
 			*(expand + y++) = (*word)[i++];

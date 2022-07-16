@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/16 01:15:41 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 13:37:49 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	size_double_quote(char *word, int *i, t_vars *vars)
 	while (*(word + *i) && *(word + *i) != '\"')
 	{
 		if (*(word + *i) == '$' && *(word + *i + 1)
-			&& (ft_isalnum(*(word + *i + 1)) || *(word + *i) == '_'))
+			&& (ft_isalnum(*(word + *i + 1)) || *(word + *i + 1) == '_'
+				|| *(word + *i + 1) == '?'))
 			size += get_size_word_expand(word, i, vars);
 		else
 		{
@@ -85,7 +86,8 @@ int		get_size_expand(char **word, t_vars *vars)
 			size += size_double_quote(*word, &i, vars);
 		}
 		else if ((*word)[i] == '$' && (*word)[i + 1]
-			&& (ft_isalnum((*word)[i + 1]) || (*word)[i] == '_'))
+			&& (ft_isalnum((*word)[i + 1]) || (*word)[i + 1] == '_'
+				|| (*word)[i + 1] == '?'))
 			size += get_size_word_expand(*word, &i, vars);
 		else
 		{
