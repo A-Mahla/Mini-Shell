@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/16 01:10:19 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 15:41:31 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,15 @@ int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 	}
 	else if (is_quote(*s))
 	{
-		(*i)++;
-		while (*(s + *i) && !is_quote(*(s + *i)))
-			(*i)++;
-		if (*(s + *i))
-			(*i)++;
+		while (*(s + *i))
+		{
+			if (is_quote(*(s + *i)))
+				(*i)++;
+			while (*(s + *i) && !is_quote(*(s + *i)))
+				(*i)++;
+			if (*(s + *i) && is_quote(*(s + *i)))
+				(*i)++;
+		}
 		return (0);
 	}
 	else if (s[*i] != ' ' && !is_meta(s[*i], meta))
@@ -109,11 +113,15 @@ int	ft_get_word_2(int j, int *len, char *s, char *meta)
 	}
 	else if (is_quote(*s))
 	{
-		(*len)++;
-		while (*(s + *len) && !is_quote(*(s + *len)))
-			(*len)++;
-		if (*(s + *len))
-			(*len)++;
+		while (*(s + *len))
+		{
+			if (is_quote(*(s + *len)))
+				(*len)++;
+			while (*(s + *len) && !is_quote(*(s + *len)))
+				(*len)++;
+			if (*(s + *len) && is_quote(*(s + *len)))
+				(*len)++;
+		}
 		return (0);
 	}
 	else if (*s != ' ' && !is_meta(*s, meta))

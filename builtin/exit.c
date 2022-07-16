@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 15:57:12 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/14 22:38:48 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/16 15:56:22 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_arg(char *str)
 	int	i;
 
 	i = 0;
-	if (*(str + i) == '-')
+	if (*(str + i) == '-' || *(str + i) == '+')
 		i++;
 	while (*(str + i))
 	{
@@ -60,7 +60,7 @@ int	check_code(t_parser *parser, int *is_exit, int pipe, t_vars *vars)
 	else if ((nb_of_arg(parser->arg) > 1 && !check_arg(parser->arg[1]))
 		|| (nb_of_arg(parser->arg) == 2 && ((ft_ltoi(parser->arg[1]) > LONG_MAX
 					&& parser->arg[1][0] != '-')
-				|| ((long)ft_ltoi(parser->arg[1]) * -1 > LONG_MIN
+				|| ((long)ft_ltoi(parser->arg[1]) * -1 < LONG_MIN
 					&& parser->arg[1][0] == '-')
 				|| ft_strlen(ft_check_zero(parser->arg[1])) > 21)))
 	{
@@ -84,7 +84,7 @@ int	ft_exit(t_vars *vars, int *built, int pipe)
 	*built = 1;
 	exit_code = check_code(vars->lst_parser, &is_exit, pipe, vars);
 	if (!is_exit)
-		return (0);
+		return (1);
 	if (vars->pipe_info->pipes)
 		close_pipes(vars->pipe_info);
 	close_std(vars->lst_parser);
