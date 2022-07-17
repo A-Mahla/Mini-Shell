@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/17 20:34:20 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/17 20:49:53 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,6 @@ int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 	}
 	return (1);
 }
-/*	else if (is_quote(*s))
-	{
-		while (*(s + *i) && *(s + *i) != ' ')
-		{
-			if (is_quote(*(s + *i)))
-				(*i)++;
-			while (*(s + *i) && !is_quote(*(s + *i)))
-				(*i)++;
-			if (*(s + *i) && is_quote(*(s + *i)))
-				(*i)++;
-		}
-		return (0);
-	}
-	else if (s[*i] != ' ' && !is_meta(s[*i], meta))
-	{
-		while (s[*i] != ' ' && !is_meta(s[*i], meta) && s[*i])
-			(*i)++;
-		return (0);
-	}
-	return (1);*/
 
 int	ft_get_size_1(char const *s)
 {
@@ -148,30 +128,7 @@ int	ft_get_word_2(int j, int *len, char *s, char *meta)
 	}
 	return (1);
 }
-				
 			
-/*	else if (is_quote(*s))
-	{
-		while (*(s + *len) && *(s + *len) != ' ')
-		{
-			if (is_quote(*(s + *len)))
-				(*len)++;
-			while (*(s + *len) && !is_quote(*(s + *len)))
-				(*len)++;
-			if (*(s + *len) && is_quote(*(s + *len)))
-				(*len)++;
-		}
-		return (0);
-	}
-	else if (*s != ' ' && !is_meta(*s, meta))
-	{
-		while (*(s + *len) != ' ' && !is_meta(*(s + *len), meta) && *(s + *len))
-			(*len)++;
-		return (0);
-	}
-	return (1);
-}*/
-
 char	*ft_get_word_1(int *index, char *s)
 {
 	char	*word;
