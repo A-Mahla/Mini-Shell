@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/16 18:10:10 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/17 20:34:20 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 			(*i)++;
 		return (0);
 	}
-	else if (*(s + *i) != ' ' && !is_meta(*(s + *i), meta))
+	else if (*(s + *i) && *(s + *i) != ' ' && !is_meta(*(s + *i), meta))
 	{	
 		while (*(s + *i) && *(s + *i) != ' ' && !is_meta(*(s + *i), meta))
 		{
@@ -105,7 +105,7 @@ int	ft_get_size_1(char const *s)
 		j = 0;
 		while (s[i] == ' ' && s[i])
 			i++;
-		while (meta[j])
+		while (meta[j] && s[i])
 		{
 			if (!ft_get_size_2(j, &i, s, meta))
 			{
@@ -129,7 +129,7 @@ int	ft_get_word_2(int j, int *len, char *s, char *meta)
 			(*len)++;
 		return (0);
 	}
-	else if (*s != ' ' && !is_meta(*s, meta))
+	else if (*s && *s != ' ' && !is_meta(*s, meta))
 	{	
 		while (*(s + *len) && *(s + *len) != ' ' && !is_meta(*(s + *len), meta))
 		{

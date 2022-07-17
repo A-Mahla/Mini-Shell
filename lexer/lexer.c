@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/17 18:22:56 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/17 19:42:05 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	cmp_and_push(char **words, t_lexer **lst, int i, t_vars *vars)
 {
+	if (ft_strcmp(words[i], "") == 0)
+		push_lexer(lst, words[i], EMPTY, vars);
 	if (is_expand(words[i]))
 		ft_expand(words + i, vars, *lst);
 	if (ft_strcmp(words[i], "|") == 0)
@@ -26,8 +28,6 @@ void	cmp_and_push(char **words, t_lexer **lst, int i, t_vars *vars)
 		push_lexer(lst, words[i], REDIR_OUT_APPEND, vars);
 	else if (ft_strcmp(words[i], "<<") == 0)
 		push_lexer(lst, words[i], HERDOC, vars);
-	else if (ft_strcmp(words[i], "") == 0)
-		push_lexer(lst, words[i], EMPTY, vars);
 	else
 		push_lexer(lst, words[i], WRD, vars);
 }
@@ -80,13 +80,13 @@ char	*get_var(char *str, t_vars *vars, int size)
 	temp = cpy_2(str, size);
 	while (last_env)
 	{
-		if (ft_strcmp(str, last_env->key) == 0)
+		if (ft_strcmp(temp, last_env->key) == 0)
 			return (last_env->value);
 		last_env = last_env->next;
 	}
 	while (last_var)
 	{
-		if (ft_strcmp(str, last_var->key) == 0)
+		if (ft_strcmp(temp, last_var->key) == 0)
 			return (last_var->value);
 		last_var = last_var->next;
 	}

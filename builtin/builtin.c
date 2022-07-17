@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:37:59 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/15 13:37:04 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/17 19:19:20 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int is_init_var(char *word, int *built)
     int i;
 
     i = 0;
-    while (word[i])
+    while (word && word[i])
     {
         if (word[i] == '=')
         {

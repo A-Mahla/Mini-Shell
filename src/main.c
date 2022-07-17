@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/17 18:39:55 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/17 20:35:04 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	check_line(char *line)
 {
 	while (*line)
 	{
-		if (!(*line == ' ' || *line == '\t'))
+		if (*line != ' ')
 			return (1);
 		line++;
 	}
