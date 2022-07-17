@@ -6,12 +6,22 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/16 17:56:23 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/17 18:39:55 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
+int	check_line(char *line)
+{
+	while (*line)
+	{
+		if (!(*line == ' ' || *line == '\t'))
+			return (1);
+		line++;
+	}
+	return (0);
+}
 
 char	*get_line(void)
 {
@@ -46,6 +56,11 @@ void	minishell(char *line, t_vars *vars)
 	t_parser	*lst_parser;
 	t_pipe_info	pipe_info;
 
+	if (!check_line(line))
+	{
+		free(line);
+		return ;
+	}
 	lst_lexer = lexer(line, vars);
 	free(line);
 	if (!lst_lexer)
