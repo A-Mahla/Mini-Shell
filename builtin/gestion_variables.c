@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gestion_variables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+        */
+/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 10:48:14 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/15 21:43:28 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/18 09:46:29 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int is_already_a_env(t_vars *vars, char *str)
     i = 0;
 	empty_value = 0;
     while (str[i] && str[i] != '=')
-        i++;
+		i++;
 	if (str[i] == '=' && !str[i + 1])
 		empty_value = 1;
     c = str[i];

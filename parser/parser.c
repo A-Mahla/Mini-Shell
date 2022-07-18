@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:05:26 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/16 00:14:05 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/18 10:36:57 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,33 @@ void	init_parser(t_parser *new)
 	new->prev = NULL;
 }
 
-void	create_new(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
+int	create_new(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
 	t_vars *vars)
 {
 	while ((*lexer) && (*lexer)->type != PIPE)
 	{
-		if ((*lexer)->type == REDIR_IN && (*lexer)->next)
+		if ((*lexer)->type == REDIR_IN && (*lexer)->next && (*lexer)->next->type == WRD)
 			redir_in(new, lexer, vars);
 		else if ((*lexer)->type == WRD)
 			wrd(new, lexer, pipe_info, vars);
-		else if ((*lexer)->type == REDIR_OUT && (*lexer)->next)
+		else if ((*lexer)->type == REDIR_OUT && (*lexer)->next && (*lexer)->next->type == WRD)
 			redir_out(new, lexer, pipe_info, vars);
-		else if ((*lexer)->type == REDIR_OUT_APPEND && (*lexer)->next)
+		else if ((*lexer)->type == REDIR_OUT_APPEND && (*lexer)->next && (*lexer)->next->type == WRD)
 			redir_out_append(new, lexer, pipe_info, vars);
-		else if ((*lexer)->type == HERDOC && (*lexer)->next)
+		else if ((*lexer)->type == HERDOC && (*lexer)->next && (*lexer)->next->type == WRD)
 			heredoc(new, lexer, vars);
 		else if ((*lexer)->type == EMPTY)
 			(*lexer) = (*lexer)->next;
+		else
+		{
+			write (2, "minishell: syntax error\n", 24);
+			return  (0);
+		}
 	}
+	return (1);
 }
 
-void	push_parser(t_parser **parser, t_lexer **lexer, \
+int	push_parser(t_parser **parser, t_lexer **lexer, \
 t_pipe_info *pipe_info, t_vars *vars)
 {
 	t_parser	*new;
@@ -51,7 +57,8 @@ t_pipe_info *pipe_info, t_vars *vars)
 	if (!new)
 		error_malloc_parser(vars);
 	init_parser(new);
-	create_new(&new, lexer, pipe_info, vars);
+	if (!create_new(&new, lexer, pipe_info, vars))
+		return (0);
 	if (!*parser)
 	{
 		new->prev = NULL;
@@ -65,6 +72,7 @@ t_pipe_info *pipe_info, t_vars *vars)
 		last->next = new;
 		new->prev = last;
 	}
+	return (1);
 }
 
 t_parser	*parser(t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars)
@@ -87,7 +95,8 @@ t_parser	*parser(t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars)
 			else
 				pipe_info->out = 0;
 			j++;
-			push_parser(&parser, &lexer, pipe_info, vars);
+			if (!push_parser(&parser, &lexer, pipe_info, vars))
+				return (NULL);
 		}	
 		else
 			lexer = lexer->next;

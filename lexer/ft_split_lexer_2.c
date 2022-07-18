@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/17 20:49:53 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/18 09:45:10 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,6 @@ int	ft_get_size_1(char const *s)
 
 int	ft_get_word_2(int j, int *len, char *s, char *meta)
 {
-	int	i;
-
-	i = 0;
 	if (j < 3 && *s == meta[j] && *s)
 	{
 		while (*(s + *len) == meta[j] && *(s + *len))

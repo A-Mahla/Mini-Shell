@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/15 23:12:09 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/18 11:56:24 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 		exit(no_leaks(pids, cmd_path, vars, 0));
 	}
 	close_pipes(vars->pipe_info);
-	close_std(parser);
 	if (!built)
 	{
 		execve(cmd_path, parser->arg, lst_to_strs(vars->envl));
