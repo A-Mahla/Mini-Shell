@@ -6,11 +6,16 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/18 11:56:24 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/18 15:39:38 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
+
+void	handle2(int	signal)
+{
+	(void)signal;
+}
 
 int	no_leaks(int *pids, char *cmd_path, t_vars *vars, int built)
 {
@@ -45,9 +50,12 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 {
 	char	*cmd_path;
 	int		built;
+	char	**new_env;
 
 	built = 0;
 	vars->exit_code = builtin(parser, &built, vars, 1);
+	sig_init();
+	signal(SIGQUIT, SIG_DFL);
 	if (!built && !get_cmdpath(parser, &cmd_path, i, vars->envl))
 	{
 		vars->exit_code = 127;
@@ -61,7 +69,9 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 	close_pipes(vars->pipe_info);
 	if (!built)
 	{
-		execve(cmd_path, parser->arg, lst_to_strs(vars->envl));
+		new_env = lst_to_strs(vars->envl);
+		execve(cmd_path, parser->arg, new_env);
+		clear_tab(new_env);
 		write_error(parser->cmd);
 	}
 	if (built)
@@ -81,6 +91,7 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
 	if (!init_pid(pipe_info->num_of_process, &pids))
 		error_malloc(vars);
 	i = 0;
+	signal(SIGINT, SIG_IGN);
 	while (!built && i < pipe_info->num_of_process && parser)
 	{
 		pids[i] = fork();

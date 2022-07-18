@@ -6,21 +6,36 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/18 11:56:42 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/18 17:22:46 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int	check_line(char *line)
+void	trim_line(char *line)
 {
-	while (*line)
+	int	i;
+
+	i = 0;
+	while (*(line + i))
 	{
-		if (*line != ' ')
-			return (1);
-		line++;
+		while (*(line + i) == '\"' || *(line + i) == '\'')
+		{
+			while (*(line + i) && ((*(line + i) == '\"' || *(line + i) == '\'')))
+				i++;
+			if (*(line + i))
+				i++;
+			else
+				return ;
+		}
+		if (*(line + i) == '\t')
+			*(line + i) = ' ';
+		i++;
 	}
-	return (0);
+	if (i > 0)
+		i--;
+	while (i >= 0 && i == ' ')
+		*(line + i--) = '\0';
 }
 
 char	*get_line(void)
@@ -56,11 +71,6 @@ void	minishell(char *line, t_vars *vars)
 	t_parser	*lst_parser;
 	t_pipe_info	pipe_info;
 
-	if (!check_line(line))
-	{
-		free(line);
-		return ;
-	}
 	lst_lexer = lexer(line, vars);
 	free(line);
 	if (!lst_lexer)
@@ -93,12 +103,16 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	vars.envl = get_env(env, NULL);
 	init_vars(&vars);
-	sig_init();
 	while (1 && ac == 1)
 	{
+		sig_init();
 		line = get_line();
 		if (!line)
+		{
+			write(1, "\n", 1);
 			return (1);
+		}
+		trim_line(line);
 		if (*line)
 			minishell(line, &vars);
 	}

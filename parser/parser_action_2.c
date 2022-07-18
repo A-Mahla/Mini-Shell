@@ -6,41 +6,56 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/16 00:14:44 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/18 17:28:28 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int	open_heredoc(char *limiter)
+void	handler_herdoc(int sig)
 {
-	int		fd;
+	(void)sig;
+	close(0);
+	write(1, "\n", 1);
+}
+
+int	open_heredoc(char *limiter, t_vars *vars)
+{
 	int		fds[2];
 	char	*line;
+	int		pid[2];
 
+	pid[1] = 0;
 	if (pipe(fds) == -1)
 		return (-1);
-	while (1)
-	{
-		line = readline("> ");
-		if (ft_strcmp(line, limiter) == 0)
-			break ;
-		write(fds[1], line, ft_strlen(line));
-		write(fds[1], "\n", 1);
+	signal(SIGINT, SIG_IGN);
+	pid[0] = fork();
+	if (pid[0] == 0)
+	{		
+		close(fds[0]);
+		signal(SIGINT, &handler_herdoc);
+		while (1)
+		{
+			line = readline("> ");
+			if (ft_strcmp(line, limiter) == 0)
+				break ;
+			write(fds[1], line, ft_strlen(line));
+			write(fds[1], "\n", 1);
+			free(line);
+		}
 		free(line);
+		exit (0);
 	}
-	free(line);
+	return_value_child(pid, vars);
 	close(fds[1]);
-	fd = dup(fds[0]);
-	close(fds[0]);
-	return (fd);
+	return (fds[0]);
 }
 
 void	heredoc(t_parser **new, t_lexer **lexer, t_vars *vars)
 {
 	t_in	*last_in;
 
-	push_in(&((*new)->stdin), open_heredoc((*lexer)->next->data), vars);
+	push_in(&((*new)->stdin), open_heredoc((*lexer)->next->data, vars), vars);
 	last_in = (*new)->stdin;
 	while (last_in->next)
 		last_in = last_in->next;

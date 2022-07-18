@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:37:59 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/17 19:19:20 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/18 13:38:31 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	builtin(t_parser *parser, int *built, t_vars *vars, int pipe)
         return (pwd(parser, built));
     else if (ft_strcmp(parser->cmd, "env") == 0)
         return (env(parser, built, vars->envl));
-    else if (is_init_var(parser->cmd, built))
+    else if (check_export(parser->cmd) && is_init_var(parser->cmd, built))
     {
         if (!is_already_a_var(vars, parser->cmd))
             push_env(&(vars->var), parser->cmd, vars);

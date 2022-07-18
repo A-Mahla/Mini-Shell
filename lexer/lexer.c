@@ -6,14 +6,47 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/18 12:40:25 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/18 17:54:04 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-void	cmp_and_push(char **words, t_lexer **lst, int i, t_vars *vars)
+int	check_word(char *str)
 {
+	char	*meta;
+	int		i;
+	int		j;
+
+	j = 0;
+	meta = "><|";
+	while (*(meta + j))
+	{
+		i = 0;
+		while (*(str + i) == *(meta + j))
+		{
+			if (i >= 2 && *(meta + j) == '|')
+				return (0);
+			if (i >= 3 && (*(meta + j) == '>' || *(meta + j) == '<'))
+				return (0);
+			i++;
+		}
+		j++;
+	}
+	return (1);
+}
+
+
+
+int	cmp_and_push(char **words, t_lexer **lst, int i, t_vars *vars)
+{	
+	if (!check_word(words[i]))
+	{
+		write(2, "minishell: syntax error\n", 24);
+		lst_clear_lexer(*lst);
+		*lst = NULL;
+		return (1);
+	}
 	if (ft_strcmp(words[i], "") == 0)
 		push_lexer(lst, words[i], EMPTY, vars);
 	if (is_expand(words[i]))
@@ -30,6 +63,7 @@ void	cmp_and_push(char **words, t_lexer **lst, int i, t_vars *vars)
 		push_lexer(lst, words[i], HERDOC, vars);
 	else
 		push_lexer(lst, words[i], WRD, vars);
+	return (0);
 }
 
 t_lexer	*lexer(char *line, t_vars *vars)
@@ -44,7 +78,8 @@ t_lexer	*lexer(char *line, t_vars *vars)
 	if (!words)
 		return (NULL);
 	while (words[i])
-		cmp_and_push(words, &lst, i++, vars);
+		if (cmp_and_push(words, &lst, i++, vars))
+			break ;
 	clear_tab(words);
 	return (lst);
 }

@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 15:57:12 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/16 15:56:22 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/18 13:45:24 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	check_code(t_parser *parser, int *is_exit, int pipe, t_vars *vars)
 		write(2, "minishell: exit: ", 17);
 		write(2, parser->arg[1], ft_strlen(parser->arg[1]));
 		write(2, ": numeric argument required\n", 28);
+		return (2);
 	}
 	else if (nb_of_arg(parser->arg) == 2)
 		return (convert_nb(ft_ltoi(parser->arg[1]), parser->arg[1]));

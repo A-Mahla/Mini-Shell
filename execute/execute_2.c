@@ -6,7 +6,7 @@
 /*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 22:54:06 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/17 19:47:07 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/18 15:22:09 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	return_value_child(int *pids, t_vars *vars)
 				vars->exit_code = WTERMSIG(status) + 128;
 			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 				write(2, "Quit: 3\n", 8);
+			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+				write(1, "\n", 1);
 		}
 		i++;
 	}
