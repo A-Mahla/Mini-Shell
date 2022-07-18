@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/17 19:42:05 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/18 12:38:19 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,19 @@ char	*get_var(char *str, t_vars *vars, int size)
 	while (last_env)
 	{
 		if (ft_strcmp(temp, last_env->key) == 0)
+		{
+			free(temp);
 			return (last_env->value);
+		}
 		last_env = last_env->next;
 	}
 	while (last_var)
 	{
 		if (ft_strcmp(temp, last_var->key) == 0)
+		{
+			free(temp);
 			return (last_var->value);
+		}
 		last_var = last_var->next;
 	}
 	free(temp);
