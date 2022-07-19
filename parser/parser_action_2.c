@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/18 17:57:05 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/18 18:37:18 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	open_heredoc(char *limiter, t_vars *vars)
 		while (1)
 		{
 			line = readline("> ");
+			ft_expand(&line, vars, vars->lst_lexer);
 			if (ft_strcmp(line, limiter) == 0)
 				break ;
 			write(fds[1], line, ft_strlen(line));
