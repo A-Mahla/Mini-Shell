@@ -6,16 +6,19 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/18 18:37:18 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/19 07:17:12 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
+int	g_sigint_code = 0;
+
 void	handler_herdoc(int sig)
 {
 	(void)sig;
 	close(0);
+	g_sigint_code = 1;
 	write(1, "\n", 1);
 }
 
@@ -23,31 +26,33 @@ int	open_heredoc(char *limiter, t_vars *vars)
 {
 	int		fds[2];
 	char	*line;
-	int		pid[2];
+	//int		pid[2];
 
-	pid[1] = 0;
+	//pid[1] = 0;
 	if (pipe(fds) == -1)
 		return (-1);
 	signal(SIGINT, SIG_IGN);
-	pid[0] = fork();
-	if (pid[0] == 0)
+	int pid = fork();
+	if (pid == 0)
 	{		
 		close(fds[0]);
 		signal(SIGINT, &handler_herdoc);
-		while (1)
+		while (1 && !g_sigint_code)
 		{
 			line = readline("> ");
 			ft_expand(&line, vars, vars->lst_lexer);
-			if (ft_strcmp(line, limiter) == 0)
+			if (ft_strcmp(line, limiter) == 0 || g_sigint_code)
 				break ;
 			write(fds[1], line, ft_strlen(line));
 			write(fds[1], "\n", 1);
 			free(line);
 		}
+		g_sigint_code = 0;
+		close (fds[1]);
 		free(line);
 		exit (0);
 	}
-	return_value_child(pid, vars);
+	wait(NULL);
 	close(fds[1]);
 	return (fds[0]);
 }

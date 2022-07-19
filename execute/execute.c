@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/18 15:39:38 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/19 10:34:38 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,26 @@ void	handle2(int	signal)
 	(void)signal;
 }
 
+int	is_not_slashbar(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	printf("wsh = %s", cmd);
+	while (cmd[i])
+	{
+		if (cmd[i] == '/' || cmd[i] == '.')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	no_leaks(int *pids, char *cmd_path, t_vars *vars, int built)
 {
 	free(pids);
-	if (cmd_path)
+	
+	if (cmd_path && is_not_slashbar(vars->lst_parser->cmd))
 		free(cmd_path);
 	if (vars->pipe_info->pipes)
 		close_pipes(vars->pipe_info);
@@ -53,6 +69,11 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 	char	**new_env;
 
 	built = 0;
+	if (!parser->cmd || strcmp(parser->cmd, "!") == 0 || strcmp(parser->cmd, ":") == 0)
+	{
+		vars->exit_code = 0;
+		exit(no_leaks(pids, NULL, vars, built));;
+	}
 	vars->exit_code = builtin(parser, &built, vars, 1);
 	sig_init();
 	signal(SIGQUIT, SIG_DFL);
@@ -72,7 +93,10 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 		new_env = lst_to_strs(vars->envl);
 		execve(cmd_path, parser->arg, new_env);
 		clear_tab(new_env);
-		write_error(parser->cmd);
+		if (is_not_slashbar(parser->cmd))
+			write_error(parser->cmd);
+		else
+			write_is_a_directory(parser->cmd);
 	}
 	if (built)
 		cmd_path = NULL;
@@ -86,6 +110,11 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
 	int	built;
 
 	built = 0;
+	if (!parser->cmd || strcmp(parser->cmd, "!") == 0 || strcmp(parser->cmd, ":") == 0)
+	{
+		vars->exit_code = 0;
+		return (1);
+	}
 	if (!parser->next)
 		vars->exit_code = builtin(parser, &built, vars, 0);
 	if (!init_pid(pipe_info->num_of_process, &pids))

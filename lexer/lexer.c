@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/18 17:57:04 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/19 10:31:40 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	check_word(char *str)
 	char	*meta;
 	int		i;
 	int		j;
+	int		nb_qt;
+	
 
 	j = 0;
 	meta = "><|";
@@ -25,18 +27,26 @@ int	check_word(char *str)
 		i = 0;
 		while (*(str + i) == *(meta + j))
 		{
-			if (i >= 2 && *(meta + j) == '|')
+			if (i >= 1 && *(meta + j) == '|')
 				return (0);
-			if (i >= 3 && (*(meta + j) == '>' || *(meta + j) == '<'))
+			if (i >= 2 && (*(meta + j) == '>' || *(meta + j) == '<'))
 				return (0);
 			i++;
 		}
 		j++;
 	}
+	i = 0;
+	nb_qt =  0;
+	if (str[i] == '\'' ||  str[i] == '\"')
+	{
+		while (str[i])
+			if (str[i++] == str[0])
+				nb_qt++;
+		if (nb_qt % 2 != 0)
+			return (0);
+	}
 	return (1);
 }
-
-
 
 int	cmp_and_push(char **words, t_lexer **lst, int i, t_vars *vars)
 {	

@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/18 17:24:44 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/19 09:48:27 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ char			*ft_get_word_1(int *index, char *s);
 
 //				write_error.c
 void			write_error(char *cmd);
+void			write_is_a_directory(char *cmd);
 
 //				parser_action.c
 void			redir_in(t_parser **new, t_lexer **lexer, t_vars *vars);

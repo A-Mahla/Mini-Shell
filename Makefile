@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maxenceeudier <maxenceeudier@student.42    +#+  +:+       +#+         #
+#    By: meudier <meudier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 09:36:17 by meudier           #+#    #+#              #
-#    Updated: 2022/07/15 20:27:59 by ammah            ###   ########.fr        #
+#    Updated: 2022/07/19 09:20:32 by meudier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = gcc -Wall -Wextra -Werror
+CC = gcc -Wall -Wextra -Werror -g
 
 NAME = minishell
 

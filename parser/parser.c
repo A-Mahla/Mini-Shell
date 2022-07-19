@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:05:26 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/18 10:36:57 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 10:55:45 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,13 @@ t_parser	*parser(t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars)
 			j++;
 			if (!push_parser(&parser, &lexer, pipe_info, vars))
 				return (NULL);
-		}	
+		}
+		else if (!j || (lexer->type == PIPE && !lexer->next)
+					|| (lexer->type == PIPE && lexer->next->type == PIPE))
+		{
+			write(2, "minishell: syntax error\n", 24);
+			break ;
+		}
 		else
 			lexer = lexer->next;
 	}
