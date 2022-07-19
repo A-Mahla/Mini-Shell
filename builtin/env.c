@@ -6,16 +6,16 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:13:47 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 12:06:47 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:33:19 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int env(t_parser *parser, int *built, t_env *envl)
+int	env(t_parser *parser, int *built, t_env *envl)
 {
-	t_env   *last;
-	int     out;
+	t_env	*last;
+	int		out;
 
 	*built = 1;
 	out = parser->stdout;
@@ -33,11 +33,11 @@ int env(t_parser *parser, int *built, t_env *envl)
 		{
 			write(out, last->key, ft_strlen(last->key));
 			write(out, "=", 1);
-			if (ft_strcmp(last->value,"\"\"") != 0)
+			if (ft_strcmp(last->value, "\"\"") != 0)
 				write(out, last->value, ft_strlen(last->value));
 			write(out, "\n", 1);
 		}
-		 last = last->next;
+		last = last->next;
 	}
 	return (0);
 }

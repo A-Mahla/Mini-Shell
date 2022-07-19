@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/18 13:06:31 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/19 15:19:19 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	ft_get_word_2(int j, int *len, char *s, char *meta)
 	}
 	return (1);
 }
-			
+
 char	*ft_get_word_1(int *index, char *s)
 {
 	char	*word;

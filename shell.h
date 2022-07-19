@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 09:48:27 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:41:52 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			*ft_calloc(size_t count, size_t size);
 char			*ft_strjoin_eq(char const *s1, char const *s2);
 int				ft_isalnum(int c);
-unsigned long   ft_ltoi(const char *str);
+unsigned long	ft_ltoi(const char *str);
 int				ft_isdigit(int c);
 char			*ft_check_zero(char *str);
 int				ft_isalpha(int c);
@@ -112,7 +112,8 @@ int				get_size_nb(int nb);
 char			*ft_itoa(int n);
 void			error_malloc(t_vars *vars);
 void			error_malloc_lexer(t_lexer *lst_lexer, t_vars *vars);
-void			error_malloc_pipe(t_lexer *lst_lexer, t_vars *vars, int i, int **pipes);
+void			error_malloc_pipe(t_lexer *lst_lexer, t_vars *vars, \
+int i, int **pipes);
 void			error_malloc_parser(t_vars *vars);
 void			error_parser(t_vars *vars);
 char			**lst_to_strs(t_env *env);
@@ -156,8 +157,8 @@ void			lst_clear_lexer(t_lexer *lexer);
 
 //				parser.c
 void			init_parser(t_parser *new);
-int				create_new(t_parser **new, t_lexer **lexer,
-				t_pipe_info *pipe_info, t_vars *vars);
+int				create_new(t_parser **new, t_lexer **lexer, \
+t_pipe_info *pipe_info, t_vars *vars);
 int				push_parser(t_parser **parser, t_lexer **lexer, \
 t_pipe_info *pipe_info, t_vars *vars);
 t_parser		*parser(t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars);
@@ -174,7 +175,8 @@ int				**get_pipes(t_lexer *lexer, int *num_of_process, t_vars *vars);
 int				is_not_a_pipe(int fd, int **pipes, int num_of_process);
 
 //				get_cmdpath.c
-int				get_cmdpath(t_parser *parser, char **cmd_path, int i, t_env *envl);
+int				get_cmdpath(t_parser *parser, char **cmd_path, \
+int i, t_env *envl);
 
 //				execute.c
 int				execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars);
@@ -199,11 +201,13 @@ char			*ft_get_word_1(int *index, char *s);
 //				write_error.c
 void			write_error(char *cmd);
 void			write_is_a_directory(char *cmd);
+void			clear_err_pars(t_lexer *lexer, t_parser *parser, \
+t_pipe_info *pipe_info);
 
 //				parser_action.c
 void			redir_in(t_parser **new, t_lexer **lexer, t_vars *vars);
-void			wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
-				t_vars *vars);
+void			wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info, \
+t_vars *vars);
 void			redir_out(t_parser **new, t_lexer **lexer, \
 t_pipe_info *pipe_info, t_vars *vars);
 void			redir_out_append(t_parser **new, t_lexer **lexer, \
@@ -226,10 +230,12 @@ int				is_expand(char *str);
 void			get_expand(char **words, t_vars *vars, int size, t_lexer *lst);
 
 //				gestion_variables.c
-int 			is_already_a_var(t_vars *vars, char *str);
-int 			is_already_a_env(t_vars *vars, char *str);
-void			push_var_to_env(char *str, t_vars *vars, t_env **begin_var, t_env **begin_env);
-void			remove_if(char *str, t_env **begin, int (*cmp)(const char *, const char *));
+int				is_already_a_var(t_vars *vars, char *str);
+int				is_already_a_env(t_vars *vars, char *str);
+void			push_var_to_env(char *str, t_vars *vars, t_env **begin_var, \
+t_env **begin_env);
+void			remove_if(char *str, t_env **begin, int (*cmp)(const char *, \
+const char *));
 void			remove_if_2(t_env **begin);
 
 #endif

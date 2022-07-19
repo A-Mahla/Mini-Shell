@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:37:59 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/14 01:33:46 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/19 15:30:19 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	unset(t_parser *parser, int *built, t_vars *vars)
 {
-	int i;
+	int	i;
 
 	*built = 1;
 	if (!parser->arg[1])

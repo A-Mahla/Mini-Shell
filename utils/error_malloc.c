@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_malloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 13:23:13 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/15 23:58:38 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/19 14:13:11 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,3 @@ void	error_parser(t_vars *vars)
 	clear_history();
 	exit(EXIT_FAILURE);
 }
-

@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:44:17 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 09:48:43 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 14:35:06 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,12 @@ void	write_is_a_directory(char *cmd)
 	temp1 = ft_strjoin(cmd, ": is a directory\n");
 	write (2, temp1, 17 + ft_strlen(cmd));
 	free(temp1);
+}
+
+void	clear_err_pars(t_lexer *lexer, t_parser *parser, t_pipe_info *pipe_info)
+{
+	lst_clear_parser(parser);
+	lst_clear_lexer(lexer);
+	close_pipes(pipe_info);
+	close_std(parser);
 }

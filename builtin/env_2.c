@@ -6,12 +6,11 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:13:47 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/18 11:22:27 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:33:42 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
-
 
 void	get_key_value_2(char *str, int is_equal, char **value, t_vars *vars)
 {
@@ -38,9 +37,9 @@ void	get_key_value_2(char *str, int is_equal, char **value, t_vars *vars)
 
 void	get_key_value(char *str, char **key, char **value, t_vars *vars)
 {
-	int		i;
-	int		len;
-	int		is_equal;
+	int	i;
+	int	len;
+	int	is_equal;
 
 	len = 0;
 	is_equal = 0;
@@ -103,7 +102,7 @@ t_env	*get_env(char **env, t_vars *vars)
 
 void	lst_clear_envl(t_env *envl)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	while (envl)
 	{

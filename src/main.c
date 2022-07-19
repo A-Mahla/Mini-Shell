@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/18 17:22:46 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/19 15:00:24 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	trim_line(char *line)
 	{
 		while (*(line + i) == '\"' || *(line + i) == '\'')
 		{
-			while (*(line + i) && ((*(line + i) == '\"' || *(line + i) == '\'')))
+			while (*(line + i)
+				&& ((*(line + i) == '\"' || *(line + i) == '\'')))
 				i++;
 			if (*(line + i))
 				i++;
@@ -76,14 +77,12 @@ void	minishell(char *line, t_vars *vars)
 	if (!lst_lexer)
 		return ;
 	vars->lst_lexer = lst_lexer;
-	pipe_info.pipes = get_pipes(lst_lexer, &(pipe_info.num_of_process), vars);
+	pipe_info.pipes = get_pipes(lst_lexer, \
+	&(pipe_info.num_of_process), vars);
 	lst_parser = parser(lst_lexer, &pipe_info, vars);
 	if (!lst_parser)
 	{
-		lst_clear_parser(lst_parser);
-		lst_clear_lexer(lst_lexer);
-		close_pipes(&pipe_info);
-		close_std(lst_parser);
+		clear_err_pars(lst_lexer, lst_parser, &pipe_info);
 		vars->exit_code = 2;
 		return ;
 	}

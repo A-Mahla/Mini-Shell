@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 07:17:12 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:43:32 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,12 @@ int	open_heredoc(char *limiter, t_vars *vars)
 {
 	int		fds[2];
 	char	*line;
-	//int		pid[2];
+	int		pid;
 
-	//pid[1] = 0;
 	if (pipe(fds) == -1)
 		return (-1);
 	signal(SIGINT, SIG_IGN);
-	int pid = fork();
+	pid = fork();
 	if (pid == 0)
 	{		
 		close(fds[0]);

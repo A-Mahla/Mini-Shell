@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 12:47:39 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/15 21:22:18 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/19 15:34:39 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	swap_list(t_env *current, t_env *next)
 	current->next = swap;
 }
 
-void   sort_lst(t_env **begin)
+void	sort_lst(t_env **begin)
 {
-	t_env   *current;
-	t_env   *prev;
-	t_env   *next;
+	t_env	*current;
+	t_env	*prev;
+	t_env	*next;
 
 	current = *begin;
 	prev = NULL;
@@ -50,66 +50,66 @@ void   sort_lst(t_env **begin)
 	}
 }
 
-t_env *cpy_lst(t_env *envl, t_vars *vars)
+t_env	*cpy_lst(t_env *envl, t_vars *vars)
 {
-    t_env   *cpy_lst;
-    t_env   *last;
-    char    *temp;
+	t_env	*cpy_lst;
+	t_env	*last;
+	char	*temp;
 
-    cpy_lst = NULL;
-    last = envl;
-    while (last)
-    {
+	cpy_lst = NULL;
+	last = envl;
+	while (last)
+	{
 		if (*(last->value))
-        	temp = ft_strjoin_eq(last->key, last->value);
+			temp = ft_strjoin_eq(last->key, last->value);
 		else
 			temp = cpy(last->key);
-        push_env(&cpy_lst, temp, vars);
-        free (temp);
-        last = last->next;
-    }
-    return (cpy_lst);
+		push_env(&cpy_lst, temp, vars);
+		free (temp);
+		last = last->next;
+	}
+	return (cpy_lst);
 }
 
-void    print_sort_env(t_parser *parser, t_env *envl, t_vars *vars)
+void	print_sort_env(t_parser *parser, t_env *envl, t_vars *vars)
 {
-    t_env   *sort_env;
-    int     out;
+	t_env	*sort_env;
+	int		out;
 
-    out = parser->stdout;
-    sort_env = cpy_lst(envl, vars);
-    sort_lst(&sort_env);
-    while (sort_env)
-    {
+	out = parser->stdout;
+	sort_env = cpy_lst(envl, vars);
+	sort_lst(&sort_env);
+	while (sort_env)
+	{
 		write(out, "declare -x ", 11);
-        write(out, sort_env->key, ft_strlen(sort_env->key));
-        if (*(sort_env->value))
-        {
-            write(out, "=", 1);
+		write(out, sort_env->key, ft_strlen(sort_env->key));
+		if (*(sort_env->value))
+		{
+			write(out, "=", 1);
 			if (ft_strcmp(sort_env->value, "\"\"") != 0)
 				write(out, "\"", 1);
-            write(out, sort_env->value, ft_strlen(sort_env->value));
-        }
+			write(out, sort_env->value, ft_strlen(sort_env->value));
+		}
 		if (*(sort_env->value) && ft_strcmp(sort_env->value, "\"\"") != 0)
 			write(out, "\"", 1);
-        write(out, "\n", 1);
-        sort_env = sort_env->next;
-    }
-    lst_clear_envl(sort_env);
+		write(out, "\n", 1);
+		sort_env = sort_env->next;
+	}
+	lst_clear_envl(sort_env);
 }
 
 int	export(t_parser *parser, int *built, t_vars *vars)
 {
-    int i;
+	int	i;
 
-    *built = 1;
-    i = 1;
-    if (!parser->arg[1])
-        print_sort_env(parser, vars->envl, vars);
-    else
-    {
-        while (parser->arg[i])
-        {
+	*built = 1;
+	i = 1;
+	if (!parser->arg[1])
+		print_sort_env(parser, vars->envl, vars);
+	else
+	{
+		while (parser->arg[i])
+		{
 			if (!check_export(parser->arg[i]))
 			{
 				write(2, "minishell: export: '", 20);
@@ -117,9 +117,9 @@ int	export(t_parser *parser, int *built, t_vars *vars)
 				write(2, "': not a valid identifier\n", 26);
 				return (1);
 			}
-            push_var_to_env(parser->arg[i], vars, &(vars->var), &(vars->envl));
-            i++;
-        }
-    }
+			push_var_to_env(parser->arg[i], vars, &(vars->var), &(vars->envl));
+			i++;
+		}
+	}
 	return (0);
 }

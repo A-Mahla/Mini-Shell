@@ -6,13 +6,13 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 22:54:06 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/19 07:04:58 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:19:59 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int		get_last_pid(int *pids)
+int	get_last_pid(int *pids)
 {
 	int	i;
 

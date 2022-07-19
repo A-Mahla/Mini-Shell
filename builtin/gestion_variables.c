@@ -6,92 +6,93 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 10:48:14 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/18 09:46:29 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:31:06 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int is_already_a_var(t_vars *vars, char *str)
+int	is_already_a_var(t_vars *vars, char *str)
 {
-    t_env   *last_env;
-	t_env   *last_var;
-    int     i;
-    char     last;
-    char    *temp;
+	t_env	*last_env;
+	t_env	*last_var;
+	int		i;
+	char	last;
+	char	*temp;
 
-    i = 0;
-    while (str[i] && str[i] != '=')
-        i++;
-    last = str[i];
-    str[i] = 0;
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	last = str[i];
+	str[i] = 0;
 	last_env = vars->envl;
 	last_var = vars->var;
-    while (last_var)
+	while (last_var)
 	{
 		if (ft_strncmp(str, last_var->key, i) == 0)
-        {
-            temp = last_var->value;
-            last_var->value = cpy(str + i + 1);
-            free(temp);
-            return (1);
-        }
+		{
+			temp = last_var->value;
+			last_var->value = cpy(str + i + 1);
+			free(temp);
+			return (1);
+		}
 		last_var = last_var->next;
 	}
 	while (last_env)
 	{
 		if (ft_strncmp(str, last_env->key, i) == 0)
-        {
-            temp = last_env->value;
-            last_env->value = cpy(str + i + 1);
-            free(temp);
-            return (1);
-        }
+		{
+			temp = last_env->value;
+			last_env->value = cpy(str + i + 1);
+			free(temp);
+			return (1);
+		}
 		last_env = last_env->next;
 	}
-    str[i] = last;
-    return (0);
+	str[i] = last;
+	return (0);
 }
 
-int is_already_a_env(t_vars *vars, char *str)
+int	is_already_a_env(t_vars *vars, char *str)
 {
-    t_env   *last;
-    int     i;
-    char    c;
-    char    *temp;
+	t_env	*last;
+	int		i;
+	char	c;
+	char	*temp;
 	int		empty_value;
 
-    i = 0;
+	i = 0;
 	empty_value = 0;
-    while (str[i] && str[i] != '=')
+	while (str[i] && str[i] != '=')
 		i++;
 	if (str[i] == '=' && !str[i + 1])
 		empty_value = 1;
-    c = str[i];
-    str[i] = 0;
-    last = vars->envl;
-    while (last)
-    {
-        if (ft_strcmp(str, last->key) == 0)
-        {
-            if (c)
-            {
-                temp = last->value;
+	c = str[i];
+	str[i] = 0;
+	last = vars->envl;
+	while (last)
+	{
+		if (ft_strcmp(str, last->key) == 0)
+		{
+			if (c)
+			{
+				temp = last->value;
 				if (empty_value)
 					last->value = cpy("\"\"");
 				else
-                	last->value = cpy(str + i + 1);
-                free (temp);
-            }
-            return (1);
-        }
-        last = last->next;
-    }
-    str[i] = c;
-    return (0);
+					last->value = cpy(str + i + 1);
+				free (temp);
+			}
+			return (1);
+		}
+		last = last->next;
+	}
+	str[i] = c;
+	return (0);
 }
 
-void	push_var_to_env(char *str, t_vars *vars, t_env **begin_var, t_env **begin_env)
+void	push_var_to_env(char *str, t_vars *vars, t_env **begin_var,
+t_env **begin_env)
 {
 	t_env	*last;
 	t_env	*prev;
@@ -118,7 +119,8 @@ void	push_var_to_env(char *str, t_vars *vars, t_env **begin_var, t_env **begin_e
 		push_env(&(vars->envl), str, vars);
 }
 
-void	remove_if(char *str, t_env **begin, int (*cmp)(const char *, const char *))
+void	remove_if(char *str, t_env **begin,
+int (*cmp)(const char *, const char *))
 {
 	t_env	*prev;
 	t_env	*current;

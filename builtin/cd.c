@@ -6,18 +6,18 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:37:59 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 12:49:33 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:32:57 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int    cd(t_parser *parser, int *built, t_env *envl)
+int	cd(t_parser *parser, int *built, t_env *envl)
 {
-    t_env	*last;
+	t_env	*last;
 	char	*old;
 
-    *built  = 1;
+	*built = 1;
 	if (!parser->arg[1])
 		return (1);
 	if (parser->arg[2])

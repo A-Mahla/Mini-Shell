@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 13:39:31 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/19 11:55:42 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:34:12 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	is_option(char **arg, int *y)
 
 int	echo(t_parser *parser, int *built)
 {
-	int		y;
-	int     out;
-	int		option;
+	int	y;
+	int	out;
+	int	option;
 
 	*built = 1;
 	y = 1;

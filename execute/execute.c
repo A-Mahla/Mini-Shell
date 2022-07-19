@@ -6,13 +6,13 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/19 13:03:09 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:22:20 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-void	handle2(int	signal)
+void	handle2(int signal)
 {
 	(void)signal;
 }
@@ -34,7 +34,6 @@ int	is_not_slashbar(char *cmd)
 int	no_leaks(int *pids, char *cmd_path, t_vars *vars, int built)
 {
 	free(pids);
-	
 	if (cmd_path && is_not_slashbar(vars->lst_parser->cmd))
 		free(cmd_path);
 	if (vars->pipe_info->pipes)
@@ -68,10 +67,11 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 	char	**new_env;
 
 	built = 0;
-	if (!parser->cmd || strcmp(parser->cmd, "!") == 0 || strcmp(parser->cmd, ":") == 0)
+	if (!parser->cmd || strcmp(parser->cmd, "!") == 0
+		|| strcmp(parser->cmd, ":") == 0)
 	{
 		vars->exit_code = 0;
-		exit(no_leaks(pids, NULL, vars, built));;
+		exit(no_leaks(pids, NULL, vars, built));
 	}
 	vars->exit_code = builtin(parser, &built, vars, 1);
 	sig_init();
@@ -109,7 +109,8 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
 	int	built;
 
 	built = 0;
-	if (!parser->cmd || strcmp(parser->cmd, "!") == 0 || strcmp(parser->cmd, ":") == 0)
+	if (!parser->cmd || strcmp(parser->cmd, "!") == 0
+		|| strcmp(parser->cmd, ":") == 0)
 	{
 		vars->exit_code = 0;
 		return (1);

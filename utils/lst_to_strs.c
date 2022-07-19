@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_to_strs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 19:44:25 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/15 21:42:32 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/19 14:14:29 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	size_str(t_env *env)
 void	cpy_lst_to_str(char *str, t_env *env)
 {
 	int	i;
-	
+
 	i = 0;
 	while (env)
 	{

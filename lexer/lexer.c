@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/19 10:31:40 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:18:43 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	check_word(char *str)
 	int		i;
 	int		j;
 	int		nb_qt;
-	
 
 	j = 0;
 	meta = "><|";
@@ -36,8 +35,8 @@ int	check_word(char *str)
 		j++;
 	}
 	i = 0;
-	nb_qt =  0;
-	if (str[i] == '\'' ||  str[i] == '\"')
+	nb_qt = 0;
+	if (str[i] == '\'' || str[i] == '\"')
 	{
 		while (str[i])
 			if (str[i++] == str[0])
@@ -150,7 +149,6 @@ void	push_lexer(t_lexer **lst, char *word, int TYPE, t_vars *vars)
 	t_lexer	*new;
 	t_lexer	*last;
 
-	
 	new = (t_lexer *)malloc(sizeof(t_lexer));
 	if (!new)
 		error_malloc_lexer(*lst, vars);

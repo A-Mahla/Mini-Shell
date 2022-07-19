@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/19 10:21:34 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:15:23 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	size_double_quote(char *word, int *i, t_vars *vars)
 	return (size);
 }
 
-int		get_size_expand(char **word, t_vars *vars)
+int	get_size_expand(char **word, t_vars *vars)
 {
 	int		i;
 	int		size;

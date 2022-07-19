@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ammah <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 15:57:12 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/18 13:45:24 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/19 15:36:04 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	check_code(t_parser *parser, int *is_exit, int pipe, t_vars *vars)
 	else if ((nb_of_arg(parser->arg) > 1 && !check_arg(parser->arg[1]))
 		|| (nb_of_arg(parser->arg) == 2 && ((ft_ltoi(parser->arg[1]) > LONG_MAX
 					&& parser->arg[1][0] != '-')
-				|| ((long)ft_ltoi(parser->arg[1]) * -1 < LONG_MIN
-					&& parser->arg[1][0] == '-')
-				|| ft_strlen(ft_check_zero(parser->arg[1])) > 21)))
+			|| ((long)ft_ltoi(parser->arg[1]) * -1 < LONG_MIN
+				&& parser->arg[1][0] == '-')
+		|| ft_strlen(ft_check_zero(parser->arg[1])) > 21)))
 	{
 		write(2, "minishell: exit: ", 17);
 		write(2, parser->arg[1], ft_strlen(parser->arg[1]));
@@ -75,7 +75,7 @@ int	check_code(t_parser *parser, int *is_exit, int pipe, t_vars *vars)
 		return (vars->exit_code);
 	return (1);
 }
-		
+
 int	ft_exit(t_vars *vars, int *built, int pipe)
 {
 	int	is_exit;
