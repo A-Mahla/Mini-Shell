@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 08:34:14 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/13 18:40:45 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/19 13:06:38 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	dup_fd(t_parser *parser)
 		if (last_in->stdin != 0)
 			dup2(last_in->stdin, STDIN_FILENO);
 	}
+	if (parser->stdout < 0)
+		return (0);
 	if (parser->stdout != 1)
 		dup2(parser->stdout, STDOUT_FILENO);
 	return (1);

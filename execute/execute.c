@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/19 10:34:38 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 13:03:09 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	is_not_slashbar(char *cmd)
 	int	i;
 
 	i = 0;
-	printf("wsh = %s", cmd);
 	while (cmd[i])
 	{
 		if (cmd[i] == '/' || cmd[i] == '.')
