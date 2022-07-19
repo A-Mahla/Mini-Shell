@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/19 15:22:20 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 16:04:06 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 		if (is_not_slashbar(parser->cmd))
 			write_error(parser->cmd);
 		else
-			write_is_a_directory(parser->cmd);
+			write_is_a_directory(parser->cmd, vars, &built);
 	}
 	if (built)
 		cmd_path = NULL;

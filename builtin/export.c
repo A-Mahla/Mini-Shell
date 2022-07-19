@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 12:47:39 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/19 15:34:39 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 21:31:22 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,14 @@ t_env	*cpy_lst(t_env *envl, t_vars *vars)
 
 void	print_sort_env(t_parser *parser, t_env *envl, t_vars *vars)
 {
+	t_env	*begin_lst;;
 	t_env	*sort_env;
 	int		out;
 
 	out = parser->stdout;
 	sort_env = cpy_lst(envl, vars);
 	sort_lst(&sort_env);
+	begin_lst = sort_env;
 	while (sort_env)
 	{
 		write(out, "declare -x ", 11);
@@ -95,7 +97,7 @@ void	print_sort_env(t_parser *parser, t_env *envl, t_vars *vars)
 		write(out, "\n", 1);
 		sort_env = sort_env->next;
 	}
-	lst_clear_envl(sort_env);
+	lst_clear_envl(begin_lst);
 }
 
 int	export(t_parser *parser, int *built, t_vars *vars)

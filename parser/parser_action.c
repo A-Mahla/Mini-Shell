@@ -6,13 +6,13 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/16 17:40:07 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/19 19:33:40 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-void	redir_in(t_parser **new, t_lexer **lexer, t_vars *vars)
+int	redir_in(t_parser **new, t_lexer **lexer, t_vars *vars)
 {
 	t_in	*last_in;
 
@@ -22,8 +22,12 @@ void	redir_in(t_parser **new, t_lexer **lexer, t_vars *vars)
 	while (last_in->next)
 		last_in = last_in->next;
 	if (last_in->stdin < 0)
+	{
 		perror((*lexer)->next->data);
+		return (0);
+	}
 	(*lexer) = (*lexer)->next->next;
+	return (1);
 }
 
 void	wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
@@ -53,7 +57,7 @@ void	wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
 	(*new)->arg[i] = NULL;
 }
 
-void	redir_out(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
+int	redir_out(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
 	t_vars *vars)
 {
 	int	temp;
@@ -65,7 +69,10 @@ void	redir_out(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
 		(*new)->stdout = open((*lexer)->next->data, \
 		O_WRONLY | O_TRUNC | O_CREAT, 0777);
 		if ((*new)->stdout < 0)
+		{
 			perror((*lexer)->next->data);
+			return (0);
+		}
 		if (temp != 1 && is_not_a_pipe(temp, \
 		pipe_info->pipes, pipe_info->num_of_process))
 			close(temp);
@@ -73,9 +80,10 @@ void	redir_out(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
 	}
 	else
 		error_parser(vars);
+	return (1);
 }
 
-void	redir_out_append(t_parser **new, t_lexer **lexer, \
+int	redir_out_append(t_parser **new, t_lexer **lexer, \
 t_pipe_info *pipe_info, t_vars *vars)
 {
 	int	temp;
@@ -87,7 +95,10 @@ t_pipe_info *pipe_info, t_vars *vars)
 		(*new)->stdout = open((*lexer)->next->data, \
 		O_WRONLY | O_APPEND | O_CREAT, 0777);
 		if ((*new)->stdout < 0)
+		{
 			perror((*lexer)->next->data);
+			return (0);
+		}
 		if (temp != 1 && is_not_a_pipe(temp, \
 		pipe_info->pipes, pipe_info->num_of_process))
 			close(temp);
@@ -95,4 +106,5 @@ t_pipe_info *pipe_info, t_vars *vars)
 	}
 	else
 		error_parser(vars);
+	return (1);
 }

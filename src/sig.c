@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:15:50 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 14:32:33 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 16:52:56 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ void	handler_sigint(int sig)
 
 void	sig_init(void)
 {
-	struct sigaction	sa = {0};
+	struct sigaction	sa;
 
+	sigemptyset(&(sa.sa_mask));
 	signal(SIGQUIT, SIG_IGN);
 	sa.sa_flags = SA_RESTART;
 	sa.sa_handler = &handler_sigint;

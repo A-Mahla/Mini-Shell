@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:44:17 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 14:35:06 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 16:04:27 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ void	write_error(char *cmd)
 	free(temp1);
 }
 
-void	write_is_a_directory(char *cmd)
+void	write_is_a_directory(char *cmd, t_vars *vars, int *built)
 {
 	char	*temp1;
 
 	temp1 = ft_strjoin(cmd, ": is a directory\n");
 	write (2, temp1, 17 + ft_strlen(cmd));
 	free(temp1);
+	vars->exit_code = 126;
+	*built = 1;
 }
 
 void	clear_err_pars(t_lexer *lexer, t_parser *parser, t_pipe_info *pipe_info)

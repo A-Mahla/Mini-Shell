@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/19 15:18:43 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 16:57:31 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	cmp_and_push(char **words, t_lexer **lst, int i, t_vars *vars)
 	if (!check_word(words[i]))
 	{
 		write(2, "minishell: syntax error\n", 24);
+		vars->exit_code = 2;
 		lst_clear_lexer(*lst);
 		*lst = NULL;
 		return (1);

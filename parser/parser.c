@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:05:26 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/19 15:14:22 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 20:53:13 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,25 @@ void	init_parser(t_parser *new)
 int	create_new(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
 t_vars *vars)
 {
+	int	error_code;
+
+	error_code = 1;
 	while ((*lexer) && (*lexer)->type != PIPE)
 	{
 		if ((*lexer)->type == REDIR_IN && (*lexer)->next
 			&& (*lexer)->next->type == WRD)
-			redir_in(new, lexer, vars);
+			error_code = redir_in(new, lexer, vars);
 		else if ((*lexer)->type == WRD)
 			wrd(new, lexer, pipe_info, vars);
 		else if ((*lexer)->type == REDIR_OUT && (*lexer)->next
 			&& (*lexer)->next->type == WRD)
-			redir_out(new, lexer, pipe_info, vars);
+			error_code = redir_out(new, lexer, pipe_info, vars);
 		else if ((*lexer)->type == REDIR_OUT_APPEND
 			&& (*lexer)->next && (*lexer)->next->type == WRD)
-			redir_out_append(new, lexer, pipe_info, vars);
+			error_code = redir_out_append(new, lexer, pipe_info, vars);
 		else if ((*lexer)->type == HERDOC && (*lexer)->next
 			&& (*lexer)->next->type == WRD)
-			heredoc(new, lexer, vars);
+			error_code = heredoc(new, lexer, vars);
 		else if ((*lexer)->type == EMPTY)
 			(*lexer) = (*lexer)->next;
 		else
@@ -47,6 +50,8 @@ t_vars *vars)
 			write (2, "minishell: syntax error\n", 24);
 			return (0);
 		}
+		if (!error_code)
+			return (0);
 	}
 	return (1);
 }
@@ -63,7 +68,7 @@ t_pipe_info *pipe_info, t_vars *vars)
 	init_parser(new);
 	if (!create_new(&new, lexer, pipe_info, vars))
 	{
-		free (new);
+		lst_clear_parser(new);
 		return (0);
 	}
 	if (!*parser)
@@ -109,6 +114,7 @@ t_parser	*parser(t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars)
 			|| (lexer->type == PIPE && lexer->next->type == PIPE))
 		{
 			write(2, "minishell: syntax error\n", 24);
+			vars->exit_code = 2;
 			break ;
 		}
 		else

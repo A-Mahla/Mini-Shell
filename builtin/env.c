@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:13:47 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 15:33:19 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 17:07:51 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	env(t_parser *parser, int *built, t_env *envl)
 		write (out, "env: ", 5);
 		write (out, parser->arg[1], ft_strlen(parser->arg[1]));
 		write (out, ": No such file or directory\n", 28);
-		return (0);
+		return (127);
 	}
 	last = envl;
 	while (last)

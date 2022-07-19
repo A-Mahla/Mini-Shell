@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 15:41:52 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 19:34:55 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,21 +200,21 @@ char			*ft_get_word_1(int *index, char *s);
 
 //				write_error.c
 void			write_error(char *cmd);
-void			write_is_a_directory(char *cmd);
+void			write_is_a_directory(char *cmd, t_vars *vars, int *built);
 void			clear_err_pars(t_lexer *lexer, t_parser *parser, \
 t_pipe_info *pipe_info);
 
 //				parser_action.c
-void			redir_in(t_parser **new, t_lexer **lexer, t_vars *vars);
+int				redir_in(t_parser **new, t_lexer **lexer, t_vars *vars);
 void			wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info, \
 t_vars *vars);
-void			redir_out(t_parser **new, t_lexer **lexer, \
+int				redir_out(t_parser **new, t_lexer **lexer, \
 t_pipe_info *pipe_info, t_vars *vars);
-void			redir_out_append(t_parser **new, t_lexer **lexer, \
+int				redir_out_append(t_parser **new, t_lexer **lexer, \
 t_pipe_info *pipe_info, t_vars *vars);
 
 //				parser_action_2.c
-void			heredoc(t_parser **new, t_lexer **lexer, t_vars *vars);
+int				heredoc(t_parser **new, t_lexer **lexer, t_vars *vars);
 
 //				sig.c
 void			sig_init(void);

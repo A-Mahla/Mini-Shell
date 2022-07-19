@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 15:00:24 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 20:29:30 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	minishell(char *line, t_vars *vars)
 	if (!lst_parser)
 	{
 		clear_err_pars(lst_lexer, lst_parser, &pipe_info);
-		vars->exit_code = 2;
+		vars->exit_code = 1;
 		return ;
 	}
 	vars->lst_parser = lst_parser;
@@ -109,6 +109,9 @@ int	main(int ac, char **av, char **env)
 		if (!line)
 		{
 			write(1, "\n", 1);
+			lst_clear_envl(vars.envl);
+			lst_clear_envl(vars.var);
+			clear_history();
 			return (1);
 		}
 		trim_line(line);

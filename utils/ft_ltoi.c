@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:56:49 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/13 19:54:26 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/19 17:55:39 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ unsigned long	ft_ltoi(const char *str)
 	nb = 0;
 	if (!str)
 		return (0);
-	if (str[i] == '-')
+	if (str[i] == '-' || str[i] == '+')
 		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{

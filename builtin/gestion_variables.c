@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 10:48:14 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/19 15:31:06 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 21:13:14 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,16 +133,20 @@ int (*cmp)(const char *, const char *))
 		if (cmp(str, current->key) == 0)
 		{
 			temp = current;
+			current = current->next;
 			if (prev == NULL)
-				*begin = current->next;
+				*begin = current;
 			else
-				prev->next = prev->next->next;
+				prev->next = current;
 			free(temp->key);
 			free(temp->value);
 			free(temp);
 		}
-		prev = current;
-		current = current->next;
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
 	}
 }
 
@@ -159,15 +163,19 @@ void	remove_if_2(t_env **begin)
 		if (!*(current->value))
 		{
 			temp = current;
+			current = current->next;
 			if (prev == NULL)
-				*begin = current->next;
+				*begin = current;
 			else
-				prev->next = prev->next->next;
+				prev->next = current;
 			free(temp->key);
 			free(temp->value);
 			free(temp);
 		}
-		prev = current;
-		current = current->next;
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
 	}
 }

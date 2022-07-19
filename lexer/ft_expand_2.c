@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/19 11:55:32 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/19 20:44:18 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,7 @@ int	get_word_expand(char *word, int *i, t_vars *vars, char *expand)
 	{
 		while (*(word + *i + size) && ft_isalnum(*(word + *i + size)))
 			size++;
-		if (*(word + *i - 2) == '\\' && *(word + *i - 3) != '\\')
-			temp = ft_strncpy(word + *i - 1, size + 1);
-		else
-			temp = cpy(get_var(word + *i, vars, size));
+		temp = cpy(get_var(word + *i, vars, size));
 		(*i) += size;
 		size = 0;
 	}
