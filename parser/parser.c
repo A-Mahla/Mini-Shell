@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:05:26 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/19 20:53:13 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 08:25:50 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_vars *vars)
 			error_code = redir_out_append(new, lexer, pipe_info, vars);
 		else if ((*lexer)->type == HERDOC && (*lexer)->next
 			&& (*lexer)->next->type == WRD)
-			error_code = heredoc(new, lexer, vars);
+			error_code = heredoc(new, lexer, vars, pipe_info);
 		else if ((*lexer)->type == EMPTY)
 			(*lexer) = (*lexer)->next;
 		else

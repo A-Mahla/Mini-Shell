@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 19:34:55 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 08:28:01 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,8 @@ int				redir_out_append(t_parser **new, t_lexer **lexer, \
 t_pipe_info *pipe_info, t_vars *vars);
 
 //				parser_action_2.c
-int				heredoc(t_parser **new, t_lexer **lexer, t_vars *vars);
+int				heredoc(t_parser **new, t_lexer **lexer, t_vars *vars, \
+t_pipe_info *pipe);
 
 //				sig.c
 void			sig_init(void);
