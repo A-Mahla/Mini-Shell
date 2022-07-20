@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 08:25:01 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/20 10:42:39 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	minishell(char *line, t_vars *vars)
 	if (!lst_parser)
 	{
 		clear_err_pars(lst_lexer, lst_parser, &pipe_info);
-		vars->exit_code = 1;
+		vars->exit_code = 2;
 		return ;
 	}
 	vars->lst_parser = lst_parser;
