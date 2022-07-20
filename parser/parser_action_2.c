@@ -6,11 +6,31 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 09:13:21 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/20 18:28:47 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
+
+int	no_leaks2(t_vars *vars, t_parser *parser, t_parser *new)
+{
+	lst_clear_parser(new);
+	if (vars->pipe_info->pipes)
+		close_pipes(vars->pipe_info);
+	close(0);
+	close(1);
+	close(2);
+	if (parser)
+	{
+		close_std(parser);
+		lst_clear_parser(parser);
+	}
+	lst_clear_lexer(vars->lst_lexer);
+	lst_clear_envl(vars->envl);
+	lst_clear_envl(vars->var);
+	clear_history();
+	exit(0);
+}
 
 int	g_sigint_code = 0;
 
@@ -22,7 +42,7 @@ void	handler_herdoc(int sig)
 	write(1, "\n", 1);
 }
 
-int	open_heredoc(char *limiter, t_vars *vars, t_pipe_info *pipe_info)
+int	open_heredoc(char *limiter, t_vars *vars, t_parser *parser, t_parser *new)
 {
 	int		fds[2];
 	char	*line;
@@ -47,11 +67,9 @@ int	open_heredoc(char *limiter, t_vars *vars, t_pipe_info *pipe_info)
 			free(line);
 		}
 		g_sigint_code = 0;
-		if (pipe_info->pipes)
-			close_pipes(pipe_info);
-		close (fds[1]);
+		close(fds[1]);
 		free(line);
-		exit (0);
+		no_leaks2(vars, parser, new);
 	}
 	wait(NULL);
 	close(fds[1]);
@@ -59,12 +77,12 @@ int	open_heredoc(char *limiter, t_vars *vars, t_pipe_info *pipe_info)
 }
 
 int	heredoc(t_parser **new, t_lexer **lexer, t_vars *vars,
-t_pipe_info *pipe_info)
+t_parser *parser)
 {
 	t_in	*last_in;
 
 	push_in(&((*new)->stdin), open_heredoc((*lexer)->next->data, \
-	vars, pipe_info), vars);
+	vars, parser, *new), vars);
 	last_in = (*new)->stdin;
 	while (last_in->next)
 		last_in = last_in->next;

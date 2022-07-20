@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/20 10:08:02 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/20 15:47:41 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,19 +96,24 @@ t_lexer	*lexer(char *line, t_vars *vars)
 
 int	get_num_of_arg(t_lexer *lexer)
 {
-	t_lexer	*temp;
 	int		i;
 
 	i = 0;
-	temp = lexer;
-	while (temp && (temp->type == WRD || temp->type == EMPTY))
+	while (lexer && lexer->type != PIPE)
 	{
-		while (temp && temp->type == EMPTY)
-			temp = temp->next;
-		if (temp)
+		while (lexer && lexer->type == WRD)
 		{
-			temp = temp->next;
+			lexer = lexer->next;
 			i++;
+		}
+		if (lexer && !(lexer->type == WRD || lexer->type == PIPE))
+		{
+			if (lexer->type == EMPTY)
+				lexer = lexer->next;
+			else if (lexer->next)
+				lexer = lexer->next->next;
+			else
+				lexer = lexer->next;
 		}
 	}
 	return (i);

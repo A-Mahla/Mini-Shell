@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 19:33:40 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 18:44:45 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	redir_in(t_parser **new, t_lexer **lexer, t_vars *vars)
 	return (1);
 }
 
-void	wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
+void	wrd(t_parser **new, t_lexer *lexer, t_pipe_info *pipe_info,
 	t_vars *vars)
 {
 	int	i;
@@ -39,23 +39,33 @@ void	wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
 		push_in_front(&((*new)->stdin), pipe_info->in, vars);
 	if (pipe_info->out && (*new)->stdout == 1)
 		(*new)->stdout = pipe_info->out;
-	(*new)->cmd = cpy((*lexer)->data);
-	(*new)->arg = ft_calloc(sizeof(char *), (get_num_of_arg(*lexer) + 1));
+	(*new)->cmd = cpy(lexer->data);
+	(*new)->arg = ft_calloc(sizeof(char *), (get_num_of_arg(lexer) + 1));
 	if (!(*new)->arg)
 		error_malloc_parser(vars);
 	i = 0;
-	while ((*lexer) && ((*lexer)->type == WRD || (*lexer)->type == EMPTY))
+	while (lexer && lexer->type != PIPE)
 	{
-		while (*(lexer) && (*lexer)->type == EMPTY)
-			(*lexer) = (*lexer)->next;
-		if (*(lexer))
+		while (lexer && lexer->type == WRD)
 		{
-			(*new)->arg[i++] = get_arg((*lexer)->data, vars);
-			(*lexer) = (*lexer)->next;
+			lexer->type = EMPTY;
+			(*new)->arg[i++] = get_arg(lexer->data, vars);
+			lexer = lexer->next;
+		}
+		if (lexer && lexer->type != WRD && lexer->type != PIPE)
+		{
+			if (lexer->type == EMPTY)
+				lexer = lexer->next;
+			else if (lexer && lexer->next)
+				lexer = lexer->next->next;
+			else if (lexer)
+				lexer = lexer->next;
 		}
 	}
 	(*new)->arg[i] = NULL;
 }
+				
+			
 
 int	redir_out(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
 	t_vars *vars)

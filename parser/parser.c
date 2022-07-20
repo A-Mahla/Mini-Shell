@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:05:26 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/20 08:25:50 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/20 18:44:30 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_parser(t_parser *new)
 	new->prev = NULL;
 }
 
-int	create_new(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
+int	create_new(t_parser **new, t_lexer **lexer, t_parser *parser,
 t_vars *vars)
 {
 	int	error_code;
@@ -33,16 +33,19 @@ t_vars *vars)
 			&& (*lexer)->next->type == WRD)
 			error_code = redir_in(new, lexer, vars);
 		else if ((*lexer)->type == WRD)
-			wrd(new, lexer, pipe_info, vars);
+		{
+			wrd(new, *lexer, vars->pipe_info, vars);
+			*lexer = (*lexer)->next;
+		}
 		else if ((*lexer)->type == REDIR_OUT && (*lexer)->next
 			&& (*lexer)->next->type == WRD)
-			error_code = redir_out(new, lexer, pipe_info, vars);
+			error_code = redir_out(new, lexer, vars->pipe_info, vars);
 		else if ((*lexer)->type == REDIR_OUT_APPEND
 			&& (*lexer)->next && (*lexer)->next->type == WRD)
-			error_code = redir_out_append(new, lexer, pipe_info, vars);
+			error_code = redir_out_append(new, lexer, vars->pipe_info, vars);
 		else if ((*lexer)->type == HERDOC && (*lexer)->next
 			&& (*lexer)->next->type == WRD)
-			error_code = heredoc(new, lexer, vars, pipe_info);
+			error_code = heredoc(new, lexer, vars, parser);
 		else if ((*lexer)->type == EMPTY)
 			(*lexer) = (*lexer)->next;
 		else
@@ -62,11 +65,12 @@ t_pipe_info *pipe_info, t_vars *vars)
 	t_parser	*new;
 	t_parser	*last;
 
+	(void)pipe_info;
 	new = (t_parser *)ft_calloc(sizeof(t_parser), 1);
 	if (!new)
 		error_malloc_parser(vars);
 	init_parser(new);
-	if (!create_new(&new, lexer, pipe_info, vars))
+	if (!create_new(&new, lexer, *parser, vars))
 	{
 		lst_clear_parser(new);
 		return (0);

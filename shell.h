@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 10:12:02 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/20 18:19:23 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <signal.h>
 # include <dirent.h>
 # include <limits.h>
+
+//extern int	g_sigint_code;
 
 enum e_type
 {
@@ -67,6 +69,7 @@ typedef struct s_parser
 	char			**env;
 	t_in			*stdin;
 	int				stdout;
+	int				is_clear_parser;
 	struct s_parser	*prev;
 	struct s_parser	*next;
 }	t_parser;
@@ -160,7 +163,7 @@ void			lst_clear_lexer(t_lexer *lexer);
 //				parser.c
 void			init_parser(t_parser *new);
 int				create_new(t_parser **new, t_lexer **lexer, \
-t_pipe_info *pipe_info, t_vars *vars);
+t_parser *parser, t_vars *vars);
 int				push_parser(t_parser **parser, t_lexer **lexer, \
 t_pipe_info *pipe_info, t_vars *vars);
 t_parser		*parser(t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars);
@@ -208,7 +211,7 @@ t_pipe_info *pipe_info);
 
 //				parser_action.c
 int				redir_in(t_parser **new, t_lexer **lexer, t_vars *vars);
-void			wrd(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info, \
+void			wrd(t_parser **new, t_lexer *lexer, t_pipe_info *pipe_info, \
 t_vars *vars);
 int				redir_out(t_parser **new, t_lexer **lexer, \
 t_pipe_info *pipe_info, t_vars *vars);
@@ -217,7 +220,7 @@ t_pipe_info *pipe_info, t_vars *vars);
 
 //				parser_action_2.c
 int				heredoc(t_parser **new, t_lexer **lexer, t_vars *vars, \
-t_pipe_info *pipe);
+t_parser *parser);
 
 //				sig.c
 void			sig_init(void);

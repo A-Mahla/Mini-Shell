@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 10:42:39 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 18:44:40 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ void	trim_line(char *line)
 	{
 		while (*(line + i) == '\"' || *(line + i) == '\'')
 		{
+			i++;
 			while (*(line + i)
-				&& ((*(line + i) == '\"' || *(line + i) == '\'')))
+				&& !(*(line + i) == '\"' || *(line + i) == '\''))
 				i++;
 			if (*(line + i))
 				i++;
@@ -79,6 +80,7 @@ void	minishell(char *line, t_vars *vars)
 	vars->lst_lexer = lst_lexer;
 	pipe_info.pipes = get_pipes(lst_lexer, \
 	&(pipe_info.num_of_process), vars);
+	vars->pipe_info = &pipe_info;
 	lst_parser = parser(lst_lexer, &pipe_info, vars);
 	if (!lst_parser)
 	{
@@ -87,7 +89,6 @@ void	minishell(char *line, t_vars *vars)
 		return ;
 	}
 	vars->lst_parser = lst_parser;
-	vars->pipe_info = &pipe_info;
 	execute(lst_parser, &pipe_info, vars);
 	close_std(lst_parser);
 	lst_clear_parser(lst_parser);
@@ -100,6 +101,7 @@ int	main(int ac, char **av, char **env)
 	t_vars		vars;
 
 	(void)av;
+//	g_sigint_code = 0;
 	vars.envl = get_env(env, NULL);
 	init_vars(&vars);
 	while (1 && ac == 1)
@@ -109,14 +111,22 @@ int	main(int ac, char **av, char **env)
 		if (!line)
 		{
 			write(1, "\n", 1);
+	//		if (g_sigint_code != 2)
+	//			lst_clear_parser(vars.lst_parser);
 			lst_clear_envl(vars.envl);
 			lst_clear_envl(vars.var);
 			clear_history();
+			write(1, "exit\n", 5);
 			return (1);
 		}
 		trim_line(line);
 		if (*line)
 			minishell(line, &vars);
+	}
+	if (ac > 1)
+	{
+		lst_clear_envl(vars.envl);
+		lst_clear_envl(vars.var);
 	}
 	return (0);
 }	

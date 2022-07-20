@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/20 10:33:39 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/20 18:44:21 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	is_not_slashbar(char *cmd)
 int	no_leaks(int *pids, char *cmd_path, t_vars *vars, int built)
 {
 	free(pids);
-	if (cmd_path && is_not_slashbar(vars->lst_parser->cmd))
+	if (cmd_path || is_not_slashbar(vars->lst_parser->cmd))
 		free(cmd_path);
 	if (vars->pipe_info->pipes)
 		close_pipes(vars->pipe_info);
@@ -62,8 +62,8 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 	char	**new_env;
 
 	built = 0;
-	if (!parser->cmd || strcmp(parser->cmd, "!") == 0
-		|| strcmp(parser->cmd, ":") == 0)
+	if (!parser->cmd)/* || strcmp(parser->cmd, "!") == 0
+		|| strcmp(parser->cmd, ":") == 0)*/
 	{
 		vars->exit_code = 0;
 		exit(no_leaks(pids, NULL, vars, built));
@@ -113,6 +113,8 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
 		|| strcmp(parser->cmd, ":") == 0)
 	{
 		vars->exit_code = 0;
+		close_pipes(pipe_info);
+		close_std(parser);
 		return (1);
 	}
 	if (!parser->next)

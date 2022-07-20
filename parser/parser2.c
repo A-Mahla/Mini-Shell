@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:52:13 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 20:29:25 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 15:49:48 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ void	lst_clear_parser(t_parser *parser)
 	{
 		temp = parser;
 		parser = parser->next;
-		free(temp->cmd);
-		clear_tab(temp->arg);
+		if (temp->cmd)
+			free(temp->cmd);
+		if (temp->arg)
+			clear_tab(temp->arg);
 		while (temp->stdin)
 		{
 			temp_in = temp->stdin;
@@ -92,4 +94,5 @@ void	lst_clear_parser(t_parser *parser)
 		temp->stdout = 0;
 		free(temp);
 	}
+//	g_sigint_code = 2;
 }

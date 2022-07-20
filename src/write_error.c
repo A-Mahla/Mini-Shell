@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:44:17 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 16:04:27 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 17:33:19 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	write_is_a_directory(char *cmd, t_vars *vars, int *built)
 
 void	clear_err_pars(t_lexer *lexer, t_parser *parser, t_pipe_info *pipe_info)
 {
+	close_std(parser);
+	close_pipes(pipe_info);
 	lst_clear_parser(parser);
 	lst_clear_lexer(lexer);
-	close_pipes(pipe_info);
-	close_std(parser);
 }
