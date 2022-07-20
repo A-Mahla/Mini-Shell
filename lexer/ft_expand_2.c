@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/19 20:44:18 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 10:13:10 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,6 @@ int	is_expand(char *str)
 		i++;
 	}
 	return (0);
-}
-
-char	*ft_strncpy(const char *s1, int size)
-{
-	char	*dup;
-	int		i;
-
-	if (!s1)
-		return (NULL);
-	dup = (char *)malloc(sizeof(char) * (size + 1));
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (s1[i] && i < size)
-	{
-		dup[i] = s1[i];
-		i++;
-	}
-	dup[i] = 0;
-	return (dup);
 }
 
 int	get_word_expand(char *word, int *i, t_vars *vars, char *expand)

@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 15:57:12 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/19 18:24:20 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 09:16:39 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,12 @@ int	check_code(t_parser *parser, int *is_exit, int pipe, t_vars *vars)
 		*is_exit = 0;
 	}
 	else if ((nb_of_arg(parser->arg) > 1 && !check_arg(parser->arg[1]))
-			|| (nb_of_arg(parser->arg) == 2 && ((ft_ltoi(parser->arg[1]) > LONG_MAX
-				&& parser->arg[1][0] != '-')
+		|| (nb_of_arg(parser->arg) == 2
+			&& ((ft_ltoi(parser->arg[1]) > LONG_MAX
+					&& parser->arg[1][0] != '-')
 			|| (ft_ltoi(parser->arg[1]) > ULONG_MAX - LONG_MAX
 				&& parser->arg[1][0] == '-')
-			|| ft_strlen(ft_check_zero(parser->arg[1])) > 21)))
+		|| ft_strlen(ft_check_zero(parser->arg[1])) > 21)))
 	{
 		write(2, "minishell: exit: ", 17);
 		write(2, parser->arg[1], ft_strlen(parser->arg[1]));

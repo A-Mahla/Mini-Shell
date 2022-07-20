@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 08:41:00 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/20 09:13:21 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	handler_herdoc(int sig)
 	write(1, "\n", 1);
 }
 
-int	open_heredoc(char *limiter, t_vars *vars, t_pipe_info * pipe_info)
+int	open_heredoc(char *limiter, t_vars *vars, t_pipe_info *pipe_info)
 {
 	int		fds[2];
 	char	*line;
@@ -58,11 +58,13 @@ int	open_heredoc(char *limiter, t_vars *vars, t_pipe_info * pipe_info)
 	return (fds[0]);
 }
 
-int	heredoc(t_parser **new, t_lexer **lexer, t_vars *vars, t_pipe_info *pipe_info)
+int	heredoc(t_parser **new, t_lexer **lexer, t_vars *vars,
+t_pipe_info *pipe_info)
 {
 	t_in	*last_in;
 
-	push_in(&((*new)->stdin), open_heredoc((*lexer)->next->data, vars, pipe_info), vars);
+	push_in(&((*new)->stdin), open_heredoc((*lexer)->next->data, \
+	vars, pipe_info), vars);
 	last_in = (*new)->stdin;
 	while (last_in->next)
 		last_in = last_in->next;

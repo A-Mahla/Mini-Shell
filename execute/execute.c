@@ -6,16 +6,11 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/19 16:04:06 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 10:33:39 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
-
-void	handle2(int signal)
-{
-	(void)signal;
-}
 
 int	is_not_slashbar(char *cmd)
 {
@@ -101,6 +96,11 @@ void	exec_cmd(t_parser *parser, int *pids, int i, t_vars *vars)
 		cmd_path = NULL;
 	exit(no_leaks(pids, cmd_path, vars, built));
 }
+
+/*void	fork_n_execute(int i, int *pids, t_vars *vars, int built)
+{
+	
+}*/
 
 int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
 {

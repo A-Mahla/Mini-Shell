@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/19 16:57:31 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 10:08:02 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,49 +143,4 @@ char	*get_var(char *str, t_vars *vars, int size)
 	}
 	free(temp);
 	return ("");
-}
-
-void	push_lexer(t_lexer **lst, char *word, int TYPE, t_vars *vars)
-{
-	t_lexer	*new;
-	t_lexer	*last;
-
-	new = (t_lexer *)malloc(sizeof(t_lexer));
-	if (!new)
-		error_malloc_lexer(*lst, vars);
-	new->data = cpy(word);
-	new->type = TYPE;
-	new->prev = NULL;
-	new->next = NULL;
-	if (!*lst)
-	{
-		new->prev = NULL;
-		*lst = new;
-	}	
-	else
-	{
-		last = *lst;
-		while (last->next)
-			last = last->next;
-		last->next = new;
-		new->prev = last;
-	}
-}
-
-void	lst_clear_lexer(t_lexer *lexer)
-{
-	t_lexer	*temp;
-	t_lexer	*last;
-
-	last = lexer;
-	while (last)
-	{
-		temp = last;
-		last = last->next;
-		free(temp->data);
-		temp->data = NULL;
-		temp->type = 0;
-		free(temp);
-		temp = NULL;
-	}
 }

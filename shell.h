@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 08:28:01 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/20 10:12:02 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ void			close_pipes(t_pipe_info *pipe_info);
 t_lexer			*lexer(char *line, t_vars *vars);
 char			*get_var(char *str, t_vars *vars, int size);
 int				get_num_of_arg(t_lexer *lexer);
+
+//				lexer_push_clear.c
 void			push_lexer(t_lexer **lst, char *word, int TYPE, t_vars *vars);
 void			lst_clear_lexer(t_lexer *lexer);
 
@@ -190,9 +192,9 @@ int				dup_fd(t_parser *parser);
 //				ft_split_lexer.c
 char			**clear_tab(char **tab);
 char			**ft_split_lexer(char const *s);
+int				is_meta(char c, char *meta);
 
 //				ft_split_lexer_2.c
-int				is_meta(char c, char *meta);
 int				ft_get_size_2(int j, int *i, const char *s, char *meta);
 int				ft_get_size_1(char const *s);
 int				ft_get_word_2(int j, int *len, char *s, char *meta);

@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 12:47:39 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/19 21:31:22 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 09:15:15 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_env	*cpy_lst(t_env *envl, t_vars *vars)
 
 void	print_sort_env(t_parser *parser, t_env *envl, t_vars *vars)
 {
-	t_env	*begin_lst;;
+	t_env	*begin_lst;
 	t_env	*sort_env;
 	int		out;
 

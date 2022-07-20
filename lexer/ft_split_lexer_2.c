@@ -6,25 +6,11 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 15:19:19 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/20 10:11:22 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
-
-int	is_meta(char c, char *meta)
-{
-	int	i;
-
-	i = 0;
-	while (meta[i])
-	{
-		if (meta[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 int	is_quote(char c)
 {

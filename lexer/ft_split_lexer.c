@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 07:02:00 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/15 18:19:58 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/20 10:11:30 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,20 @@ char	**clear_tab(char **tab)
 		free((tab)[i++]);
 	free(tab);
 	return (NULL);
+}
+
+int	is_meta(char c, char *meta)
+{
+	int	i;
+
+	i = 0;
+	while (meta[i])
+	{
+		if (meta[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 char	**ft_split_lexer(char const *s)
