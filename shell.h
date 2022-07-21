@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 11:07:52 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 12:38:01 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,9 @@ int				echo(t_parser *parser, int *built);
 //				exit.c
 int				ft_exit(t_vars *vars, int *built, int pipe);
 
+//				exit_error.c
+void			error_exit(t_parser *parser);
+
 //				close.c
 void			close_std(t_parser *parser);
 void			close_pipes(t_pipe_info *pipe_info);
@@ -245,6 +248,9 @@ void			ft_expand(char **words, t_vars *vars, t_lexer *lst);
 //				ft_expand_2.c
 int				is_expand(char *str);
 void			get_expand(char **words, t_vars *vars, int size, t_lexer *lst);
+
+//				ft_expand_3.c
+char			*get_word_expand_2(char *word, int *i, t_vars *vars);
 
 //				gestion_variables.c
 int				is_already_a_var(t_vars *vars, char *str);

@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:13:47 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/19 15:33:42 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 11:27:01 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,9 @@ void	get_key_value(char *str, char **key, char **value, t_vars *vars)
 	*key = (char *)malloc(sizeof(char) * (len + 1));
 	if (!*key)
 		error_malloc(vars);
-	i = 0;
-	while (i < len)
-	{
+	i = -1;
+	while (++i < len)
 		(*key)[i] = str[i];
-		i++;
-	}
 	(*key)[i] = 0;
 	len = ft_strlen(str) - i;
 	*value = (char *)malloc(sizeof(char) * (len + 1));

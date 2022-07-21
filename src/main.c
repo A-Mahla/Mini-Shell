@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 10:56:03 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 11:16:18 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	minishell(char *line, t_vars *vars)
 
 int	quit_proprely(t_vars *vars)
 {
-	write(1, "\n", 1);
 	lst_clear_envl(vars->envl);
 	lst_clear_envl(vars->var);
 	clear_history();
