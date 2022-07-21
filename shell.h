@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 14:17:25 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 16:41:21 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 # include <signal.h>
 # include <dirent.h>
 # include <limits.h>
-
-//extern int	g_sigint_code;
 
 enum e_type
 {
