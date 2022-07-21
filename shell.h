@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 10:57:18 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 11:07:52 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,10 @@ void			close_pipes(t_pipe_info *pipe_info);
 t_lexer			*lexer(char *line, t_vars *vars);
 char			*get_var(char *str, t_vars *vars, int size);
 int				get_num_of_arg(t_lexer *lexer);
+
+//				lexer_2.c
+int				check_nb_quote(char *str);
+int				check_word(char *str);
 
 //				lexer_push_clear.c
 void			push_lexer(t_lexer **lst, char *word, int TYPE, t_vars *vars);
