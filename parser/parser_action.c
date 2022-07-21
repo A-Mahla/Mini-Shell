@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 10:25:37 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 13:17:34 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	redir_in(t_parser **new, t_lexer **lexer, t_vars *vars)
 	while (last_in->next)
 		last_in = last_in->next;
 	if (last_in->stdin < 0)
-	{
+	{	
 		perror((*lexer)->next->data);
 		return (0);
 	}

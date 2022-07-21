@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:05:26 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/21 10:51:35 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 13:16:50 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_vars *vars)
 	else
 	{
 		write (2, "minishell: syntax error\n", 24);
-		return (-1);
+		return (0);
 	}
 	return (error_code);
 }
@@ -51,7 +51,7 @@ t_vars *vars)
 	while ((*lexer) && (*lexer)->type != PIPE)
 	{
 		error_code = create_new_2(new, lexer, parser, vars);
-		if (error_code == -1)
+		if (!error_code)
 			return (0);
 	}
 	return (1);
