@@ -6,7 +6,7 @@
 /*   By: amahla <amahla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 12:28:13 by amahla            #+#    #+#             */
-/*   Updated: 2022/07/18 13:38:33 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/21 16:26:41 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	check_export(char *str)
 	int	i;
 
 	i = 0;
+	if (!*(str + i))
+		return (0);
 	if (*(str + i) && !(ft_isalpha(*(str + i)) || *(str + i) == '_'))
 		return (0);
 	i++;
