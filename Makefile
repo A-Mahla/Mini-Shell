@@ -6,11 +6,11 @@
 #    By: meudier <meudier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 09:36:17 by meudier           #+#    #+#              #
-#    Updated: 2022/07/21 14:18:15 by meudier          ###   ########.fr        #
+#    Updated: 2022/07/21 16:33:27 by meudier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = gcc -Wall -Wextra -Werror -g
+CC = gcc -Wall -Wextra -Werror
 
 NAME = minishell
 

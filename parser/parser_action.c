@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 13:17:34 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/21 16:12:54 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ int	redir_out(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
 		if ((*new)->stdout < 0)
 		{
 			perror((*lexer)->next->data);
-			close (temp);
+			if (temp != 1)
+				close (temp);
 			return (0);
 		}
 		if (temp != 1 && is_not_a_pipe(temp, \
