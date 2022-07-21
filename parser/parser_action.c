@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 07:22:09 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 09:05:54 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	wrd(t_parser **new, t_lexer *lexer, t_pipe_info *pipe_info,
 		{
 			if (lexer->type == EMPTY)
 				lexer = lexer->next;
-			else if (lexer && lexer->next)
+			if (lexer && lexer->next)
 				lexer = lexer->next->next;
 			else if (lexer)
 				lexer = lexer->next;

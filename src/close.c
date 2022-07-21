@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:13:40 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/21 07:39:16 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 08:27:54 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	close_std(t_parser *parser)
 	last = parser;
 	while (last)
 	{
-		//if (last->stdout != 1)
+		if (last->stdout != 1)
 			close(last->stdout);
 		last_in = last->stdin;
 		while (last_in)

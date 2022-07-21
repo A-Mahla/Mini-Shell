@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:05:26 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/21 07:28:37 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 09:36:40 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ t_vars *vars)
 			&& (*lexer)->next->type == WRD)
 			error_code = redir_in(new, lexer, vars);
 		else if ((*lexer)->type == WRD)
-		{
 			wrd(new, *lexer, vars->pipe_info, vars);
-			*lexer = (*lexer)->next;
-		}
 		else if ((*lexer)->type == REDIR_OUT && (*lexer)->next
 			&& (*lexer)->next->type == WRD)
 			error_code = redir_out(new, lexer, vars->pipe_info, vars);
@@ -50,6 +47,7 @@ t_vars *vars)
 			(*lexer) = (*lexer)->next;
 		else
 		{
+			printf("%d\n", (*lexer)->next->type);
 			write (2, "minishell: syntax error\n", 24);
 			return (0);
 		}

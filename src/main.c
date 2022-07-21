@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 07:11:14 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 09:34:25 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,6 @@ void	trim_line(char *line)
 			*(line + i) = ' ';
 		i++;
 	}
-	if (i > 0)
-		i--;
-	while (i >= 0 && i == ' ')
-		*(line + i--) = '\0';
 }
 
 char	*get_line(void)
@@ -81,7 +77,6 @@ void	minishell(char *line, t_vars *vars)
 	pipe_info.pipes = get_pipes(lst_lexer, \
 	&(pipe_info.num_of_process), vars);
 	vars->pipe_info = &pipe_info;
-	//lst_parser = parser(lst_lexer, &pipe_info, vars);
 	if (!parser(&lst_parser, lst_lexer, &pipe_info, vars))
 	{
 		clear_err_pars(lst_lexer, lst_parser, &pipe_info);
@@ -102,31 +97,29 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 //	g_sigint_code = 0;
-	vars.envl = get_env(env, NULL);
-	init_vars(&vars);
-	while (1 && ac == 1)
+	if (ac == 1)
 	{
-		sig_init();
-		line = get_line();
-		if (!line)
+		vars.envl = get_env(env, NULL);
+		init_vars(&vars);
+		while (1 && ac == 1)
 		{
-			write(1, "\n", 1);
-	//		if (g_sigint_code != 2)
-	//			lst_clear_parser(vars.lst_parser);
-			lst_clear_envl(vars.envl);
-			lst_clear_envl(vars.var);
-			clear_history();
-			write(1, "exit\n", 5);
-			return (1);
+			sig_init();
+			line = get_line();
+			if (!line)
+			{
+				write(1, "\n", 1);
+		//		if (g_sigint_code != 2)
+		//			lst_clear_parser(vars.lst_parser);
+				lst_clear_envl(vars.envl);
+				lst_clear_envl(vars.var);
+				clear_history();
+				write(1, "exit\n", 5);
+				return (1);
+			}
+			trim_line(line);
+			if (*line)
+				minishell(line, &vars);
 		}
-		trim_line(line);
-		if (*line)
-			minishell(line, &vars);
-	}
-	if (ac > 1)
-	{
-		lst_clear_envl(vars.envl);
-		lst_clear_envl(vars.var);
 	}
 	return (0);
 }	

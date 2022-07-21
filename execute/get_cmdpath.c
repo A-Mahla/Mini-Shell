@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 10:40:26 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 16:37:37 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/21 07:47:43 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	all_stdin_pos(t_in *stdin)
 int	get_cmdpath(t_parser *parser, char **cmd_path, int i, t_env *envl)
 {
 	char	**path;
-	(void)i;
 
 	*cmd_path = NULL;
 	if (!get_path(parser, &path, envl))
