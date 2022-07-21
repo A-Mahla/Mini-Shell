@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:41:17 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/20 18:44:21 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/21 07:32:59 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ int	execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars)
 	int	built;
 
 	built = 0;
-	if (!parser->cmd || strcmp(parser->cmd, "!") == 0
-		|| strcmp(parser->cmd, ":") == 0)
+	if (!parser || !parser->cmd)//|| strcmp(parser->cmd, "!") == 0
+		//|| strcmp(parser->cmd, ":") == 0)
 	{
 		vars->exit_code = 0;
 		close_pipes(pipe_info);

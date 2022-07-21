@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 18:19:23 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/21 07:15:05 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ int				create_new(t_parser **new, t_lexer **lexer, \
 t_parser *parser, t_vars *vars);
 int				push_parser(t_parser **parser, t_lexer **lexer, \
 t_pipe_info *pipe_info, t_vars *vars);
-t_parser		*parser(t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars);
+int				parser(t_parser **parser, t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars);
 
 //				parser2.c
 void			push_in(t_in **stdin, int data, t_vars *vars);

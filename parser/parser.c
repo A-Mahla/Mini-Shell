@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:05:26 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/20 18:44:30 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/21 07:28:37 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_pipe_info *pipe_info, t_vars *vars)
 	init_parser(new);
 	if (!create_new(&new, lexer, *parser, vars))
 	{
+		close_std(new);
 		lst_clear_parser(new);
 		return (0);
 	}
@@ -91,12 +92,12 @@ t_pipe_info *pipe_info, t_vars *vars)
 	return (1);
 }
 
-t_parser	*parser(t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars)
+int	parser(t_parser **parser, t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars)
 {
-	t_parser	*parser;
+	//t_parser	*parser;
 	int			j;
 
-	parser = NULL;
+	*parser = NULL;
 	j = 0;
 	while (lexer)
 	{
@@ -111,8 +112,8 @@ t_parser	*parser(t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars)
 			else
 				pipe_info->out = 0;
 			j++;
-			if (!push_parser(&parser, &lexer, pipe_info, vars))
-				return (NULL);
+			if (!push_parser(parser, &lexer, pipe_info, vars))
+				return (0);
 		}
 		else if (!j || (lexer->type == PIPE && !lexer->next)
 			|| (lexer->type == PIPE && lexer->next->type == PIPE))
@@ -124,5 +125,5 @@ t_parser	*parser(t_lexer *lexer, t_pipe_info *pipe_info, t_vars *vars)
 		else
 			lexer = lexer->next;
 	}
-	return (parser);
+	return (1);
 }
