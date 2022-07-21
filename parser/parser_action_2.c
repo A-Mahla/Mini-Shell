@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 10:34:53 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 15:28:01 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ void	heredoc_child(int fds[2], t_vars *vars, char *limiter)
 	while (1 && !g_sigint_code)
 	{
 		line = readline("> ");
+		if (!line)
+		{
+			write(2, "minishell: warning: here-document at line 1 ", 44);
+			write(2, "delimited by end-of-file (wanted `eof')\n", 40);
+			break ;
+		}
 		ft_expand(&line, vars, vars->lst_lexer);
 		if (ft_strcmp(line, limiter) == 0 || g_sigint_code)
 			break ;
