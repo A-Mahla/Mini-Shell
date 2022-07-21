@@ -6,11 +6,20 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:52:13 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 15:49:48 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/21 10:51:27 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
+
+void	init_parser(t_parser *new)
+{
+	new->cmd = NULL;
+	new->stdin = NULL;
+	new->stdout = 1;
+	new->next = NULL;
+	new->prev = NULL;
+}
 
 void	push_in(t_in **stdin, int data, t_vars *vars)
 {
@@ -94,5 +103,4 @@ void	lst_clear_parser(t_parser *parser)
 		temp->stdout = 0;
 		free(temp);
 	}
-//	g_sigint_code = 2;
 }

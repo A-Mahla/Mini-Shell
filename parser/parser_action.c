@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 09:05:54 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 10:25:37 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,10 @@ int	redir_in(t_parser **new, t_lexer **lexer, t_vars *vars)
 	return (1);
 }
 
-void	wrd(t_parser **new, t_lexer *lexer, t_pipe_info *pipe_info,
-	t_vars *vars)
+void	wrd_get_args(t_parser **new, t_lexer *lexer, t_vars *vars)
 {
 	int	i;
 
-	if (pipe_info->in)
-		push_in_front(&((*new)->stdin), pipe_info->in, vars);
-	if (pipe_info->out && (*new)->stdout == 1)
-		(*new)->stdout = pipe_info->out;
-	(*new)->cmd = cpy(lexer->data);
-	(*new)->arg = ft_calloc(sizeof(char *), (get_num_of_arg(lexer) + 1));
-	if (!(*new)->arg)
-		error_malloc_parser(vars);
 	i = 0;
 	while (lexer && lexer->type != PIPE)
 	{
@@ -64,8 +55,20 @@ void	wrd(t_parser **new, t_lexer *lexer, t_pipe_info *pipe_info,
 	}
 	(*new)->arg[i] = NULL;
 }
-				
-			
+
+void	wrd(t_parser **new, t_lexer *lexer, t_pipe_info *pipe_info,
+	t_vars *vars)
+{
+	if (pipe_info->in)
+		push_in_front(&((*new)->stdin), pipe_info->in, vars);
+	if (pipe_info->out && (*new)->stdout == 1)
+		(*new)->stdout = pipe_info->out;
+	(*new)->cmd = cpy(lexer->data);
+	(*new)->arg = ft_calloc(sizeof(char *), (get_num_of_arg(lexer) + 1));
+	if (!(*new)->arg)
+		error_malloc_parser(vars);
+	wrd_get_args(new, lexer, vars);
+}
 
 int	redir_out(t_parser **new, t_lexer **lexer, t_pipe_info *pipe_info,
 	t_vars *vars)

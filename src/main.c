@@ -6,35 +6,11 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 09:34:25 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 10:56:03 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
-
-void	trim_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (*(line + i))
-	{
-		while (*(line + i) == '\"' || *(line + i) == '\'')
-		{
-			i++;
-			while (*(line + i)
-				&& !(*(line + i) == '\"' || *(line + i) == '\''))
-				i++;
-			if (*(line + i))
-				i++;
-			else
-				return ;
-		}
-		if (*(line + i) == '\t')
-			*(line + i) = ' ';
-		i++;
-	}
-}
 
 char	*get_line(void)
 {
@@ -90,13 +66,22 @@ void	minishell(char *line, t_vars *vars)
 	lst_clear_lexer(lst_lexer);
 }
 
+int	quit_proprely(t_vars *vars)
+{
+	write(1, "\n", 1);
+	lst_clear_envl(vars->envl);
+	lst_clear_envl(vars->var);
+	clear_history();
+	write(1, "exit\n", 5);
+	return (1);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char		*line;
 	t_vars		vars;
 
 	(void)av;
-//	g_sigint_code = 0;
 	if (ac == 1)
 	{
 		vars.envl = get_env(env, NULL);
@@ -106,16 +91,7 @@ int	main(int ac, char **av, char **env)
 			sig_init();
 			line = get_line();
 			if (!line)
-			{
-				write(1, "\n", 1);
-		//		if (g_sigint_code != 2)
-		//			lst_clear_parser(vars.lst_parser);
-				lst_clear_envl(vars.envl);
-				lst_clear_envl(vars.var);
-				clear_history();
-				write(1, "exit\n", 5);
-				return (1);
-			}
+				return (quit_proprely(&vars));
 			trim_line(line);
 			if (*line)
 				minishell(line, &vars);

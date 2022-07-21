@@ -6,11 +6,13 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 18:28:47 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/21 10:34:53 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
+
+int	g_sigint_code = 0;
 
 int	no_leaks2(t_vars *vars, t_parser *parser, t_parser *new)
 {
@@ -32,8 +34,6 @@ int	no_leaks2(t_vars *vars, t_parser *parser, t_parser *new)
 	exit(0);
 }
 
-int	g_sigint_code = 0;
-
 void	handler_herdoc(int sig)
 {
 	(void)sig;
@@ -42,10 +42,30 @@ void	handler_herdoc(int sig)
 	write(1, "\n", 1);
 }
 
+void	heredoc_child(int fds[2], t_vars *vars, char *limiter)
+{
+	char	*line;
+
+	close(fds[0]);
+	signal(SIGINT, &handler_herdoc);
+	while (1 && !g_sigint_code)
+	{
+		line = readline("> ");
+		ft_expand(&line, vars, vars->lst_lexer);
+		if (ft_strcmp(line, limiter) == 0 || g_sigint_code)
+			break ;
+		write(fds[1], line, ft_strlen(line));
+		write(fds[1], "\n", 1);
+		free(line);
+	}
+	g_sigint_code = 0;
+	close(fds[1]);
+	free(line);
+}
+
 int	open_heredoc(char *limiter, t_vars *vars, t_parser *parser, t_parser *new)
 {
 	int		fds[2];
-	char	*line;
 	int		pid;
 
 	if (pipe(fds) == -1)
@@ -54,21 +74,7 @@ int	open_heredoc(char *limiter, t_vars *vars, t_parser *parser, t_parser *new)
 	pid = fork();
 	if (pid == 0)
 	{		
-		close(fds[0]);
-		signal(SIGINT, &handler_herdoc);
-		while (1 && !g_sigint_code)
-		{
-			line = readline("> ");
-			ft_expand(&line, vars, vars->lst_lexer);
-			if (ft_strcmp(line, limiter) == 0 || g_sigint_code)
-				break ;
-			write(fds[1], line, ft_strlen(line));
-			write(fds[1], "\n", 1);
-			free(line);
-		}
-		g_sigint_code = 0;
-		close(fds[1]);
-		free(line);
+		heredoc_child(fds, vars, limiter);
 		no_leaks2(vars, parser, new);
 	}
 	wait(NULL);

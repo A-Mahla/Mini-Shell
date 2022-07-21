@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 10:40:26 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 07:47:43 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 10:23:06 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	get_path(t_parser *parser, char ***path, t_env *envl)
 	return (1);
 }
 
-static int	no_leaks(char **path)
+static int	no_leaks_path(char **path)
 {
 	clear_tab(path);
 	return (0);
@@ -50,7 +50,7 @@ int	get_cmd_path(char *cmd, char **cmd_path, char **path)
 		*cmd_path = ft_strjoin_bs(path[j], cmd);
 		free (temp);
 		if (!cmd_path)
-			return (no_leaks(path));
+			return (no_leaks_path(path));
 		if (!access(*cmd_path, F_OK | X_OK))
 			break ;
 		j++;

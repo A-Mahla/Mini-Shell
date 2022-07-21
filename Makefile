@@ -6,7 +6,7 @@
 #    By: meudier <meudier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 09:36:17 by meudier           #+#    #+#              #
-#    Updated: 2022/07/20 10:10:20 by meudier          ###   ########.fr        #
+#    Updated: 2022/07/21 10:57:02 by meudier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRC = utils/ft_isalnum.c utils/ft_strjoin.c utils/ft_split.c src/main.c \
 	builtin/exit.c utils/ft_check_zero.c utils/ft_isalpha.c \
 	utils/check_export.c utils/check_unset.c utils/get_size_nb.c \
 	utils/ft_itoa.c execute/execute_2.c utils/error_malloc.c \
-	utils/lst_to_strs.c utils/ft_memcpy.c lexer/lexer_push_clear.c
+	utils/lst_to_strs.c utils/ft_memcpy.c lexer/lexer_push_clear.c \
+	utils/trime_line.c
 	
 OBJ = $(SRC:.c=.o)
 

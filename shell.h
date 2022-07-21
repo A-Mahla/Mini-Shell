@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 08:17:08 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 10:57:18 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int i, int **pipes);
 void			error_malloc_parser(t_vars *vars);
 void			error_parser(t_vars *vars);
 char			**lst_to_strs(t_env *env);
+void			trim_line(char *line);
 
 //				cd.c
 int				cd(t_parser *parser, int *built, t_env *envl);
@@ -174,6 +175,7 @@ void			push_in(t_in **stdin, int data, t_vars *vars);
 char			*get_arg(char *str, t_vars *vars);
 void			lst_clear_parser(t_parser *parser);
 void			push_in_front(t_in **stdin, int data, t_vars *vars);
+void			init_parser(t_parser *new);
 
 //				pipe.c
 int				get_num_of_process(t_lexer *lexer);
@@ -191,7 +193,8 @@ int				execute(t_parser *parser, t_pipe_info *pipe_info, t_vars *vars);
 void			return_value_child(int *pids, t_vars *vars);
 int				is_not_slashbar(char *cmd);
 int				no_leaks(int *pids, char *cmd_path, t_vars *vars, int built);
-void			dup_and_close(t_parser *parser, int built, int *pids, t_vars *vars);
+void			dup_and_close(t_parser *parser, int built, int *pids, \
+t_vars *vars);
 
 //				dup.c
 int				dup_fd(t_parser *parser);
