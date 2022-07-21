@@ -6,11 +6,13 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 13:39:18 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/21 19:46:27 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
+
+int	g_sigint_code = 0;
 
 char	*get_line(void)
 {
@@ -53,8 +55,9 @@ void	minishell(char *line, t_vars *vars)
 	pipe_info.pipes = get_pipes(lst_lexer, \
 	&(pipe_info.num_of_process), vars);
 	vars->pipe_info = &pipe_info;
-	if (!parser(&lst_parser, lst_lexer, &pipe_info, vars))
+	if (g_sigint_code == 1 || !parser(&lst_parser, lst_lexer, &pipe_info, vars))
 	{
+		g_sigint_code = 0;
 		clear_err_pars(lst_lexer, lst_parser, &pipe_info);
 		vars->exit_code = 2;
 		return ;
@@ -89,6 +92,8 @@ int	main(int ac, char **av, char **env)
 		{
 			sig_init();
 			line = get_line();
+			if (g_sigint_code == 3)
+				vars.exit_code = 130;
 			if (!line)
 				return (quit_proprely(&vars));
 			trim_line(line);
@@ -97,4 +102,4 @@ int	main(int ac, char **av, char **env)
 		}
 	}
 	return (0);
-}	
+}
