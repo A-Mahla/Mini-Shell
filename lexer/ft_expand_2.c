@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/21 12:13:11 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 14:18:51 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,7 @@ int	get_word_expand(char *word, int *i, t_vars *vars, char *expand)
 		(*i)++;
 	}
 	else
-	{
-		while (*(word + *i + size) && ft_isalnum(*(word + *i + size)))
-			size++;
-		temp = cpy(get_var(word + *i, vars, size));
-		(*i) += size;
-		size = 0;
-	}
+		temp = get_word_expand_2(word, i, vars);
 	while (*(temp + size))
 		*(expand + y++) = *(temp + size++);
 	free(temp);
@@ -118,8 +112,8 @@ void	get_expand(char **word, t_vars *vars, int size, t_lexer *lst)
 			y += simple_quote(*word, &i, expand + y);
 		else if ((*word)[i] == '\"')
 			y += double_quote(*word, &i, vars, expand + y);
-		else if ((*word)[i] == '$' && (*word)[i + 1] && ((*word)[i + 1] == '?'
-			|| ft_isalnum((*word)[i + 1]) || (*word)[i] == '_'
+		else if ((*word)[i] == '$' && (*word)[i + 1] && ((*word)[i] == '_'
+			|| ft_isalnum((*word)[i + 1]) || (*word)[i + 1] == '?'
 			|| (*word)[i + 1] == '\'' || (*word)[i + 1] == '\"'))
 			y += get_word_expand(*word, &i, vars, expand + y);
 		else

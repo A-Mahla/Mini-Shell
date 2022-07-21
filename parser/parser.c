@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:05:26 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/21 14:11:58 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 14:18:31 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_vars *vars)
 		{
 			write(2, "minishell: syntax error\n", 24);
 			vars->exit_code = 2;
-			break ;
+			return (0);
 		}
 		else
 			lexer = lexer->next;

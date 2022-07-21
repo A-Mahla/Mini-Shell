@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   trime_line.c                                       :+:      :+:    :+:   */
+/*   ft_expand_3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/21 10:56:20 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 12:36:40 by amahla           ###   ########.fr       */
+/*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
+/*   Updated: 2022/07/21 12:37:25 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-void	trim_line(char *line)
+char	*get_word_expand_2(char *word, int *i, t_vars *vars)
 {
-	int	i;
+	int		size;
+	char	*temp;
 
-	i = 0;
-	while (*(line + i))
-	{
-		while (*(line + i) == '\"' || *(line + i) == '\'')
-		{
-			i++;
-			while (*(line + i)
-				&& !(*(line + i) == '\"' || *(line + i) == '\''))
-				i++;
-			if (*(line + i))
-				i++;
-			else
-				return ;
-		}
-		if (*(line + i) == '\t')
-			*(line + i) = ' ';
-		if (*(line + i))
-			i++;
-	}
+	size = 0;
+	while (*(word + *i + size) && ft_isalnum(*(word + *i + size)))
+		size++;
+	temp = cpy(get_var(word + *i, vars, size));
+	(*i) += size;
+	return (temp);
 }
