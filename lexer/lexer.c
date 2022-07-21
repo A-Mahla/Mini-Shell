@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/21 11:05:59 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 11:57:28 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,12 @@ int	get_num_of_arg(t_lexer *lexer)
 	return (i);
 }
 
+char	*get_it(t_env *env, char *temp)
+{
+	free (temp);
+	return (env->value);
+}
+
 char	*get_var(char *str, t_vars *vars, int size)
 {
 	t_env	*last_env;
@@ -96,10 +102,7 @@ char	*get_var(char *str, t_vars *vars, int size)
 	while (last_env)
 	{
 		if (ft_strcmp(temp, last_env->key) == 0)
-		{
-			free(temp);
-			return (last_env->value);
-		}
+			return (get_it(last_env, temp));
 		last_env = last_env->next;
 	}
 	while (last_var)
@@ -107,7 +110,7 @@ char	*get_var(char *str, t_vars *vars, int size)
 		if (ft_strcmp(temp, last_var->key) == 0)
 		{
 			free(temp);
-			return (last_var->value);
+			return (get_it(last_var, temp));
 		}
 		last_var = last_var->next;
 	}

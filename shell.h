@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 11:07:52 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 12:26:39 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,12 +247,14 @@ int				is_expand(char *str);
 void			get_expand(char **words, t_vars *vars, int size, t_lexer *lst);
 
 //				gestion_variables.c
-int				is_already_a_var(t_vars *vars, char *str);
-int				is_already_a_env(t_vars *vars, char *str);
 void			push_var_to_env(char *str, t_vars *vars, t_env **begin_var, \
 t_env **begin_env);
 void			remove_if(char *str, t_env **begin, int (*cmp)(const char *, \
 const char *));
 void			remove_if_2(t_env **begin);
+
+//				gestion_variables2.c
+int				is_already_a_var(t_vars *vars, char *str);
+int				is_already_a_env(t_vars *vars, char *str);
 
 #endif
