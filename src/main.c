@@ -6,7 +6,7 @@
 /*   By: amahla <amahla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/22 13:17:49 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/22 18:55:05 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	quit_proprely(t_vars *vars)
 	lst_clear_envl(vars->var);
 	clear_history();
 	write(1, "exit\n", 5);
-	return (1);
+	return (0);
 }
 
 int	main(int ac, char **av, char **env)
