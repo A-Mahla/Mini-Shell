@@ -6,31 +6,23 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/22 17:01:06 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/22 17:24:05 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int	is_quote(char c)
+void	ft_get_quote(int *len, const char *s)
 {
-	int			i;
-	char		*quotes;
-
-	i = 0;
-	quotes = "\'\"";
-	while (quotes[i])
+	if (*(s + *len) == '\'')
 	{
-		if (quotes[i] == c)
-			return (1);
-		i++;
+		(*len)++;
+		while (*(s + *len) && *(s + *len) != '\'')
+			(*len)++;
+		if (*(s + *len) && *(s + *len) == '\'')
+			(*len)++;
 	}
-	return (0);
-}
-
-void ft_get_double_quote(int *len, const char *s)
-{
-	if (*(s + *len) == '\"')
+	else if (*(s + *len) == '\"')
 	{
 		(*len)++;
 		while (*(s + *len) && *(s + *len) != '\"')
@@ -52,16 +44,8 @@ int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 	{	
 		while (*(s + *i) && *(s + *i) != ' ' && !is_meta(*(s + *i), meta))
 		{
-			if (*(s + *i) == '\'')
-			{
-				(*i)++;
-				while (*(s + *i) && *(s + *i) != '\'')
-					(*i)++;
-				if (*(s + *i) && *(s + *i) == '\'')
-					(*i)++;
-			}
-			else if (*(s + *i) == '\"')
-				ft_get_double_quote(i, s);
+			if (*(s + *i) == '\'' || *(s + *i) == '\"')
+				ft_get_quote(i, s);
 			else
 				(*i)++;
 		}
@@ -110,16 +94,8 @@ int	ft_get_word_2(int j, int *len, char *s, char *meta)
 	{	
 		while (*(s + *len) && *(s + *len) != ' ' && !is_meta(*(s + *len), meta))
 		{
-			if (*(s + *len) == '\'')
-			{
-				(*len)++;
-				while (*(s + *len) && *(s + *len) != '\'')
-					(*len)++;
-				if (*(s + *len) && *(s + *len) == '\'')
-					(*len)++;
-			}
-			else if (*(s + *len) == '\"')
-				ft_get_double_quote(len, s);
+			if (*(s + *len) == '\'' || *(s + *len) == '\"')
+				ft_get_quote(len, s);
 			else
 				(*len)++;
 		}

@@ -6,13 +6,13 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 11:02:23 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/22 16:54:29 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/22 17:14:43 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h" 
 
-int ft_check_double_quote(int *len, const char *s)
+int	ft_check_double_quote(int *len, const char *s)
 {
 	if (*(s + *len) == '\"')
 	{
@@ -29,7 +29,7 @@ int ft_check_double_quote(int *len, const char *s)
 
 int	check_nb_quote(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (*(s + i))
