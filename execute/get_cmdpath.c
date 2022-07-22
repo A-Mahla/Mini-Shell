@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 10:40:26 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/22 11:41:33 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/22 16:25:02 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,12 @@ int	get_path(t_parser *parser, char ***path, t_env *envl)
 	return (1);
 }
 
-static int	no_leaks_path(char **path)
-{
-	clear_tab(path);
-	return (0);
-}
-
-int	get_cmd_path(char *cmd, char **cmd_path, char **path)
+int	test_all_path(char *cmd, char **cmd_path, char **path)
 {
 	char	*temp;
 	int		j;
 
 	j = 0;
-	if (!access(cmd, F_OK | X_OK))
-	{
-		free(*cmd_path);
-		*cmd_path = cpy(cmd);
-	}
 	while (path && path[j] && !(!access(cmd, F_OK | X_OK)
 			&& cmd[0] == '.' && cmd[1] == '/'))
 	{
@@ -55,14 +44,34 @@ int	get_cmd_path(char *cmd, char **cmd_path, char **path)
 		*cmd_path = ft_strjoin_bs(path[j++], cmd);
 		free (temp);
 		if (!cmd_path)
-			return (no_leaks_path(path));
+		{
+			clear_tab(path);
+			return (0);
+		}
 		if (!access(*cmd_path, F_OK | X_OK))
 			break ;
 	}
+	return (1);
+}
+
+int	get_cmd_path(char *cmd, char **cmd_path, char **path)
+{
+	if (!access(cmd, F_OK | X_OK))
+	{
+		free(*cmd_path);
+		*cmd_path = cpy(cmd);
+	}
+	if (!test_all_path(cmd, cmd_path, path))
+		return (0);
 	if (path)
 		clear_tab(path);
 	if (access(*cmd_path, F_OK | X_OK) && access(cmd, F_OK | X_OK))
 		return (0);
+	if (access(*cmd_path, F_OK | X_OK) && !access(cmd, F_OK | X_OK))
+	{
+		free(*cmd_path);
+		*cmd_path = cpy(cmd);
+	}
 	return (1);
 }
 

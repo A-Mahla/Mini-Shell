@@ -6,27 +6,52 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 11:02:23 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 11:06:32 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/22 16:54:29 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h" 
 
-int	check_nb_quote(char *str)
+int ft_check_double_quote(int *len, const char *s)
 {
-	int	nb_qt;
-	int	i;
-
-	i = 0;
-	nb_qt = 0;
-	if (str[i] == '\'' || str[i] == '\"')
+	if (*(s + *len) == '\"')
 	{
-		while (str[i])
-			if (str[i++] == str[0])
-				nb_qt++;
-		if (nb_qt % 2 != 0)
+		(*len)++;
+		while (*(s + *len) && *(s + *len) != '\"')
+			(*len)++;
+		if (*(s + *len) && *(s + *len) == '\"')
+			(*len)++;
+		else
 			return (0);
 	}
+	return (1);
+}
+
+int	check_nb_quote(char *s)
+{
+	int i;
+
+	i = 0;
+	while (*(s + i))
+	{
+		if (*(s + i) == '\'')
+		{
+			(i)++;
+			while (*(s + i) && *(s + i) != '\'')
+				(i)++;
+			if (*(s + i) && *(s + i) == '\'')
+				i++;
+			else
+				return (0);
+		}
+		else if (*(s + i) == '\"')
+		{
+			if (!ft_check_double_quote(&i, s))
+				return (0);
+		}
+		else
+			i++;
+	}	
 	return (1);
 }
 

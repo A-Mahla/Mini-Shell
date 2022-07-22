@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 10:11:22 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/22 17:01:06 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@ int	is_quote(char c)
 	return (0);
 }
 
+void ft_get_double_quote(int *len, const char *s)
+{
+	if (*(s + *len) == '\"')
+	{
+		(*len)++;
+		while (*(s + *len) && *(s + *len) != '\"')
+			(*len)++;
+		if (*(s + *len) && *(s + *len) == '\"')
+			(*len)++;
+	}
+}
+
 int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 {
 	if (j < 3 && s[*i] == meta[j] && s[*i])
@@ -40,14 +52,16 @@ int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 	{	
 		while (*(s + *i) && *(s + *i) != ' ' && !is_meta(*(s + *i), meta))
 		{
-			if (is_quote(*(s + *i)))
+			if (*(s + *i) == '\'')
 			{
 				(*i)++;
-				while (*(s + *i) && !is_quote(*(s + *i)))
+				while (*(s + *i) && *(s + *i) != '\'')
 					(*i)++;
-				if (*(s + *i) && is_quote(*(s + *i)))
+				if (*(s + *i) && *(s + *i) == '\'')
 					(*i)++;
 			}
+			else if (*(s + *i) == '\"')
+				ft_get_double_quote(i, s);
 			else
 				(*i)++;
 		}
@@ -96,14 +110,16 @@ int	ft_get_word_2(int j, int *len, char *s, char *meta)
 	{	
 		while (*(s + *len) && *(s + *len) != ' ' && !is_meta(*(s + *len), meta))
 		{
-			if (is_quote(*(s + *len)))
+			if (*(s + *len) == '\'')
 			{
 				(*len)++;
-				while (*(s + *len) && !is_quote(*(s + *len)))
+				while (*(s + *len) && *(s + *len) != '\'')
 					(*len)++;
-				if (*(s + *len) && is_quote(*(s + *len)))
+				if (*(s + *len) && *(s + *len) == '\'')
 					(*len)++;
 			}
+			else if (*(s + *len) == '\"')
+				ft_get_double_quote(len, s);
 			else
 				(*len)++;
 		}
