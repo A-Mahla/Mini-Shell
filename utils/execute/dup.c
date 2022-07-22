@@ -1,27 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand_3.c                                      :+:      :+:    :+:   */
+/*   dup.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/22 10:14:32 by ammah            ###   ########.fr       */
+/*   Created: 2022/07/04 08:34:14 by meudier           #+#    #+#             */
+/*   Updated: 2022/07/21 16:09:32 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-char	*get_word_expand_2(char *word, int *i, t_vars *vars)
+int	dup_fd(t_parser *parser)
 {
-	int		size;
-	char	*temp;
+	t_in	*last_in;
 
-	size = 0;
-	while (*(word + *i + size) && (ft_isalnum(*(word + *i + size))
-			|| *(word + *i + size) == '_'))
-		size++;
-	temp = cpy(get_var(word + *i, vars, size));
-	(*i) += size;
-	return (temp);
+	last_in = parser->stdin;
+	if (last_in)
+	{
+		while (last_in->next)
+		{
+			if (last_in->stdin < 0)
+				return (0);
+			last_in = last_in->next;
+		}
+		if (last_in->stdin < 0)
+			return (0);
+		if (last_in->stdin != 0)
+			dup2(last_in->stdin, STDIN_FILENO);
+	}
+	if (parser->stdout < 0)
+		return (0);
+	if (parser->stdout != 1)
+		dup2(parser->stdout, STDOUT_FILENO);
+	return (1);
 }

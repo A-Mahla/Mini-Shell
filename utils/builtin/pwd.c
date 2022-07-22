@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand_3.c                                      :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/22 10:14:32 by ammah            ###   ########.fr       */
+/*   Created: 2022/07/06 12:37:59 by meudier           #+#    #+#             */
+/*   Updated: 2022/07/19 15:29:53 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-char	*get_word_expand_2(char *word, int *i, t_vars *vars)
+int	pwd(t_parser *parser, int *built)
 {
-	int		size;
 	char	*temp;
 
-	size = 0;
-	while (*(word + *i + size) && (ft_isalnum(*(word + *i + size))
-			|| *(word + *i + size) == '_'))
-		size++;
-	temp = cpy(get_var(word + *i, vars, size));
-	(*i) += size;
-	return (temp);
+	*built = 1;
+	temp = getcwd(NULL, 0);
+	if (!temp)
+		return (1);
+	write(parser->stdout, temp, ft_strlen(temp));
+	write(parser->stdout, "\n", 1);
+	free(temp);
+	return (0);
 }
