@@ -6,7 +6,7 @@
 /*   By: amahla <amahla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 12:28:13 by amahla            #+#    #+#             */
-/*   Updated: 2022/07/14 01:32:32 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/21 18:32:36 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_unset(char *str)
 	i++;
 	while (*(str + i))
 	{
-		if (!ft_isalnum(*(str + i)))
+		if (!ft_isalnum(*(str + i)) && *(str + i) != '_')
 			return (0);
 		i++;
 	}

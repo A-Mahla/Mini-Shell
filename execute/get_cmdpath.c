@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 10:40:26 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 10:23:06 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/21 19:47:50 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,8 @@ int	get_cmd_path(char *cmd, char **cmd_path, char **path)
 	char	*temp;
 	int		j;
 
-	*cmd_path = NULL;
 	j = 0;
-	while (path[j])
+	while (path && path[j])
 	{
 		temp = *cmd_path;
 		*cmd_path = ft_strjoin_bs(path[j], cmd);
@@ -60,7 +59,10 @@ int	get_cmd_path(char *cmd, char **cmd_path, char **path)
 		free(*cmd_path);
 		*cmd_path = cmd;
 	}
-	clear_tab(path);
+	if (path)
+		clear_tab(path);
+	if (access(*cmd_path, F_OK | X_OK) && access(cmd, F_OK | X_OK))
+		return (0);
 	return (1);
 }
 
@@ -83,14 +85,13 @@ int	get_cmdpath(t_parser *parser, char **cmd_path, int i, t_env *envl)
 	char	**path;
 
 	*cmd_path = NULL;
-	if (!get_path(parser, &path, envl))
+	get_path(parser, &path, envl);
+	if (!get_cmd_path(parser->cmd, cmd_path, path))
 	{
 		if (i || (!i && all_stdin_pos(parser->stdin)))
 			write_error(parser->cmd);
 		return (0);
 	}
-	if (!get_cmd_path(parser->cmd, cmd_path, path))
-		return (0);
 	if (access(*cmd_path, F_OK | X_OK) == -1)
 	{
 		if (i || (!i && all_stdin_pos(parser->stdin)))

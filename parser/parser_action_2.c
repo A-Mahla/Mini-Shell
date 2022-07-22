@@ -6,13 +6,11 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:47:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 15:31:40 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/21 19:45:45 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
-
-int	g_sigint_code = 0;
 
 int	no_leaks2(t_vars *vars, t_parser *parser, t_parser *new)
 {
@@ -51,9 +49,9 @@ void	heredoc_child(int fds[2], t_vars *vars, char *limiter)
 	while (1 && !g_sigint_code)
 	{
 		line = readline("> ");
-		if (!line)
+		if (!line && !g_sigint_code)
 		{
-			write(2, "minishell: warning: here-document at line 1 ", 44);
+			write(2, "minishell: warning: here-document ", 34);
 			write(2, "delimited by end-of-file (wanted `eof')\n", 40);
 			break ;
 		}
