@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 12:39:27 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/15 23:44:55 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/22 13:12:33 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	**get_pipes(t_lexer *lexer, int *num_of_process, t_vars *vars)
 	while (i < *num_of_process)
 	{
 		if (pipe(pipes[i]) == -1)
-			error_malloc_pipe(lexer, vars, i, pipes);
+			error_malloc_pipe_fd(lexer, vars, i, pipes);
 		i++;
 	}
 	return (pipes);

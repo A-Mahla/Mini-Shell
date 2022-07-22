@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:44:17 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/20 17:33:19 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/22 13:20:06 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,22 @@ void	clear_err_pars(t_lexer *lexer, t_parser *parser, t_pipe_info *pipe_info)
 	close_pipes(pipe_info);
 	lst_clear_parser(parser);
 	lst_clear_lexer(lexer);
+}
+
+void	error_malloc_pipe_fd(t_lexer *lst_lexer, t_vars *vars, int i,
+	int **pipes)
+{
+	int	y;
+
+	y = 0;
+	write(2, "minishell: pipe: too many open files descriptors\n", 49);
+	while (y < i)
+		free(pipes[y++]);
+	if (pipes)
+		free(pipes);
+	lst_clear_lexer(lst_lexer);
+	lst_clear_envl(vars->envl);
+	lst_clear_envl(vars->var);
+	clear_history();
+	exit(EXIT_FAILURE);
 }

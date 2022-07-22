@@ -6,30 +6,26 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 09:39:16 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/22 17:24:05 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/20 10:11:22 by meudier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-void	ft_get_quote(int *len, const char *s)
+int	is_quote(char c)
 {
-	if (*(s + *len) == '\'')
+	int			i;
+	char		*quotes;
+
+	i = 0;
+	quotes = "\'\"";
+	while (quotes[i])
 	{
-		(*len)++;
-		while (*(s + *len) && *(s + *len) != '\'')
-			(*len)++;
-		if (*(s + *len) && *(s + *len) == '\'')
-			(*len)++;
+		if (quotes[i] == c)
+			return (1);
+		i++;
 	}
-	else if (*(s + *len) == '\"')
-	{
-		(*len)++;
-		while (*(s + *len) && *(s + *len) != '\"')
-			(*len)++;
-		if (*(s + *len) && *(s + *len) == '\"')
-			(*len)++;
-	}
+	return (0);
 }
 
 int	ft_get_size_2(int j, int *i, const char *s, char *meta)
@@ -44,8 +40,14 @@ int	ft_get_size_2(int j, int *i, const char *s, char *meta)
 	{	
 		while (*(s + *i) && *(s + *i) != ' ' && !is_meta(*(s + *i), meta))
 		{
-			if (*(s + *i) == '\'' || *(s + *i) == '\"')
-				ft_get_quote(i, s);
+			if (is_quote(*(s + *i)))
+			{
+				(*i)++;
+				while (*(s + *i) && !is_quote(*(s + *i)))
+					(*i)++;
+				if (*(s + *i) && is_quote(*(s + *i)))
+					(*i)++;
+			}
 			else
 				(*i)++;
 		}
@@ -94,8 +96,14 @@ int	ft_get_word_2(int j, int *len, char *s, char *meta)
 	{	
 		while (*(s + *len) && *(s + *len) != ' ' && !is_meta(*(s + *len), meta))
 		{
-			if (*(s + *len) == '\'' || *(s + *len) == '\"')
-				ft_get_quote(len, s);
+			if (is_quote(*(s + *len)))
+			{
+				(*len)++;
+				while (*(s + *len) && !is_quote(*(s + *len)))
+					(*len)++;
+				if (*(s + *len) && is_quote(*(s + *len)))
+					(*len)++;
+			}
 			else
 				(*len)++;
 		}

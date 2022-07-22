@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:03:05 by maxenceeudi       #+#    #+#             */
-/*   Updated: 2022/07/21 11:57:28 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/22 12:05:14 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	cmp_and_push(char **words, t_lexer **lst, int i, t_vars *vars)
 	return (0);
 }
 
-t_lexer	*lexer(char *line, t_vars *vars)
+t_lexer	*lexer(char **line, t_vars *vars)
 {
 	char	**words;
 	t_lexer	*lst;
@@ -49,7 +49,9 @@ t_lexer	*lexer(char *line, t_vars *vars)
 
 	i = 0;
 	lst = NULL;
-	words = ft_split_lexer(line);
+	if (is_expand_line(*line))
+		ft_expand_line(line, vars, lst);
+	words = ft_split_lexer(*line);
 	if (!words)
 		return (NULL);
 	while (words[i])

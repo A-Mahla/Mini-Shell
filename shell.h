@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amahla <amahla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 09:32:02 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/21 19:45:32 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/22 13:17:53 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void			close_std(t_parser *parser);
 void			close_pipes(t_pipe_info *pipe_info);
 
 //				lexer.c
-t_lexer			*lexer(char *line, t_vars *vars);
+t_lexer			*lexer(char **line, t_vars *vars);
 char			*get_var(char *str, t_vars *vars, int size);
 int				get_num_of_arg(t_lexer *lexer);
 
@@ -222,6 +222,8 @@ void			write_error(char *cmd);
 void			write_is_a_directory(char *cmd, t_vars *vars, int *built);
 void			clear_err_pars(t_lexer *lexer, t_parser *parser, \
 t_pipe_info *pipe_info);
+void			error_malloc_pipe_fd(t_lexer *lst_lexer, t_vars *vars,
+					int i, int **pipes);
 
 //				parser_action.c
 int				redir_in(t_parser **new, t_lexer **lexer, t_vars *vars);
@@ -251,6 +253,14 @@ void			get_expand(char **words, t_vars *vars, int size, t_lexer *lst);
 
 //				ft_expand_3.c
 char			*get_word_expand_2(char *word, int *i, t_vars *vars);
+
+//				ft_expand_line.c
+void			ft_expand_line(char **words, t_vars *vars, t_lexer *lst);
+
+//				ft_expand_line_2.c
+int				is_expand_line(char *str);
+void			get_expand_line(char **word, t_vars *vars, int size,
+					t_lexer *lst);
 
 //				gestion_variables.c
 void			push_var_to_env(char *str, t_vars *vars, t_env **begin_var, \

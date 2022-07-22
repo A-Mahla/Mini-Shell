@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amahla <amahla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 07:55:05 by meudier           #+#    #+#             */
-/*   Updated: 2022/07/22 10:35:29 by meudier          ###   ########.fr       */
+/*   Updated: 2022/07/22 13:17:49 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ void	init_vars(t_vars *vars)
 	vars->exit_code = 0;
 }
 
-void	minishell(char *line, t_vars *vars)
+void	minishell(char **line, t_vars *vars)
 {
 	t_lexer		*lst_lexer;
 	t_parser	*lst_parser;
 	t_pipe_info	pipe_info;
 
 	lst_lexer = lexer(line, vars);
-	free(line);
+	free(*line);
 	if (!lst_lexer)
 		return ;
 	vars->lst_lexer = lst_lexer;
@@ -101,7 +101,7 @@ int	main(int ac, char **av, char **env)
 				return (quit_proprely(&vars));
 			trim_line(line);
 			if (*line)
-				minishell(line, &vars);
+				minishell(&line, &vars);
 		}
 	}
 	return (0);

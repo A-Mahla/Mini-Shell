@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: meudier <meudier@student.42.fr>            +#+  +:+       +#+         #
+#    By: amahla <amahla@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 09:36:17 by meudier           #+#    #+#              #
-#    Updated: 2022/07/21 16:33:27 by meudier          ###   ########.fr        #
+#    Updated: 2022/07/22 13:17:51 by amahla           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRC = utils/ft_isalnum.c utils/ft_strjoin.c utils/ft_split.c src/main.c \
 	utils/ft_itoa.c execute/execute_2.c utils/error_malloc.c \
 	utils/lst_to_strs.c utils/ft_memcpy.c lexer/lexer_push_clear.c \
 	builtin/gestion_variables2.c utils/trime_line.c lexer/lexer_2.c \
-	builtin/error_exit.c lexer/ft_expand_3.c
+	builtin/error_exit.c lexer/ft_expand_3.c lexer/ft_expand_line.c \
+	lexer/ft_expand_line_2.c
 	
 OBJ = $(SRC:.c=.o)
 
