@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/19 20:35:46 by amahla           ###   ########.fr       */
+/*   Updated: 2022/07/22 10:13:43 by ammah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	get_size_word_expand(char *word, int *i, t_vars *vars)
 		(*i)++;
 		return (get_size_nb(vars->exit_code));
 	}
-	while (*(word + *i + size) && ft_isalnum(*(word + *i + size)))
+	while (*(word + *i + size) && (ft_isalnum(*(word + *i + size))
+			|| *(word + *i + size) == '_'))
 		size++;
 	size_var = ft_strlen(get_var(word + *i, vars, size));
 	*i += size;
