@@ -6,7 +6,7 @@
 /*   By: meudier <meudier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:54:44 by ammah             #+#    #+#             */
-/*   Updated: 2022/07/22 10:13:43 by ammah            ###   ########.fr       */
+/*   Updated: 2022/07/25 15:42:05 by amahla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,6 @@ int	get_size_expand(char **word, t_vars *vars)
 		{
 			size += size_double_quote(*word, &i, vars);
 		}
-		else if ((*word)[i] == '$' && (*word)[i + 1]
-			&& (ft_isalnum((*word)[i + 1]) || (*word)[i + 1] == '_'
-				|| (*word)[i + 1] == '?' || (*word)[i + 1] == '\''
-				|| (*word)[i + 1] == '\"'))
-			size += get_size_word_expand(*word, &i, vars);
 		else
 		{
 			size++;
