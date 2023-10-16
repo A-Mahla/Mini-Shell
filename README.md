@@ -14,8 +14,7 @@ To run the Mini-Shell, open your terminal and run this command:
 
 ```shell
 cd /path/to/project/directory
-make
-./minishell
+make && ./minishell
 ```
 
 ## Functionalities implemented
