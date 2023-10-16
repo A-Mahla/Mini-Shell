@@ -6,7 +6,7 @@
 
 🔧 System Requirements:
    - Operating System: Linux 64_X86 Distribution
-   - Software: [gcc](https://gcc.gnu.org/), [make](https://www.gnu.org/software/make/)
+   - Software: [gcc](https://gcc.gnu.org/), [make](https://www.gnu.org/software/make/), [gnu readline library](https://tiswww.case.edu/php/chet/readline/rltop.html)
 
 ## Usage
 
