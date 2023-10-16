@@ -17,6 +17,8 @@ cd /path/to/project/directory
 make && ./minishell
 ```
 
+<br>
+
 ## Functionalities implemented
 
 - Redirections: `<`, `>`, `<<`, `>>`/
@@ -27,6 +29,8 @@ make && ./minishell
 - Double Quotes : Prevent the shell from interpreting the meta-characters in the quoted sequence except for `$`.
 - Signals : `ctrl-C`, `ctrl-D` and `ctrl-\`.
 - Command History.
+
+<br>
 
 ## Builtins Implemented
 
